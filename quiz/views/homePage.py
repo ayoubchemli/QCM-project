@@ -1,600 +1,482 @@
 import sys
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, 
-                           QHBoxLayout, QLabel, QPushButton, QScrollArea,
-                           QGraphicsDropShadowEffect, QFrame, QGridLayout,
-                           QSizePolicy, QShortcut)
+from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt, QPropertyAnimation, QRect, QEasingCurve, QSize
 from PyQt5.QtGui import QFont, QColor, QPainter, QPainterPath, QLinearGradient, QIcon, QKeySequence
-from PyQt5.QtWidgets import QLineEdit, QMenu
 
 
-# Create a new class for the custom search bar
-class SearchBar(QLineEdit):
-    def __init__(self, parent=None):
+class ScrollButton(QPushButton):
+    def __init__(self, direction, parent=None):
         super().__init__(parent)
-        self.setPlaceholderText("Search course...")
-        self.setFixedSize(200, 30)
-        self.setStyleSheet("""
-            QLineEdit {
-                background-color: #1E293B;
-                border: 2px solid #4F46E5;
-                border-radius: 15px;
-                color: white;
-                padding: 0 10px;
-            }
-            QLineEdit:focus {
-                border: 2px solid #6D28D9;
-            }
-        """)
-
-# Create a new class for the menu button
-class MenuButton(QPushButton):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.setFixedSize(30, 30)
+        self.direction = direction
+        self.setFixedSize(50, 50)
         self.setCursor(Qt.PointingHandCursor)
-        self.setText("☰")
+        
+        # Set arrow symbols based on direction
+        self.setText('←' if direction == 'left' else '→')
+        
         self.setStyleSheet("""
             QPushButton {
-                background-color: transparent;
+                background-color: rgba(79, 70, 229, 0.9);
+                border-radius: 25px;
                 color: white;
-                border: none;
                 font-size: 20px;
+                font-weight: bold;
             }
             QPushButton:hover {
-                color: #4F46E5;
+                background-color: rgba(109, 40, 217, 0.9);
+            }
+            QPushButton:pressed {
+                background-color: rgba(79, 70, 229, 0.7);
             }
         """)
-        self.clicked.connect(self.showMenu)
 
-    def showMenu(self):
-        menu = QMenu(self)
-        menu.setStyleSheet("""
-            QMenu {
-                background-color: #1E293B;
-                border: 1px solid #4F46E5;
-                border-radius: 5px;
-                padding: 5px;
-            }
-            QMenu::item {
-                color: white;
-                padding: 5px 20px;
-            }
-            QMenu::item:selected {
-                background-color: #4F46E5;
-            }
-        """)
-        
-        # Add menu items
-        menu.addAction("Pages")
-        menu.addAction("Docs")
-        menu.addAction("Courses")
-        menu.addAction("Contact")
-        menu.addAction("Blog")
-        menu.addSeparator()
-        menu.addAction("Sign in")
-        
-        # Show menu below the button
-        menu.exec_(self.mapToGlobal(self.rect().bottomLeft()))
-
-class ThemeToggleButton(QPushButton):
+class HorizontalScrollArea(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setCheckable(True)
-        self.setCursor(Qt.PointingHandCursor)
-        self.setFixedSize(60, 30)
+        self.layout = QHBoxLayout(self)
+        self.layout.setContentsMargins(0, 0, 0, 0)
+        self.layout.setSpacing(0)
         
-        # Create icons for light/dark mode
-        self.light_icon = "🌞"
-        self.dark_icon = "🌙"
-        self.setText(self.dark_icon)
+        # Create scroll area
+        self.scroll_area = QScrollArea()
+        self.scroll_area.setWidgetResizable(True)
+        self.scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         
-        # Initial style
-        self.update_style(False)
+        # Create container for content
+        self.container = QWidget()
+        self.container_layout = QHBoxLayout(self.container)
+        self.container_layout.setSpacing(30)
+        self.scroll_area.setWidget(self.container)
         
-    def update_style(self, is_light_mode=False):
-        self.setChecked(is_light_mode)  # Synchronize button state with theme
-        self.setText(self.light_icon if is_light_mode else self.dark_icon)
+        # Create scroll buttons
+        self.left_button = ScrollButton('left')
+        self.right_button = ScrollButton('right')
         
-        if is_light_mode:
-            self.setStyleSheet("""
-                QPushButton {
-                    background-color: #E2E8F0;
-                    border: 2px solid #4F46E5;
-                    border-radius: 15px;
-                    color: black;
-                    font-size: 16px;
-                }
-                QPushButton:checked {
-                    background-color: #1E293B;
-                    border: 2px solid #4F46E5;
-                    color: white;
-                }
-            """)
-        else:
-            self.setStyleSheet("""
-                QPushButton {
-                    background-color: #1E293B;
-                    border: 2px solid #4F46E5;
-                    border-radius: 15px;
-                    color: white;
-                    font-size: 16px;
-                }
-                QPushButton:checked {
-                    background-color: #E2E8F0;
-                    border: 2px solid #4F46E5;
-                    color: black;
-                }
-            """)
+        # Add widgets to layout
+        self.layout.addWidget(self.left_button)
+        self.layout.addWidget(self.scroll_area)
+        self.layout.addWidget(self.right_button)
         
+        # Connect buttons to scroll functions
+        self.left_button.clicked.connect(self.scroll_left)
+        self.right_button.clicked.connect(self.scroll_right)
+        
+        # Animation
+        self.scroll_animation = QPropertyAnimation(self.scroll_area.horizontalScrollBar(), b"value")
+        self.scroll_animation.setDuration(300)
+        self.scroll_animation.setEasingCurve(QEasingCurve.OutCubic)
+
+    def scroll_left(self):
+        new_value = max(0, self.scroll_area.horizontalScrollBar().value() - 400)
+        self.animate_scroll(new_value)
+
+    def scroll_right(self):
+        new_value = min(
+            self.scroll_area.horizontalScrollBar().maximum(),
+            self.scroll_area.horizontalScrollBar().value() + 400
+        )
+        self.animate_scroll(new_value)
+
+    def animate_scroll(self, new_value):
+        self.scroll_animation.setStartValue(self.scroll_area.horizontalScrollBar().value())
+        self.scroll_animation.setEndValue(new_value)
+        self.scroll_animation.start()
+
+    def add_widget(self, widget):
+        self.container_layout.addWidget(widget)
+
+class ThemeToggleButton(QPushButton):
+   def __init__(self, parent=None):
+       super().__init__(parent)
+       self.setCheckable(True)
+       self.setCursor(Qt.PointingHandCursor)
+       self.setFixedSize(60, 30)
+       self.light_icon = "🌞"
+       self.dark_icon = "🌙"
+       self.setText(self.dark_icon)
+       self.update_style(False)
+       
+   def update_style(self, is_light_mode=False):
+       self.setChecked(is_light_mode)
+       self.setText(self.light_icon if is_light_mode else self.dark_icon)
+       style = """
+           QPushButton {
+               background-color: %s;
+               border: 2px solid #4F46E5;
+               border-radius: 15px;
+               color: %s;
+               font-size: 16px;
+           }
+           QPushButton:checked {
+               background-color: %s;
+               border: 2px solid #4F46E5;
+               color: %s;
+           }
+       """ % (('#E2E8F0' if is_light_mode else '#1E293B'),
+              ('black' if is_light_mode else 'white'),
+              ('#1E293B' if is_light_mode else '#E2E8F0'),
+              ('white' if is_light_mode else 'black'))
+       self.setStyleSheet(style)
 
 class HoverButton(QPushButton):
-    def __init__(self, text):
-        super().__init__(text)
-        self.setFixedHeight(45)
-        self.setCursor(Qt.PointingHandCursor)
+   def __init__(self, text):
+       super().__init__(text)
+       self.setFixedHeight(45)
+       self.setCursor(Qt.PointingHandCursor)
+       self._animation = QPropertyAnimation(self, b"geometry")
+       self._animation.setDuration(150)
+       self.setStyleSheet("""
+           HoverButton {
+               background: qlineargradient(x1:0, y1:0, x2:1, y2:0, 
+                   stop:0 #4F46E5, stop:1 #7C3AED);
+               color: white;
+               border: none;
+               border-radius: 22px;
+               font-weight: bold;
+               font-size: 14px;
+               padding: 10px 20px;
+           }
+           HoverButton:hover {
+               background: qlineargradient(x1:0, y1:0, x2:1, y2:0, 
+                   stop:0 #4338CA, stop:1 #6D28D9);
+           }
+       """)
+
+   def enterEvent(self, event):
+       geo = self.geometry()
+       self._animation.setStartValue(geo)
+       self._animation.setEndValue(QRect(geo.x()-2, geo.y()-2, 
+                                       geo.width()+4, geo.height()+4))
+       self._animation.setEasingCurve(QEasingCurve.OutQuad)
+       self._animation.start()
+
+   def leaveEvent(self, event):
+       geo = self.geometry()
+       self._animation.setStartValue(geo)
+       self._animation.setEndValue(QRect(geo.x()+2, geo.y()+2, 
+                                       geo.width()-4, geo.height()-4))
+       self._animation.setEasingCurve(QEasingCurve.OutQuad)
+       self._animation.start()
+
+# This version has improved UI elements, animations, and better styling 
+# Copy the previous ThemeToggleButton and HoverButton classes, then add:
+
+class GradientCard(QFrame):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setObjectName("courseCard")
         
-        # Animation for hover effect
+        # Add shadow effect
+        shadow = QGraphicsDropShadowEffect(self)
+        shadow.setBlurRadius(15)
+        shadow.setXOffset(0)
+        shadow.setYOffset(4)
+        shadow.setColor(QColor(0, 0, 0, 60))
+        self.setGraphicsEffect(shadow)
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
+        
+        path = QPainterPath()
+        path.addRoundedRect(self.rect(), 15, 15)
+        
+        gradient = QLinearGradient(0, 0, self.width(), self.height())
+        gradient.setColorAt(0, QColor("#1E293B"))
+        gradient.setColorAt(1, QColor("#2D3B4F"))
+        
+        painter.fillPath(path, gradient)
+
+class AnimatedLabel(QLabel):
+    def __init__(self, text, parent=None):
+        super().__init__(text, parent)
         self._animation = QPropertyAnimation(self, b"geometry")
-        self._animation.setDuration(150)
-        
-        self.setStyleSheet("""
-            HoverButton {
-                background: qlineargradient(x1:0, y1:0, x2:1, y2:0, 
-                                          stop:0 #4F46E5, stop:1 #7C3AED);
-                color: white;
-                border: none;
-                border-radius: 22px;
-                font-weight: bold;
-                font-size: 14px;
-                padding: 10px 20px;
-            }
-            HoverButton:hover {
-                background: qlineargradient(x1:0, y1:0, x2:1, y2:0, 
-                                          stop:0 #4338CA, stop:1 #6D28D9);
-            }
-        """)
+        self._animation.setDuration(200)
 
     def enterEvent(self, event):
         geo = self.geometry()
         self._animation.setStartValue(geo)
-        self._animation.setEndValue(QRect(geo.x()-2, geo.y()-2, 
-                                        geo.width()+4, geo.height()+4))
-        self._animation.setEasingCurve(QEasingCurve.OutQuad)
+        self._animation.setEndValue(QRect(geo.x(), geo.y()-2, geo.width(), geo.height()))
         self._animation.start()
 
     def leaveEvent(self, event):
         geo = self.geometry()
         self._animation.setStartValue(geo)
-        self._animation.setEndValue(QRect(geo.x()+2, geo.y()+2, 
-                                        geo.width()-4, geo.height()-4))
-        self._animation.setEasingCurve(QEasingCurve.OutQuad)
+        self._animation.setEndValue(QRect(geo.x(), geo.y()+2, geo.width(), geo.height()))
         self._animation.start()
 
-class CategoryCard(QFrame):
-    def __init__(self, title, description, chapters, questions_count, time_estimate, difficulty, is_new=False):
-        super().__init__()
-        self.setMinimumSize(600, 200)
-        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        
-        # Main layout
-        layout = QHBoxLayout()
-        layout.setContentsMargins(25, 25, 25, 25)
-        layout.setSpacing(20)
-        self.setLayout(layout)
-        
-        # Add shadow
-        shadow = QGraphicsDropShadowEffect()
-        shadow.setBlurRadius(20)
-        shadow.setColor(QColor(0, 0, 0, 50))
-        shadow.setOffset(0, 4)
-        self.setGraphicsEffect(shadow)
-        
-        # Style
-        self.setStyleSheet("""
-            CategoryCard {
-                background-color: #1E293B;
-                border-radius: 15px;
-            }
-            QLabel {
-                color: white;
-            }
+def create_course_card(self, title, description, chapters, is_new=False):
+    card = GradientCard()
+    layout = QVBoxLayout(card)
+    
+    header_layout = QHBoxLayout()
+    title_label = AnimatedLabel(title)
+    title_label.setStyleSheet("font-size: 22px; font-weight: bold; color: white;")
+    header_layout.addWidget(title_label)
+    
+    if is_new:
+        new_badge = QLabel("New")
+        new_badge.setStyleSheet("""
+            background: qlineargradient(x1:0, y1:0, x2:1, y2:0, 
+                                      stop:0 #10B981, stop:1 #059669);
+            color: white;
+            border-radius: 12px;
+            padding: 5px 15px;
+            font-weight: bold;
+            margin: 5px;
         """)
-        
-        # Left section with title and description
-        left_section = QVBoxLayout()
-        
-        # Header with title and badge
-        header_layout = QHBoxLayout()
-        title_label = QLabel(title)
-        title_label.setFont(QFont("Segoe UI", 22, QFont.Bold))
-        header_layout.addWidget(title_label)
-        
-        if is_new:
-            new_badge = QLabel("NEW")
-            new_badge.setStyleSheet("""
-                background: qlineargradient(x1:0, y1:0, x2:1, y2:0, 
-                                          stop:0 #10B981, stop:1 #059669);
-                color: white;
-                padding: 4px 12px;
-                border-radius: 10px;
-                font-size: 12px;
-                font-weight: bold;
-                margin-left: 15px;
-            """)
-            header_layout.addWidget(new_badge)
-        header_layout.addStretch()
-        left_section.addLayout(header_layout)
-        
-        # Description
-        desc_label = QLabel(description)
-        desc_label.setWordWrap(True)
-        desc_label.setStyleSheet("color: #94A3B8; font-size: 14px; margin-top: 5px;")
-        left_section.addWidget(desc_label)
-        
-        # Quiz info
-        info_layout = QHBoxLayout()
-        
-        # Questions count
-        questions_label = QLabel(f"🎯 {questions_count} Questions")
-        questions_label.setStyleSheet("color: #94A3B8; font-size: 13px;")
-        info_layout.addWidget(questions_label)
-        
-        # Time estimate
-        time_label = QLabel(f"⏱️ {time_estimate}")
-        time_label.setStyleSheet("color: #94A3B8; font-size: 13px;")
-        info_layout.addWidget(time_label)
-        
-        # Difficulty
-        difficulty_label = QLabel(f"📊 {difficulty}")
-        difficulty_label.setStyleSheet("color: #94A3B8; font-size: 13px;")
-        info_layout.addWidget(difficulty_label)
-        
-        info_layout.addStretch()
-        left_section.addLayout(info_layout)
-        
-        layout.addLayout(left_section, stretch=2)
-        
-        # Right section with button
-        right_section = QVBoxLayout()
-        right_section.setAlignment(Qt.AlignCenter)
-        
-        start_button = HoverButton("Start Quiz")
-        right_section.addWidget(start_button)
-        
-        layout.addLayout(right_section, stretch=1)
+        header_layout.addWidget(new_badge)
+    header_layout.addStretch()
+    
+    desc_label = QLabel(description)
+    desc_label.setWordWrap(True)
+    desc_label.setStyleSheet("color: #94A3B8; font-size: 14px; margin: 10px 0;")
+    
+    chapters_widget = QWidget()
+    chapters_layout = QVBoxLayout(chapters_widget)
+    for chapter in chapters:
+        chapter_label = QLabel(f"• {chapter}")
+        chapter_label.setStyleSheet("color: #CBD5E1; font-size: 13px;")
+        chapters_layout.addWidget(chapter_label)
+    
+    enroll_btn = HoverButton("Enroll Now")
+    
+    layout.addLayout(header_layout)
+    layout.addWidget(desc_label)
+    layout.addWidget(chapters_widget)
+    layout.addStretch()
+    layout.addWidget(enroll_btn)
+    
+    return card
+
 
 class MCQHomePage(QMainWindow):
-    
-    def setup_themes(self):
-        self.dark_theme = {
-            "main_bg": "background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #0F172A, stop:1 #1E293B)",
-            "card_bg": "#1E293B",
-            "text_primary": "white",
-            "text_secondary": "#94A3B8",
-            "button_gradient": "qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #4F46E5, stop:1 #7C3AED)",
-            "button_hover": "qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #4338CA, stop:1 #6D28D9)",
-            "new_badge": "qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #10B981, stop:1 #059669)"
-        }
-        
-        self.light_theme = {
-            "main_bg": "background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #F8FAFC, stop:1 #E2E8F0)",
-            "card_bg": "white",
-            "text_primary": "#1E293B",
-            "text_secondary": "#475569",
-            "button_gradient": "qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #4F46E5, stop:1 #7C3AED)",
-            "button_hover": "qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #4338CA, stop:1 #6D28D9)",
-            "new_badge": "qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #10B981, stop:1 #059669)"
-        }
+   def setup_themes(self):
+       self.dark_theme = {
+           "main_bg": "background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #0F172A, stop:1 #1E293B)",
+           "card_bg": "#1E293B",
+           "text_primary": "white",
+           "text_secondary": "#94A3B8",
+           "button_gradient": "qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #4F46E5, stop:1 #7C3AED)",
+           "button_hover": "qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #4338CA, stop:1 #6D28D9)",
+           "new_badge": "qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #10B981, stop:1 #059669)"
+       }
+       self.light_theme = {
+           "main_bg": "background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #F8FAFC, stop:1 #E2E8F0)",
+           "card_bg": "white",
+           "text_primary": "#1E293B",
+           "text_secondary": "#475569",
+           "button_gradient": self.dark_theme["button_gradient"],
+           "button_hover": self.dark_theme["button_hover"],
+           "new_badge": self.dark_theme["new_badge"]
+       }
 
-    def apply_theme(self, is_light_mode=False):
-        theme = self.light_theme if is_light_mode else self.dark_theme
-        
-        # Update theme toggle button
-        self.theme_toggle.update_style(is_light_mode)
-        self.theme_toggle.raise_()  # Add this here to ensure button stays on top
-        
-        # Update main window style
-        self.setStyleSheet(f"""
-            QMainWindow {{
-                {theme["main_bg"]};
-            }}
-            QScrollArea {{
-                border: none;
-                background-color: transparent;
-            }}
-            QScrollBar:vertical {{
-                width: 8px;
-                background: rgba(0, 0, 0, 0.1);
-                border-radius: 4px;
-                margin: 0px;
-            }}
-            QScrollBar::handle:vertical {{
-                background: #4F46E5;
-                border-radius: 4px;
-                min-height: 40px;
-            }}
-            QScrollBar::handle:vertical:hover {{
-                background: #6D28D9;
-            }}
-            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {{
-                height: 0px;
-            }}
-        """)
-        
-        # Update all category cards
-        for card in self.findChildren(CategoryCard):
-            card.setStyleSheet(f"""
-                CategoryCard {{
-                    background-color: {theme["card_bg"]};
-                    border-radius: 15px;
-                }}
-                QLabel {{
-                    color: {theme["text_primary"]};
-                }}
-            """)
-            
-            # Update description and info labels
-            for label in card.findChildren(QLabel):
-                if "margin-top: 5px;" in label.styleSheet() or "font-size: 13px;" in label.styleSheet():
-                    label.setStyleSheet(f"color: {theme['text_secondary']}; {label.styleSheet()}")
-        
-        # Update welcome section labels
-        self.greeting_label.setStyleSheet(f"""
-            color: {theme["text_primary"]};
-            margin-bottom: 10px;
-        """)
-        self.subtitle_label.setStyleSheet(f"color: {theme['text_secondary']};")
-        
-        # Update search bar style
-        if is_light_mode:
-            self.search_bar.setStyleSheet("""
-                QLineEdit {
-                    background-color: white;
-                    border: 2px solid #4F46E5;
-                    border-radius: 15px;
-                    color: #1E293B;
-                    padding: 0 10px;
-                }
-                QLineEdit:focus {
-                    border: 2px solid #6D28D9;
-                }
-            """)
-            self.menu_button.setStyleSheet("""
-                QPushButton {
-                    background-color: transparent;
-                    color: #1E293B;
-                    border: none;
-                    font-size: 20px;
-                }
-                QPushButton:hover {
-                    color: #4F46E5;
-                }
-            """)
-        else:
-            self.search_bar.setStyleSheet("""
-                QLineEdit {
-                    background-color: #1E293B;
-                    border: 2px solid #4F46E5;
-                    border-radius: 15px;
-                    color: white;
-                    padding: 0 10px;
-                }
-                QLineEdit:focus {
-                    border: 2px solid #6D28D9;
-                }
-            """)
-            self.menu_button.setStyleSheet("""
-                QPushButton {
-                    background-color: transparent;
-                    color: white;
-                    border: none;
-                    font-size: 20px;
-                }
-                QPushButton:hover {
-                    color: #4F46E5;
-                }
-            """)
-    
+   def create_course_card(self, title, description, chapters, is_new=False):
+       card = QFrame()
+       card.setObjectName("courseCard")
+       layout = QVBoxLayout(card)
+       layout.setSpacing(15)
 
-    def __init__(self):
-        
+       header = QHBoxLayout()
+       title_label = QLabel(title)
+       title_label.setObjectName("title")
+       title_label.setStyleSheet("font-size: 24px; font-weight: bold; color: white;")
+       header.addWidget(title_label)
+
+       if is_new:
+           new_badge = QLabel("New")
+           new_badge.setStyleSheet("""
+               background: qlineargradient(x1:0, y1:0, x2:1, y2:0, 
+                   stop:0 #10B981, stop:1 #059669);
+               color: white;
+               border-radius: 12px;
+               padding: 6px 12px;
+               font-size: 14px;
+               font-weight: bold;
+               max-width: 60px;
+           """)
+           header.addWidget(new_badge)
+       header.addStretch()
+       layout.addLayout(header)
+
+       desc = QLabel(description)
+       desc.setObjectName("desc")
+       desc.setWordWrap(True)
+       desc.setStyleSheet("color: #94A3B8; font-size: 14px; line-height: 1.5;")
+       layout.addWidget(desc)
+
+       chapters_label = QLabel("Chapters:")
+       chapters_label.setStyleSheet("color: #94A3B8; font-weight: bold; margin-top: 10px;")
+       layout.addWidget(chapters_label)
+
+       for chapter in chapters:
+           ch_label = QLabel(f"• {chapter}")
+           ch_label.setStyleSheet("color: #94A3B8; margin-left: 15px;")
+           layout.addWidget(ch_label)
+
+       layout.addStretch()
+       enroll_btn = HoverButton("Enroll Now")
+       layout.addWidget(enroll_btn)
+
+       shadow = QGraphicsDropShadowEffect()
+       shadow.setBlurRadius(15)
+       shadow.setColor(QColor(0, 0, 0, 80))
+       shadow.setOffset(0, 4)
+       card.setGraphicsEffect(shadow)
+
+       card.setStyleSheet("""
+           QFrame#courseCard {
+               background-color: #1E293B;
+               border-radius: 20px;
+               padding: 25px;
+               min-height: 350px;
+           }
+           QFrame#courseCard:hover {
+               background-color: #233043;
+           }
+       """)
+       return card
+
+   def apply_theme(self, is_light_mode=False):
+       theme = self.light_theme if is_light_mode else self.dark_theme
+       self.theme_toggle.update_style(is_light_mode)
+       self.setStyleSheet(f"""
+           QMainWindow {{
+               {theme["main_bg"]};
+           }}
+           QScrollArea {{
+               border: none;
+               background-color: transparent;
+           }}
+           QScrollBar:vertical {{
+               width: 8px;
+               background: rgba(0, 0, 0, 0.1);
+               border-radius: 4px;
+               margin: 0px;
+           }}
+           QScrollBar::handle:vertical {{
+               background: #4F46E5;
+               border-radius: 4px;
+               min-height: 40px;
+           }}
+           QScrollBar::handle:vertical:hover {{
+               background: #6D28D9;
+           }}
+           QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {{
+               height: 0px;
+           }}
+       """)
+
+   def __init__(self):
         super().__init__()
-        
-        # Initialize all UI elements first
-        self.search_bar = SearchBar(self)
-        self.theme_toggle = ThemeToggleButton(self)
-        self.menu_button = MenuButton(self)
-        
-        # Position the widgets
-        self.search_bar.move(self.width() - 320, 20)
-        self.theme_toggle.move(self.width() - 120, 20)
-        self.menu_button.move(self.width() - 40, 20)
-        
-        # Raise widgets to stay on top
-        self.search_bar.raise_()
-        self.theme_toggle.raise_()
-        self.menu_button.raise_()
-        
-        # Show fullscreen after creating UI elements
-        self.showFullScreen()
-        
-        # Store labels as class attributes for theme switching
-        self.greeting_label = None
-        self.subtitle_label = None
-        
-        # Setup themes
-        self.setup_themes()
-        
-        # Connect theme toggle after themes are setup
-        self.theme_toggle.clicked.connect(
-            lambda: self.apply_theme(self.theme_toggle.isChecked())
-        )
-        
-        # Initialize the theme toggle button first
-        self.theme_toggle.move(self.width() - 80, 20)
-        
-        # Add escape shortcut
-        self.shortcut = QShortcut(QKeySequence('Esc'), self)
-        self.shortcut.activated.connect(self.close)
-        
-        self.setWindowTitle("Interactive Quiz Platform")
-        
-        self.setStyleSheet("""
-            QMainWindow {
-                background: qlineargradient(x1:0, y1:0, x2:1, y2:1, 
-                                          stop:0 #0F172A, stop:1 #1E293B);
-            }
-            QScrollArea {
-                border: none;
-                background-color: transparent;
-            }
-            QScrollBar:vertical {
-                width: 8px;
-                background: rgba(255, 255, 255, 0.1);
-                border-radius: 4px;
-                margin: 0px;
-            }
-            QScrollBar::handle:vertical {
-                background: #4F46E5;
-                border-radius: 4px;
-                min-height: 40px;
-            }
-            QScrollBar::handle:vertical:hover {
-                background: #6D28D9;
-            }
-            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
-                height: 0px;
-            }
-        """)
-        
-        # Central widget setup
-        central_widget = QWidget()
-        self.setCentralWidget(central_widget)
-        main_layout = QVBoxLayout(central_widget)
-        main_layout.setContentsMargins(40, 40, 40, 40)
-        main_layout.setSpacing(30)
-        
-        # Welcome section
-        welcome_layout = QVBoxLayout()
-        
-        greeting_label = QLabel("Quiz Categories")
-        self.greeting_label = QLabel("Quiz Categories")
-        greeting_label.setFont(QFont("Segoe UI", 40, QFont.Bold))
-        greeting_label.setStyleSheet("""
+        self.central_widget = QWidget()
+        self.setCentralWidget(self.central_widget)
+        main_layout = QVBoxLayout(self.central_widget)
+        main_layout.setSpacing(40)
+
+        header = QWidget()
+        header_layout = QVBoxLayout(header)
+        header_layout.setSpacing(20)
+
+        title = QLabel("Hi there 👋")
+        title.setStyleSheet("""
+            font-size: 48px;
             color: white;
-            margin-bottom: 10px;
+            font-weight: bold;
+            margin-bottom: 20px;
         """)
-        welcome_layout.addWidget(greeting_label, alignment=Qt.AlignCenter)
-        
-        subtitle_label = QLabel("Choose a category to test your knowledge")
-        self.subtitle_label = QLabel("Choose a category to test your knowledge")
-        subtitle_label.setFont(QFont("Segoe UI", 16))
-        subtitle_label.setStyleSheet("color: #94A3B8;")
-        welcome_layout.addWidget(subtitle_label, alignment=Qt.AlignCenter)
-        
-        main_layout.addLayout(welcome_layout)
-        
-        # Scroll area
-        scroll_area = QScrollArea()
-        scroll_area.setWidgetResizable(True)
-        scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
-        
-        # Container for cards
-        cards_widget = QWidget()
-        cards_layout = QVBoxLayout(cards_widget)
-        cards_layout.setContentsMargins(20, 20, 20, 20)
-        cards_layout.setSpacing(20)
-        cards_layout.setAlignment(Qt.AlignHCenter)
-        
-        # Quiz categories
-        categories = [
-            {
-                "title": "Python Fundamentals",
-                "description": "Test your knowledge of Python basics including variables, data types, control flow, and functions.",
-                "questions_count": 25,
-                "time_estimate": "30 mins",
-                "difficulty": "Beginner",
-                "is_new": True
-            },
-            {
-                "title": "Data Structures",
-                "description": "Challenge yourself with questions about arrays, linked lists, trees, and advanced data structures.",
-                "questions_count": 30,
-                "time_estimate": "45 mins",
-                "difficulty": "Intermediate",
-                "is_new": False
-            },
-            {
-                "title": "Algorithms",
-                "description": "Master algorithmic concepts with questions on sorting, searching, and optimization techniques.",
-                "questions_count": 20,
-                "time_estimate": "40 mins",
-                "difficulty": "Advanced",
-                "is_new": True
-            },
-            {
-                "title": "Object-Oriented Programming",
-                "description": "Explore OOP concepts including classes, inheritance, polymorphism, and encapsulation.",
-                "questions_count": 25,
-                "time_estimate": "35 mins",
-                "difficulty": "Intermediate",
-                "is_new": False
-            },
-            {
-                "title": "Database Concepts",
-                "description": "Test your understanding of SQL, database design, and normalization principles.",
-                "questions_count": 30,
-                "time_estimate": "45 mins",
-                "difficulty": "Intermediate",
-                "is_new": True
-            }
-        ]
-        
-        for category in categories:
-            card = CategoryCard(
-                category["title"],
-                category["description"],
-                [],  # chapters not shown in this design
-                category["questions_count"],
-                category["time_estimate"],
-                category["difficulty"],
-                category["is_new"]
+
+        subtitle = QLabel("Glad to see you, excited to explore our new way of learning together. Let's dive in!")
+        subtitle.setStyleSheet("""
+            color: #94A3B8;
+            font-size: 18px;
+            margin-bottom: 30px;
+        """)
+
+        header_layout.addWidget(title, alignment=Qt.AlignCenter)
+        header_layout.addWidget(subtitle, alignment=Qt.AlignCenter)
+        main_layout.addWidget(header)
+
+        # Create horizontal scroll area
+        self.scroll_widget = HorizontalScrollArea()
+        main_layout.addWidget(self.scroll_widget)
+
+        courses = [
+                    {
+                        "title": "File and data structure",
+                        "description": "Master fundamental data structures and algorithms with hands-on practice.",
+                        "chapters": ["Basic Data Types", "Arrays & Lists", "Trees & Graphs", "Advanced Algorithms"],
+                        "is_new": False
+                    },
+                    {
+                        "title": "Algebra",
+                        "description": "Dive deep into advanced algebraic concepts and their applications.",
+                        "chapters": ["Linear Algebra", "Abstract Algebra", "Number Theory", "Applications"],
+                        "is_new": True
+                    },
+                    {
+                        "title": "File and data structure",
+                        "description": "Master fundamental data structures and algorithms with hands-on practice.",
+                        "chapters": ["Basic Data Types", "Arrays & Lists", "Trees & Graphs", "Advanced Algorithms"],
+                        "is_new": False
+                    },
+                    {
+                        "title": "Algebra",
+                        "description": "Dive deep into advanced algebraic concepts and their applications.",
+                        "chapters": ["Linear Algebra", "Abstract Algebra", "Number Theory", "Applications"],
+                        "is_new": True
+                    },
+                    {
+                        "title": "File and data structure",
+                        "description": "Master fundamental data structures and algorithms with hands-on practice.",
+                        "chapters": ["Basic Data Types", "Arrays & Lists", "Trees & Graphs", "Advanced Algorithms"],
+                        "is_new": False
+                    },
+                    {
+                        "title": "Algebra",
+                        "description": "Dive deep into advanced algebraic concepts and their applications.",
+                        "chapters": ["Linear Algebra", "Abstract Algebra", "Number Theory", "Applications"],
+                        "is_new": True
+                    },
+                    # Add more courses...
+                ]
+       
+        for i, course in enumerate(courses):
+            card = self.create_course_card(
+                course["title"], 
+                course["description"],
+                course["chapters"],
+                course["is_new"]
             )
-            cards_layout.addWidget(card)
-        
-        cards_layout.addStretch()
-        scroll_area.setWidget(cards_widget)
-        main_layout.addWidget(scroll_area)
+            card.setFixedWidth(400)
+            self.scroll_widget.add_widget(card)
+
+
+        # Theme toggle and other settings remain the same
+        self.theme_toggle = ThemeToggleButton(self)
+        self.theme_toggle.move(self.width() - 120, 20)
+
+        self.setup_themes()
+        self.theme_toggle.clicked.connect(lambda: self.apply_theme(self.theme_toggle.isChecked()))
         self.apply_theme(False)
 
-    
-    def resizeEvent(self, event):
-        super().resizeEvent(event)
-        if self.centralWidget() and self.centralWidget().layout():
-            width = self.width()
-            height = self.height()
-            margin = min(width, height) * 0.1
-            self.centralWidget().layout().setContentsMargins(
-                margin, margin, margin, margin
-            )
-        # Update positions
-        self.search_bar.move(self.width() - 320, 20)
-        self.theme_toggle.move(self.width() - 120, 20)
-        self.menu_button.move(self.width() - 40, 20)
-        
-        
-    
+        self.shortcut = QShortcut(QKeySequence('Esc'), self)
+        self.shortcut.activated.connect(self.close)
+
+        self.setWindowTitle("Interactive Quiz Platform")
+        self.showFullScreen()
+
+   def resizeEvent(self, event):
+    super().resizeEvent(event)
+    self.theme_toggle.move(self.width() - 120, 20)
+    margin = int(min(self.width(), self.height()) * 0.1)
+    self.central_widget.layout().setContentsMargins(margin, margin, margin, margin)
 
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    
-    # Set application font
-    font_db = app.font()
-    font_db.setFamily("Segoe UI")
-    app.setFont(font_db)
-    
-    window = MCQHomePage()
-    window.show()
-    sys.exit(app.exec_())
+   app = QApplication(sys.argv)
+   font = app.font()
+   font.setFamily("Segoe UI")
+   app.setFont(font)
+   window = MCQHomePage()
+   sys.exit(app.exec_())
