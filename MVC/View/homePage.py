@@ -5,6 +5,77 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout,
                            QSizePolicy, QShortcut)
 from PyQt5.QtCore import Qt, QPropertyAnimation, QRect, QEasingCurve, QSize
 from PyQt5.QtGui import QFont, QColor, QPainter, QPainterPath, QLinearGradient, QIcon, QKeySequence
+from PyQt5.QtWidgets import QLineEdit, QMenu
+
+
+# Create a new class for the custom search bar
+class SearchBar(QLineEdit):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setPlaceholderText("Search course...")
+        self.setFixedSize(200, 30)
+        self.setStyleSheet("""
+            QLineEdit {
+                background-color: #1E293B;
+                border: 2px solid #4F46E5;
+                border-radius: 15px;
+                color: white;
+                padding: 0 10px;
+            }
+            QLineEdit:focus {
+                border: 2px solid #6D28D9;
+            }
+        """)
+
+# Create a new class for the menu button
+class MenuButton(QPushButton):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setFixedSize(30, 30)
+        self.setCursor(Qt.PointingHandCursor)
+        self.setText("☰")
+        self.setStyleSheet("""
+            QPushButton {
+                background-color: transparent;
+                color: white;
+                border: none;
+                font-size: 20px;
+            }
+            QPushButton:hover {
+                color: #4F46E5;
+            }
+        """)
+        self.clicked.connect(self.showMenu)
+
+    def showMenu(self):
+        menu = QMenu(self)
+        menu.setStyleSheet("""
+            QMenu {
+                background-color: #1E293B;
+                border: 1px solid #4F46E5;
+                border-radius: 5px;
+                padding: 5px;
+            }
+            QMenu::item {
+                color: white;
+                padding: 5px 20px;
+            }
+            QMenu::item:selected {
+                background-color: #4F46E5;
+            }
+        """)
+        
+        # Add menu items
+        menu.addAction("Pages")
+        menu.addAction("Docs")
+        menu.addAction("Courses")
+        menu.addAction("Contact")
+        menu.addAction("Blog")
+        menu.addSeparator()
+        menu.addAction("Sign in")
+        
+        # Show menu below the button
+        menu.exec_(self.mapToGlobal(self.rect().bottomLeft()))
 
 class ThemeToggleButton(QPushButton):
     def __init__(self, parent=None):
@@ -274,18 +345,78 @@ class MCQHomePage(QMainWindow):
             margin-bottom: 10px;
         """)
         self.subtitle_label.setStyleSheet(f"color: {theme['text_secondary']};")
+        
+        # Update search bar style
+        if is_light_mode:
+            self.search_bar.setStyleSheet("""
+                QLineEdit {
+                    background-color: white;
+                    border: 2px solid #4F46E5;
+                    border-radius: 15px;
+                    color: #1E293B;
+                    padding: 0 10px;
+                }
+                QLineEdit:focus {
+                    border: 2px solid #6D28D9;
+                }
+            """)
+            self.menu_button.setStyleSheet("""
+                QPushButton {
+                    background-color: transparent;
+                    color: #1E293B;
+                    border: none;
+                    font-size: 20px;
+                }
+                QPushButton:hover {
+                    color: #4F46E5;
+                }
+            """)
+        else:
+            self.search_bar.setStyleSheet("""
+                QLineEdit {
+                    background-color: #1E293B;
+                    border: 2px solid #4F46E5;
+                    border-radius: 15px;
+                    color: white;
+                    padding: 0 10px;
+                }
+                QLineEdit:focus {
+                    border: 2px solid #6D28D9;
+                }
+            """)
+            self.menu_button.setStyleSheet("""
+                QPushButton {
+                    background-color: transparent;
+                    color: white;
+                    border: none;
+                    font-size: 20px;
+                }
+                QPushButton:hover {
+                    color: #4F46E5;
+                }
+            """)
     
 
     def __init__(self):
         
         super().__init__()
         
-        # Initialize the theme toggle button first
+        # Initialize all UI elements first
+        self.search_bar = SearchBar(self)
         self.theme_toggle = ThemeToggleButton(self)
-        self.theme_toggle.move(self.width() - 80, 20)
-        self.theme_toggle.raise_()
+        self.menu_button = MenuButton(self)
         
-        # Show fullscreen after theme toggle is created
+        # Position the widgets
+        self.search_bar.move(self.width() - 320, 20)
+        self.theme_toggle.move(self.width() - 120, 20)
+        self.menu_button.move(self.width() - 40, 20)
+        
+        # Raise widgets to stay on top
+        self.search_bar.raise_()
+        self.theme_toggle.raise_()
+        self.menu_button.raise_()
+        
+        # Show fullscreen after creating UI elements
         self.showFullScreen()
         
         # Store labels as class attributes for theme switching
@@ -299,6 +430,9 @@ class MCQHomePage(QMainWindow):
         self.theme_toggle.clicked.connect(
             lambda: self.apply_theme(self.theme_toggle.isChecked())
         )
+        
+        # Initialize the theme toggle button first
+        self.theme_toggle.move(self.width() - 80, 20)
         
         # Add escape shortcut
         self.shortcut = QShortcut(QKeySequence('Esc'), self)
@@ -437,17 +571,19 @@ class MCQHomePage(QMainWindow):
 
     
     def resizeEvent(self, event):
-     super().resizeEvent(event)
-     if self.centralWidget() and self.centralWidget().layout():
-        width = self.width()
-        height = self.height()
-        margin = min(width, height) * 0.1
-        self.centralWidget().layout().setContentsMargins(
-            margin, margin, margin, margin
-        )
-    # Update theme toggle button position
-     self.theme_toggle.move(self.width() - 80, 20)
-     
+        super().resizeEvent(event)
+        if self.centralWidget() and self.centralWidget().layout():
+            width = self.width()
+            height = self.height()
+            margin = min(width, height) * 0.1
+            self.centralWidget().layout().setContentsMargins(
+                margin, margin, margin, margin
+            )
+        # Update positions
+        self.search_bar.move(self.width() - 320, 20)
+        self.theme_toggle.move(self.width() - 120, 20)
+        self.menu_button.move(self.width() - 40, 20)
+        
         
     
 
