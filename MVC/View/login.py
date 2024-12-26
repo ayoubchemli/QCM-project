@@ -3,8 +3,11 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout,
                             QHBoxLayout, QLabel, QLineEdit, QPushButton, 
                             QStackedWidget, QFrame, QGraphicsDropShadowEffect)
 from PyQt5.QtCore import Qt, QPropertyAnimation, QEasingCurve, QRect
-from PyQt5.QtGui import QFont, QIcon, QColor, QPalette, QFontDatabase
-import qdarkstyle
+from PyQt5.QtGui import QFont, QIcon, QColor, QPalette, QFontDatabase, QKeySequence
+
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import Qt, QPropertyAnimation, QRect, QEasingCurve, QSize
+from PyQt5.QtGui import QFont, QColor, QPainter, QPainterPath, QLinearGradient, QIcon, QKeySequence
 
 class AnimatedButton(QPushButton):
     def __init__(self, text, parent=None):
@@ -79,7 +82,11 @@ class MCQApp(QMainWindow):
         self.main_layout.addWidget(self.stacked_widget)
         
         self.create_login_page()
+        self.showFullScreen()
         
+        self.shortcut = QShortcut(QKeySequence('Esc'), self)
+        self.shortcut.activated.connect(self.close)
+
     def create_login_page(self):
         login_page = QWidget()
         layout = QVBoxLayout(login_page)
@@ -152,6 +159,35 @@ class MCQApp(QMainWindow):
         
         username_layout.addWidget(username_icon)
         username_layout.addWidget(self.username_input)
+
+        # Password input with icon
+        password_container = QFrame()
+        password_layout = QHBoxLayout(password_container)
+        password_layout.setContentsMargins(0, 0, 0, 0)
+
+        password_icon = QLabel()
+        password_icon.setPixmap(QIcon(":/icons/lock.png").pixmap(24, 24))
+
+        self.password_input = FancyLineEdit()
+        self.password_input.setPlaceholderText("Enter your password")
+        self.password_input.setEchoMode(QLineEdit.Password)
+        self.password_input.setStyleSheet("""
+            QLineEdit {
+                padding: 15px;
+                background: rgba(255, 255, 255, 0.2);
+                border: none;
+                border-radius: 10px;
+                color: white;
+                font-size: 16px;
+                font-family: 'Poppins';
+            }
+            QLineEdit:focus {
+                background: rgba(255, 255, 255, 0.3);
+            }
+        """)
+
+        password_layout.addWidget(password_icon)
+        password_layout.addWidget(self.password_input)
         
         # Buttons
         start_button = AnimatedButton("Start Your Journey")
@@ -173,7 +209,7 @@ class MCQApp(QMainWindow):
         """)
         start_button.clicked.connect(self.handle_login)
         
-        guest_button = AnimatedButton("Continue as Guest")
+        guest_button = AnimatedButton("New member? Registration here")
         guest_button.setFont(QFont('Poppins', 12))
         guest_button.setStyleSheet("""
             QPushButton {
@@ -195,6 +231,7 @@ class MCQApp(QMainWindow):
         container_layout.addWidget(title_label)
         container_layout.addWidget(subtitle_label)
         container_layout.addWidget(username_container)
+        container_layout.addWidget(password_container)
         container_layout.addWidget(start_button, alignment=Qt.AlignCenter)
         container_layout.addWidget(guest_button, alignment=Qt.AlignCenter)
         
@@ -212,8 +249,9 @@ class MCQApp(QMainWindow):
         
     def handle_login(self):
         username = self.username_input.text()
-        if username.strip():
-            print(f"User {username} logged in")
+        password = self.password_input.text()
+        if username.strip() and password.strip():
+            print(f"User {username} attempting to log in")
             # Add your login logic here
 
 def main():
