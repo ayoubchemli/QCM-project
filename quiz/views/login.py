@@ -1,13 +1,7 @@
 import sys
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, 
-                            QHBoxLayout, QLabel, QLineEdit, QPushButton, 
-                            QStackedWidget, QFrame, QGraphicsDropShadowEffect)
-from PyQt5.QtCore import Qt, QPropertyAnimation, QEasingCurve, QRect
-from PyQt5.QtGui import QFont, QIcon, QColor, QPalette, QFontDatabase, QKeySequence
-
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt, QPropertyAnimation, QRect, QEasingCurve, QSize
-from PyQt5.QtGui import QFont, QColor, QPainter, QPainterPath, QLinearGradient, QIcon, QKeySequence
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
 
 class AnimatedButton(QPushButton):
     def __init__(self, text, parent=None):

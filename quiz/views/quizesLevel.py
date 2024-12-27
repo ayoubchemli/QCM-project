@@ -393,7 +393,7 @@ class MCQHomePage(QMainWindow):
         # Quiz categories
         categories = [
             {
-                "title": "Python Fundamentals",
+                "title": "Python 1",
                 "description": "Test your knowledge of Python basics including variables, data types, control flow, and functions.",
                 "questions_count": 25,
                 "time_estimate": "30 mins",
@@ -401,7 +401,7 @@ class MCQHomePage(QMainWindow):
                 "is_new": True
             },
             {
-                "title": "Data Structures",
+                "title": "Python 2",
                 "description": "Challenge yourself with questions about arrays, linked lists, trees, and advanced data structures.",
                 "questions_count": 30,
                 "time_estimate": "45 mins",
@@ -409,7 +409,7 @@ class MCQHomePage(QMainWindow):
                 "is_new": False
             },
             {
-                "title": "Algorithms",
+                "title": "Python 3",
                 "description": "Master algorithmic concepts with questions on sorting, searching, and optimization techniques.",
                 "questions_count": 20,
                 "time_estimate": "40 mins",
@@ -417,7 +417,7 @@ class MCQHomePage(QMainWindow):
                 "is_new": True
             },
             {
-                "title": "Object-Oriented Programming",
+                "title": "Python 4",
                 "description": "Explore OOP concepts including classes, inheritance, polymorphism, and encapsulation.",
                 "questions_count": 25,
                 "time_estimate": "35 mins",
@@ -425,7 +425,7 @@ class MCQHomePage(QMainWindow):
                 "is_new": False
             },
             {
-                "title": "Database Concepts",
+                "title": "Python 5",
                 "description": "Test your understanding of SQL, database design, and normalization principles.",
                 "questions_count": 30,
                 "time_estimate": "45 mins",
