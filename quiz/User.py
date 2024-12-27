@@ -1,3 +1,4 @@
+from Score import Score
 class User:
     def __init__(self, name, last_name, email, username, password, scores=None):
         if scores is None:
@@ -20,12 +21,15 @@ class User:
             "email": self.email,
             "username": self.username,
             "password": self.password,
-            "scores": []
+            "scores": [score.to_dict() for score in self.scores]
         }
 
     @staticmethod
     def from_dict(data):
-        return #todo
+        """Create a User instance from a dictionary."""
+        scores = [Score(score_data['subject'], score_data['points']) for score_data in
+                  data['scores']]
+        return User(data['name'], data['lastName'], data['email'], data['username'], data['password'], scores)
 
 
     def add_scores(self, subject,points):
