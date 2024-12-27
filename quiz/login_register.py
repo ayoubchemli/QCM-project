@@ -4,17 +4,34 @@ from User import User
 
 
 def hash_password(password):
-    return #todo
+    return hashlib.sha256(password.encode()).hexdigest()
 
 def is_valid_email(email):
     return True #todo
 
 def verify_password_length(password):
-    return #todo
+    return bool(len(password)>8)
 
 
 def register(name,last_name,email,username,password):
-    return #todo
+    users = read_users()
+
+    if not is_valid_email(email): return "Invalid email! Please try again."
+
+    for user in users:
+        if user['email'] == email:
+            return "Email already exists! Please try a different one."
+        if user['username'] == username:
+            return "Username already exists! Please try a different one."
+
+    if not verify_password_length(password):
+        return "Password must be at least 8 characters long! Please try again."
+
+    new_user = User (name,last_name,email,username,hash_password(password))
+
+    users.append(new_user.to_dict())
+    write_users(users)
+    return new_user
 
 def login(username,password):
     users = read_users()
