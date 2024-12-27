@@ -70,15 +70,15 @@ class CustomDropdownMenu(QMenu):
         
     def add_default_items(self):
         actions = {
-            "📚 Docs": "Documentation",
-            "🎓 Courses": "Online Courses",
+            "👤 Profile": "View Profile and History",
+            "📊 MCQ History": "View Past Test Scores",
+            "💾 Export Results": "Export Results to File",
             "📞 Contact": "Contact Us",
-            "📝 Blog": "Our Blog",
-            "👤 Sign in": "Account Access"
+            "❌ Sign out": "Account Access"
         }
 
         for icon_text, tooltip in actions.items():
-            if icon_text == "👤 Sign in":
+            if icon_text == "❌ Sign out":
                 self.addSeparator()
             action = self.addAction(icon_text)
             action.setToolTip(tooltip)
