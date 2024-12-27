@@ -1,16 +1,29 @@
-from .data_handler import read_users, write_users
+from data_handler import read_users,write_users
+import hashlib
+from User import User
 
-def authenticate_user(user_id, password):
+
+def hash_password(password):
+    return #todo
+
+def is_valid_email(email):
+    return True #todo
+
+def verify_password_length(password):
+    return #todo
+
+
+def register(name,last_name,email,username,password):
+    return #todo
+
+def login(username,password):
     users = read_users()
+
     for user in users:
-        if user['id'] == user_id and user['password'] == password:
-            return True
-    return False
+        if user['username'] == username and user['password'] == password:
+            logged_in_user = User.from_dict(user)
+            return logged_in_user
 
-def add_user(user_id, name, password):
-    users = read_users()
-    if any(user['id'] == user_id for user in users):
-        return False
-    users.append({"id": user_id, "name": name, "password": password})
-    write_users(users)
-    return True
+    return "Invalid email or password. Please try again."
+
+
