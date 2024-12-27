@@ -1,4 +1,4 @@
-from quiz.authentication import authenticate_user, add_user
+from quiz.login_register import authenticate_user, add_user
 
 def main():
     print("Welcome to the Quiz Application!")
