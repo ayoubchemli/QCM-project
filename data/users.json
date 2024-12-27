@@ -1,12 +1,52 @@
 [
     {
-        "id": "222231581302",
-        "name": "Adam",
-        "password": "saudigamer"
+        "name": "jajaja",
+        "lastName": "ksksks",
+        "email": "schakibhaddadi@gmail.com",
+        "username": "op",
+        "password": "15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225",
+        "scores": [
+            {
+                "subject": "python",
+                "points": 1620.3078584931138,
+                "date": "2024"
+            },
+            {
+                "subject": "python",
+                "points": 372.67080745341616,
+                "date": "2024"
+            },
+            {
+                "subject": "python",
+                "points": 85.71428571428571,
+                "date": "2024"
+            },
+            {
+                "subject": "python",
+                "points": 36.84210526315789,
+                "date": "2024"
+            },
+            {
+                "subject": "python",
+                "points": 100.0,
+                "date": "2024"
+            }
+        ]
     },
     {
-        "id": "222231581313",
         "name": "chakib",
-        "password": "hadadi"
+        "lastName": "haddadi",
+        "email": "schakibhad@gmail.com",
+        "username": "schakib",
+        "password": "15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225",
+        "scores": []
+    },
+    {
+        "name": "ayoub",
+        "lastName": "chemli",
+        "email": "ayouchhemli12@gmail.com",
+        "username": "qwertyuiop",
+        "password": "8a9bcf1e51e812d0af8465a8dbcc9f741064bf0af3b3d08e6b0246437c19f7fb",
+        "scores": []
     }
 ]
