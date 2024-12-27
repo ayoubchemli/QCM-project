@@ -145,7 +145,7 @@ class MCQApp(QMainWindow):
         username_icon.setPixmap(QIcon(":/icons/user.png").pixmap(24, 24))
         
         self.reg_username_input = FancyLineEdit()
-        self.reg_username_input.setPlaceholderText("Choose a username")
+        self.reg_username_input.setPlaceholderText("Choose a username (must be unique)")
         self.reg_username_input.setStyleSheet(self.fullname_input.styleSheet())
         
         username_layout.addWidget(username_icon)

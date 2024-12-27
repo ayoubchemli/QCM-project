@@ -1,10 +1,267 @@
 import sys
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt, QPropertyAnimation, QRect, QEasingCurve, QSize
+from PyQt5.QtCore import Qt, QPropertyAnimation, QRect, QEasingCurve, QSize, QTimer
 from PyQt5.QtGui import QFont, QColor, QPainter, QPainterPath, QLinearGradient, QIcon, QKeySequence
 
 
 
+class ProfilePage(QMainWindow):
+    def __init__(self, parent=None, is_light_mode=False):
+        super().__init__(parent)
+        self.parent = parent
+        self.setup_ui()
+        self.apply_theme(is_light_mode)
+
+    def setup_ui(self):
+        central_widget = QWidget()
+        self.setCentralWidget(central_widget)
+        main_layout = QVBoxLayout(central_widget)
+        main_layout.setSpacing(30)
+        main_layout.setContentsMargins(50, 40, 50, 40)
+
+        # Create a card-like container for the entire content
+        content_card = QFrame()
+        content_card.setObjectName("contentCard")
+        content_layout = QVBoxLayout(content_card)
+        content_layout.setSpacing(30)
+        content_layout.setContentsMargins(40, 40, 40, 40)
+
+        # Header with back button
+        header_layout = QHBoxLayout()
+        back_button = HoverButton("← Return to Home")
+        back_button.setFixedWidth(200)
+        back_button.clicked.connect(self.return_to_home)
+        header_layout.addWidget(back_button)
+        header_layout.addStretch()
+        content_layout.addLayout(header_layout)
+
+        # Profile Section
+        profile_section = QHBoxLayout()
+      
+        # Right side - Profile Info
+        profile_info = QVBoxLayout()
+        
+        # Title with animation
+        title = AnimatedLabel("Profile Settings")
+        title.setObjectName("profileTitle")
+        profile_info.addWidget(title)
+
+        # Subtitle
+        subtitle = QLabel("Manage your personal information and account settings")
+        subtitle.setObjectName("profileSubtitle")
+        profile_info.addWidget(subtitle)
+        
+        # Add profile sections to layout
+        profile_section.addSpacing(40)
+        profile_section.addLayout(profile_info, stretch=1)
+        content_layout.addLayout(profile_section)
+
+        # Create a form container with a nice background
+        form_container = QFrame()
+        form_container.setObjectName("formContainer")
+        form_layout = QVBoxLayout(form_container)
+        form_layout.setSpacing(25)
+        form_layout.setContentsMargins(30, 30, 30, 30)
+
+        # Input fields with icons and labels
+        self.fields = {}
+        field_configs = {
+            'full_name': ('👤 Full Name', 'Enter your full name'),
+            'email': ('📧 Email Address', 'Enter your email'),
+            'username': ('🔤 Username', 'Choose a username'),
+            'password': ('🔒 Password', 'Enter your password')
+        }
+
+        for field_name, (label, placeholder) in field_configs.items():
+            field_container = QFrame()
+            field_container.setObjectName("fieldContainer")
+            field_layout = QVBoxLayout(field_container)
+            field_layout.setSpacing(8)
+
+            # Label
+            label_widget = QLabel(label)
+            label_widget.setObjectName("fieldLabel")
+            field_layout.addWidget(label_widget)
+
+            # Input field
+            input_field = QLineEdit()
+            input_field.setPlaceholderText(placeholder)
+            input_field.setObjectName("inputField")
+            if field_name == 'password':
+                input_field.setEchoMode(QLineEdit.Password)
+            
+            self.fields[field_name] = input_field
+            field_layout.addWidget(input_field)
+
+            # Add to form layout
+            form_layout.addWidget(field_container)
+
+        content_layout.addWidget(form_container)
+
+        # Save button with animation
+        save_button = HoverButton("Save Changes")
+        save_button.setObjectName("saveButton")
+        save_button.setFixedWidth(200)
+        save_button.setFixedHeight(50)
+        save_button.clicked.connect(self.save_changes)
+        
+        # Button container for center alignment
+        button_container = QHBoxLayout()
+        button_container.addStretch()
+        button_container.addWidget(save_button)
+        button_container.addStretch()
+        content_layout.addLayout(button_container)
+
+        # Add the content card to main layout
+        main_layout.addWidget(content_card)
+
+    def apply_theme(self, is_light_mode):
+        if is_light_mode:
+            self.setStyleSheet("""
+                QMainWindow {
+                    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, 
+                        stop:0 #F8FAFC, stop:1 #F1F5F9);
+                }
+                #contentCard {
+                    background-color: white;
+                    border-radius: 20px;
+                    border: 1px solid #E2E8F0;
+                }
+                #profileTitle {
+                    color: #1E293B;
+                    font-size: 36px;
+                    font-weight: bold;
+                    margin-bottom: 10px;
+                }
+                #profileSubtitle {
+                    color: #64748B;
+                    font-size: 16px;
+                    margin-bottom: 20px;
+                }
+                #formContainer {
+                    background-color: #F8FAFC;
+                    border-radius: 15px;
+                    border: 1px solid #E2E8F0;
+                }
+                #fieldContainer {
+                    background: transparent;
+                    margin-bottom: 10px;
+                }
+                #fieldLabel {
+                    color: #4A5568;
+                    font-size: 14px;
+                    font-weight: bold;
+                }
+                #inputField {
+                    background-color: white;
+                    border: 2px solid #E2E8F0;
+                    border-radius: 10px;
+                    padding: 12px 15px;
+                    font-size: 14px;
+                    color: #1E293B;
+                }
+                #inputField:focus {
+                    border-color: #4F46E5;
+                }
+
+            """)
+        else:
+            self.setStyleSheet("""
+                QMainWindow {
+                    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, 
+                        stop:0 #0F172A, stop:1 #1E293B);
+                }
+                #contentCard {
+                    background-color: #1E293B;
+                    border-radius: 20px;
+                    border: 1px solid #2D3748;
+                }
+                #profileTitle {
+                    color: white;
+                    font-size: 36px;
+                    font-weight: bold;
+                    margin-bottom: 10px;
+                }
+                #profileSubtitle {
+                    color: #94A3B8;
+                    font-size: 16px;
+                    margin-bottom: 20px;
+                }
+                #formContainer {
+                    background-color: #0F172A;
+                    border-radius: 15px;
+                    border: 1px solid #2D3748;
+                }
+                #fieldContainer {
+                    background: transparent;
+                    margin-bottom: 10px;
+                }
+                #fieldLabel {
+                    color: #E2E8F0;
+                    font-size: 14px;
+                    font-weight: bold;
+                }
+                #inputField {
+                    background-color: #1E293B;
+                    border: 2px solid #2D3748;
+                    border-radius: 10px;
+                    padding: 12px 15px;
+                    font-size: 14px;
+                    color: white;
+                }
+                #inputField:focus {
+                    border-color: #4F46E5;
+                }
+            """)
+
+    def return_to_home(self):
+        self.close()
+        if self.parent:
+            self.parent.show()
+
+    def save_changes(self):
+        # Add loading animation
+        save_button = self.findChild(HoverButton, "saveButton")
+        original_text = save_button.text()
+        save_button.setText("Saving...")
+        save_button.setEnabled(False)
+        
+        # Simulate saving delay
+        QTimer.singleShot(1500, lambda: self.show_save_success(save_button, original_text))
+
+    def show_save_success(self, button, original_text):
+        # Create a custom success message box
+        msg = QMessageBox(self)
+        msg.setWindowTitle("Success")
+        msg.setText("Profile changes saved successfully!")
+        msg.setIcon(QMessageBox.Information)
+        msg.setStyleSheet("""
+            QMessageBox {
+                background-color: #1E293B;
+            }
+            QMessageBox QLabel {
+                color: white;
+                font-size: 14px;
+                padding: 10px;
+            }
+            QPushButton {
+                background-color: #4F46E5;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                padding: 8px 16px;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: #4338CA;
+            }
+        """)
+        
+        # Reset button state
+        button.setText(original_text)
+        button.setEnabled(True)
+        
+        msg.exec_()
 class CustomDropdownMenu(QMenu):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -385,6 +642,16 @@ class AnimatedLabel(QLabel):
 
 
 class MCQHomePage(QMainWindow):
+   def setup_menu_actions(self):
+        # Connect menu actions to their respective functions
+        for action in self.dropdown_button.menu.actions():
+            if action.text() == "👤 Profile":
+                action.triggered.connect(self.open_profile)
+
+   def open_profile(self):
+        self.profile_page = ProfilePage(self, self.theme_toggle.isChecked())
+        self.profile_page.showFullScreen()
+        
    def setup_themes(self):
        self.dark_theme = {
            "main_bg": "background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #0F172A, stop:1 #1E293B)",
@@ -604,6 +871,8 @@ class MCQHomePage(QMainWindow):
         
         # Optional: Add custom actions with callbacks
         self.dropdown_button.add_custom_action("⚙️ Settings", "Open Settings", self.open_settings)
+        
+        self.setup_menu_actions()
 
         # Create center content container
         center_content = QWidget()
