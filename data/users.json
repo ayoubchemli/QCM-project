@@ -50,11 +50,17 @@
         "scores": []
     },
     {
-        "name": "az",
-        "lastName": "az",
-        "email": "Azfdgfrf@gmail.coooooooooooooooooooooooom",
-        "username": "az",
+        "fullname": "aza",
+        "email": "aza@gmail.com",
+        "username": "aza",
         "password": "15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225",
+        "scores": []
+    },
+    {
+        "fullname": "a a",
+        "email": "aa@gmail.com",
+        "username": "aaaa",
+        "password": "6bfc26e1fb45fe9caf6de5313dc54cbf40f78092654b6587a6c03cc47f6800a5",
         "scores": []
     }
 ]

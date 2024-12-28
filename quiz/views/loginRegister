@@ -1,3 +1,5 @@
+import hashlib
+import json
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
@@ -442,6 +444,13 @@ class MCQApp(QMainWindow):
         self.clear_error_messages()
         errors = []
 
+        # Load existing users from JSON
+        try:
+            with open("data/users.json", "r") as file:
+                users = json.load(file)
+        except FileNotFoundError:
+            users = []
+
         # Validate full name (minimum 2 words, alphabetic)
         fullname = self.fullname_input.text().strip()
         if len(fullname.split()) < 2 or not all(word.isalpha() for word in fullname.split()):
@@ -449,17 +458,25 @@ class MCQApp(QMainWindow):
             self.fullname_input.update_validation_style(False)
 
         # Validate email
+        email = self.email_input.text().strip()
         if not self.email_input.validate():
             errors.append("Please enter a valid email address")
-            
+        elif any(user.get("email") == email for user in users):
+            errors.append("This email is already registered")
+            self.email_input.update_validation_style(False)
+
         # Validate username (minimum 4 chars, alphanumeric)
+        username = self.reg_username_input.text().strip()
         if not self.reg_username_input.validate():
             errors.append("Username must be at least 4 characters long and contain only letters and numbers")
-            
+        elif any(user.get("username") == username for user in users):
+            errors.append("This username is already taken")
+            self.reg_username_input.update_validation_style(False)
+
         # Validate password
         if not self.reg_password_input.validate():
             errors.append("Password must be at least 8 characters and contain uppercase, lowercase, number, and special character")
-            
+
         # Validate password match
         if self.reg_password_input.text() != self.confirm_password_input.text():
             errors.append("Passwords do not match")
@@ -468,8 +485,9 @@ class MCQApp(QMainWindow):
         if errors:
             self.show_error_messages(errors)
             return False
-            
+
         return True
+
 
     def show_error_messages(self, messages):
         self.clear_error_messages()
@@ -515,6 +533,7 @@ class MCQApp(QMainWindow):
             # Simulate checking for existing username/email
             self.disable_form_inputs(True)
             QTimer.singleShot(1000, lambda: self.complete_registration())
+            add_user_to_json(self.fullname_input.text().strip(), self.email_input.text().strip(), self.reg_username_input.text().strip(), self.reg_password_input.text())
         else:
             self._registration_in_progress = False
             
@@ -779,14 +798,83 @@ class MCQApp(QMainWindow):
         
         self.stacked_widget.addWidget(login_page)
         
+
     def handle_login(self):
         username = self.username_input.text()
         password = self.password_input.text()
-        if username.strip() and password.strip():
-            print(f"User {username} attempting to log in")
-            # Add your login logic here
+        hashed_password = hash_password(password)
+        # Load users from JSON
+        users = load_users()
+        for user in users:
+            if user["username"] == username and user["password"] == hashed_password:
+                print("nono")
+                return
 
+        # If no match found
+        print("haah")
+
+# Function to hash passwords for comparison
+def hash_password(password):
+    return hashlib.sha256(password.encode()).hexdigest()
+
+import json
+import hashlib
+
+def add_user_to_json(fullname, email, username, password):
+    # Load existing users
+    try:
+        with open("data/users.json", "r") as file:
+            users = json.load(file)
+    except FileNotFoundError:
+        users = []
+
+    # Hash the password for security
+    hashed_password = hashlib.sha256(password.encode()).hexdigest()
+
+    # Create new user object
+    new_user = {
+        "fullname": fullname,
+        "email": email,
+        "username": username,
+        "password": hashed_password,
+        "scores": []
+    }
+
+    # Append the new user
+    users.append(new_user)
+
+    # Write back to the file
+    with open("data/users.json", "w") as file:
+        json.dump(users, file, indent=4)
+
+    print("User added successfully!")
+
+def load_users():
+    try:
+        with open(DATABASE_FILE, "r") as file:
+            data = json.load(file)
+            return data  # Return the list of user dictionaries
+    except FileNotFoundError:
+        # If file doesn't exist, create a default one
+        with open(DATABASE_FILE, "w") as file:
+            json.dump([], file)
+        return []
+ 
+# Path to the JSON file
+DATABASE_FILE = "data/users.json"
 def main():
+    # Ensure the JSON file exists with at least one user
+    if not load_users():
+        with open(DATABASE_FILE, "w") as file:
+            json.dump([
+                {
+                    "fullname": "admin",
+                    "email": "admin@example.com",
+                    "username": "admin",
+                    "password": hash_password("admin"),  # Store hashed password
+                    "scores": []
+                }
+            ], file)
     app = QApplication(sys.argv)
     app.setAttribute(Qt.AA_EnableHighDpiScaling)
     app.setAttribute(Qt.AA_UseHighDpiPixmaps)
@@ -795,5 +883,6 @@ def main():
     window.show()
     sys.exit(app.exec_())
 
+   
 if __name__ == '__main__':
     main()

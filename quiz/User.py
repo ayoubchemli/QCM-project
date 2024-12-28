@@ -27,7 +27,7 @@ class User:
         """Create a User instance from a dictionary."""
         scores = [Score(score_data['subject'], score_data['points']) for score_data in
                   data['scores']]
-        return User(data['fullName'], data['email'], data['username'], data['password'], scores)
+        return User(data['fullname'], data['email'], data['username'], data['password'], scores)
 
 
     def add_scores(self, subject,points):
