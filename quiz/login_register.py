@@ -16,7 +16,7 @@ def verify_password_length(password):
     return bool(len(password)>8)
 
 
-def register(name,last_name,email,username,password):
+def register(fullname,email,username,password):
     users = read_users()
 
     if not is_valid_email(email): return "Invalid email! Please try again."
@@ -30,7 +30,7 @@ def register(name,last_name,email,username,password):
     if not verify_password_length(password):
         return "Password must be at least 8 characters long! Please try again."
 
-    new_user = User (name,last_name,email,username,hash_password(password))
+    new_user = User(fullname,email,username,hash_password(password))
 
     users.append(new_user.to_dict())
     write_users(users)
@@ -59,16 +59,15 @@ def main():
         choice = input("Select an option (1/2/3): ")
 
         if choice == "1":
-            name = input("Enter your first name: ")
-            last_name = input("Enter your last name: ")
+            fullname = input("Enter your first name: ")
             email = input("Enter your email: ")
             username = input("Choose a username: ")
             password = input("Choose a password: ")
 
-            result = register(name, last_name, email, username, password)
+            result = register(fullname, email, username, password)
 
             if isinstance(result, User):
-                print(f"Registration successful! Welcome, {result.name}!")
+                print(f"Registration successful! Welcome, {result.fullname}!")
             else:
                 print(f"Error: {result}")
 
@@ -79,7 +78,7 @@ def main():
             result = login(username, password)
 
             if isinstance(result, User):
-                print(f"Welcome back, {result.name}!")
+                print(f"Welcome back, {result.fullname}!")
 
                 subject = input("Enter the subject for the test: ")
                 # -------------------------------- HANOUNI  🚜🦖🦕🐇---------------------------------------#
