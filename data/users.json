@@ -1,7 +1,6 @@
 [
     {
-        "name": "jajaja",
-        "lastName": "ksksks",
+        "fullname": "Zlig Zlong undertaker",
         "email": "schakibhaddadi@gmail.com",
         "username": "op",
         "password": "15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225",
@@ -34,24 +33,27 @@
         ]
     },
     {
-        "name": "chakib",
-        "lastName": "haddadi",
+        "fullname": "chakib chikour hanouni",
         "email": "schakibhad@gmail.com",
         "username": "schakib",
         "password": "15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225",
-        "scores": []
+        "scores": [
+            {
+                "subject": "python",
+                "points": 36.84210526315789,
+                "date": "2024-12-28 19:07:59"
+            }
+        ]
     },
     {
-        "name": "ayoub",
-        "lastName": "chemli",
+        "fullname": "ayoub chemli",
         "email": "ayouchhemli12@gmail.com",
         "username": "qwertyuiop",
         "password": "8a9bcf1e51e812d0af8465a8dbcc9f741064bf0af3b3d08e6b0246437c19f7fb",
         "scores": []
     },
     {
-        "name": "az",
-        "lastName": "az",
+        "fullname": "sui cr7>messi",
         "email": "Azfdgfrf@gmail.coooooooooooooooooooooooom",
         "username": "az",
         "password": "15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225",

@@ -105,7 +105,7 @@ def main():
                             print("Please enter a valid number.")
 
                 #--------------------------------TODO HANOUNI  🚜🦖🦕🐇---------------------------------------#
-                test_instance.set_list_of_answers()
+                test_instance.set_list_of_answers(answers)
                 print(test_instance.list_of_answers)
                 print(test_instance.list_of_correct_answers, test_instance.current_test_score, test_instance.get_results_of_test())
                 # --------------------------------TODO HANOUNI  🚜🦖🦕🐇---------------------------------------#
