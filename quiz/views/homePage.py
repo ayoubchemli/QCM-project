@@ -3,7 +3,508 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt, QPropertyAnimation, QRect, QEasingCurve, QSize, QTimer
 from PyQt5.QtGui import QFont, QColor, QPainter, QPainterPath, QLinearGradient, QIcon, QKeySequence
 
+# TODO : ayoubchemli (💾 Export Results + password field light theme)
 
+class MCQHistoryPage(QMainWindow):
+    def __init__(self, parent=None, is_light_mode=False):
+        super().__init__(parent)
+        self.parent = parent
+        self.setup_ui()
+        self.apply_theme(is_light_mode)
+
+    def setup_ui(self):
+        central_widget = QWidget()
+        self.setCentralWidget(central_widget)
+        main_layout = QVBoxLayout(central_widget)
+        main_layout.setSpacing(30)
+        main_layout.setContentsMargins(50, 40, 50, 40)
+
+        # Create main content card
+        content_card = QFrame()
+        content_card.setObjectName("contentCard")
+        content_layout = QVBoxLayout(content_card)
+        content_layout.setSpacing(30)
+        content_layout.setContentsMargins(40, 40, 40, 40)
+
+        # Header with back button and title
+        header_layout = QHBoxLayout()
+        
+        # Back button
+        back_button = HoverButton("← Return to Home")
+        back_button.setFixedWidth(200)
+        back_button.clicked.connect(self.return_to_home)
+        header_layout.addWidget(back_button)
+        
+        # Title
+        title = AnimatedLabel("MCQ History")
+        title.setObjectName("historyTitle")
+        header_layout.addWidget(title, alignment=Qt.AlignCenter)
+        header_layout.addSpacing(200)  # Balance the layout
+        
+        content_layout.addLayout(header_layout)
+
+        # Statistics Overview Cards
+        stats_layout = QHBoxLayout()
+        stats_layout.setSpacing(20)
+
+        # Create stat cards
+        stat_cards = [
+            ("Total Tests Taken", "42", "📝"),
+            ("Average Score", "78%", "📊"),
+            ("Best Performance", "95%", "🏆"),
+            ("Tests This Month", "8", "📅")
+        ]
+
+        for title, value, icon in stat_cards:
+            card = self.create_stat_card(title, value, icon)
+            stats_layout.addWidget(card)
+
+        content_layout.addLayout(stats_layout)
+
+        # Recent Tests Section
+        recent_tests_container = QFrame()
+        recent_tests_container.setObjectName("recentTestsContainer")
+        recent_tests_layout = QVBoxLayout(recent_tests_container)
+
+        # Section title
+        section_title = QLabel("Recent Tests")
+        section_title.setObjectName("sectionTitle")
+        recent_tests_layout.addWidget(section_title)
+
+        # Test history table
+        self.history_table = QTableWidget()
+        self.history_table.setObjectName("historyTable")
+        self.history_table.setColumnCount(5)
+        self.history_table.setHorizontalHeaderLabels([
+            "Date", "Subject", "Score", "Time Taken", "Status"
+        ])
+        
+        # Add sample data
+        self.add_sample_data()
+        
+        # Style the table
+        self.history_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.history_table.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.history_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        
+        recent_tests_layout.addWidget(self.history_table)
+        content_layout.addWidget(recent_tests_container)
+
+        # Add the content card to main layout
+        main_layout.addWidget(content_card)
+
+    def create_stat_card(self, title, value, icon):
+        card = QFrame()
+        card.setObjectName("statCard")
+        layout = QVBoxLayout(card)
+        layout.setSpacing(10)
+
+        # Icon
+        icon_label = QLabel(icon)
+        icon_label.setObjectName("statIcon")
+        icon_label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(icon_label)
+
+        # Value
+        value_label = QLabel(value)
+        value_label.setObjectName("statValue")
+        value_label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(value_label)
+
+        # Title
+        title_label = QLabel(title)
+        title_label.setObjectName("statTitle")
+        title_label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(title_label)
+
+        return card
+
+    def add_sample_data(self):
+        # Sample test data
+        test_data = [
+            ("2024-12-27", "Algebra", "85%", "45 mins", "Passed"),
+            ("2024-12-25", "Data Structures", "92%", "60 mins", "Passed"),
+            ("2024-12-23", "File Systems", "78%", "30 mins", "Passed"),
+            ("2024-12-20", "Linear Algebra", "65%", "45 mins", "Failed"),
+            ("2024-12-18", "Algorithms", "88%", "50 mins", "Passed"),
+            ("2024-12-15", "Graph Theory", "73%", "40 mins", "Passed"),
+            ("2024-12-12", "Number Theory", "95%", "55 mins", "Passed"),
+            ("2024-12-10", "Binary Trees", "82%", "35 mins", "Passed")
+        ]
+
+        self.history_table.setRowCount(len(test_data))
+        for row, (date, subject, score, time, status) in enumerate(test_data):
+            self.history_table.setItem(row, 0, QTableWidgetItem(date))
+            self.history_table.setItem(row, 1, QTableWidgetItem(subject))
+            self.history_table.setItem(row, 2, QTableWidgetItem(score))
+            self.history_table.setItem(row, 3, QTableWidgetItem(time))
+            
+            status_item = QTableWidgetItem(status)
+            status_item.setTextAlignment(Qt.AlignCenter)
+            if status == "Passed":
+                status_item.setForeground(QColor("#10B981"))  # Green
+            else:
+                status_item.setForeground(QColor("#EF4444"))  # Red
+            self.history_table.setItem(row, 4, status_item)
+
+    def apply_theme(self, is_light_mode):
+        if is_light_mode:
+            self.setStyleSheet("""
+                QMainWindow {
+                    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, 
+                        stop:0 #F8FAFC, stop:1 #F1F5F9);
+                }
+                #contentCard {
+                    background-color: white;
+                    border-radius: 20px;
+                    border: 1px solid #E2E8F0;
+                }
+                #historyTitle {
+                    color: #1E293B;
+                    font-size: 36px;
+                    font-weight: bold;
+                }
+                #statCard {
+                    background-color: #F8FAFC;
+                    border: 1px solid #E2E8F0;
+                    border-radius: 15px;
+                    padding: 20px;
+                    min-width: 200px;
+                }
+                #statIcon {
+                    font-size: 32px;
+                }
+                #statValue {
+                    color: #1E293B;
+                    font-size: 28px;
+                    font-weight: bold;
+                }
+                #statTitle {
+                    color: #64748B;
+                    font-size: 14px;
+                }
+                #recentTestsContainer {
+                    background-color: #F8FAFC;
+                    border-radius: 15px;
+                    border: 1px solid #E2E8F0;
+                    padding: 20px;
+                }
+                #sectionTitle {
+                    color: #1E293B;
+                    font-size: 24px;
+                    font-weight: bold;
+                    margin-bottom: 20px;
+                }
+                QTableWidget {
+                    background-color: white;
+                    border: none;
+                    border-radius: 10px;
+                    gridline-color: #E2E8F0;
+                }
+                QTableWidget::item {
+                    padding: 12px;
+                    color: #1E293B;
+                }
+                QHeaderView::section {
+                    background-color: #F1F5F9;
+                    color: #64748B;
+                    padding: 12px;
+                    border: none;
+                    font-weight: bold;
+                }
+                QTableWidget::item:selected {
+                    background-color: #EDE9FE;
+                    color: #1E293B;
+                }
+            """)
+        else:
+            self.setStyleSheet("""
+                QMainWindow {
+                    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, 
+                        stop:0 #0F172A, stop:1 #1E293B);
+                }
+                #contentCard {
+                    background-color: #1E293B;
+                    border-radius: 20px;
+                    border: 1px solid #2D3748;
+                }
+                #historyTitle {
+                    color: white;
+                    font-size: 36px;
+                    font-weight: bold;
+                }
+                #statCard {
+                    background-color: #0F172A;
+                    border: 1px solid #2D3748;
+                    border-radius: 15px;
+                    padding: 20px;
+                    min-width: 200px;
+                }
+                #statIcon {
+                    font-size: 32px;
+                }
+                #statValue {
+                    color: white;
+                    font-size: 28px;
+                    font-weight: bold;
+                }
+                #statTitle {
+                    color: #94A3B8;
+                    font-size: 14px;
+                }
+                #recentTestsContainer {
+                    background-color: #0F172A;
+                    border-radius: 15px;
+                    border: 1px solid #2D3748;
+                    padding: 20px;
+                }
+                #sectionTitle {
+                    color: white;
+                    font-size: 24px;
+                    font-weight: bold;
+                    margin-bottom: 20px;
+                }
+                QTableWidget {
+                    background-color: #1E293B;
+                    border: none;
+                    border-radius: 10px;
+                    gridline-color: #2D3748;
+                }
+                QTableWidget::item {
+                    padding: 12px;
+                    color: #E2E8F0;
+                }
+                QHeaderView::section {
+                    background-color: #0F172A;
+                    color: #94A3B8;
+                    padding: 12px;
+                    border: none;
+                    font-weight: bold;
+                }
+                QTableWidget::item:selected {
+                    background-color: #312E81;
+                    color: white;
+                }
+            """)
+
+    def return_to_home(self):
+        self.close()
+        if self.parent:
+            self.parent.show()
+            
+            
+class PasswordField(QFrame):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setup_ui()
+        self.setup_connections()
+
+    def setup_ui(self):
+        self.layout = QVBoxLayout(self)
+        self.layout.setSpacing(15)
+        
+        # Password input container
+        self.input_container = QFrame()
+        input_layout = QHBoxLayout(self.input_container)
+        input_layout.setContentsMargins(0, 0, 0, 0)
+        
+        # Password input field
+        self.password_input = QLineEdit()
+        self.password_input.setPlaceholderText("Enter your new password")
+        self.password_input.setEchoMode(QLineEdit.Password)
+        self.password_input.setObjectName("passwordInput")
+        self.password_input.setMinimumHeight(45)
+        
+        # Toggle password visibility button
+        self.toggle_btn = QPushButton()
+        self.toggle_btn.setText("👁")
+        self.toggle_btn.setCheckable(True)
+        self.toggle_btn.setObjectName("togglePassword")
+        self.toggle_btn.setMinimumSize(45, 45)
+        
+        input_layout.addWidget(self.password_input)
+        input_layout.addWidget(self.toggle_btn)
+        
+        # Password strength indicator
+        self.strength_container = QFrame()
+        strength_layout = QHBoxLayout(self.strength_container)
+        strength_layout.setContentsMargins(0, 0, 0, 0)
+        
+        self.strength_bar = QProgressBar()
+        self.strength_bar.setTextVisible(False)
+        self.strength_bar.setFixedHeight(8)
+        self.strength_bar.setRange(0, 100)
+        self.strength_bar.setObjectName("strengthBar")
+        
+        self.strength_label = QLabel("Password Strength")
+        self.strength_label.setObjectName("strengthLabel")
+        
+        strength_layout.addWidget(self.strength_bar)
+        strength_layout.addWidget(self.strength_label)
+        
+        # Requirements list
+        self.requirements_list = QFrame()
+        req_layout = QVBoxLayout(self.requirements_list)
+        req_layout.setContentsMargins(0, 10, 0, 0)
+        req_layout.setSpacing(10)
+        
+        self.requirements = {
+            'length': QLabel("• At least 8 characters"),
+            'uppercase': QLabel("• At least one uppercase letter"),
+            'lowercase': QLabel("• At least one lowercase letter"),
+            'number': QLabel("• At least one number"),
+            'special': QLabel("• At least one special character")
+        }
+        
+        for req in self.requirements.values():
+            req.setObjectName("requirement")
+            req_layout.addWidget(req)
+        
+        # Add everything to main layout
+        self.layout.addWidget(self.input_container)
+        self.layout.addWidget(self.strength_container)
+        self.layout.addWidget(self.requirements_list)
+        
+        self.apply_styles()
+
+    def setup_connections(self):
+        self.toggle_btn.clicked.connect(self.toggle_password_visibility)
+        self.password_input.textChanged.connect(self.check_password_strength)
+
+    def toggle_password_visibility(self):
+        if self.toggle_btn.isChecked():
+            self.password_input.setEchoMode(QLineEdit.Normal)
+            self.toggle_btn.setText("👁‍🗨")
+        else:
+            self.password_input.setEchoMode(QLineEdit.Password)
+            self.toggle_btn.setText("👁")
+
+    def check_password_strength(self):
+        password = self.password_input.text()
+        score = 0
+        
+        # Check requirements
+        has_length = len(password) >= 8
+        has_upper = any(c.isupper() for c in password)
+        has_lower = any(c.islower() for c in password)
+        has_number = any(c.isdigit() for c in password)
+        has_special = any(not c.isalnum() for c in password)
+        
+        # Update requirement labels
+        self.requirements['length'].setProperty("met", has_length)
+        self.requirements['uppercase'].setProperty("met", has_upper)
+        self.requirements['lowercase'].setProperty("met", has_lower)
+        self.requirements['number'].setProperty("met", has_number)
+        self.requirements['special'].setProperty("met", has_special)
+        
+        # Calculate score
+        if has_length: score += 20
+        if has_upper: score += 20
+        if has_lower: score += 20
+        if has_number: score += 20
+        if has_special: score += 20
+        
+        # Update requirement styles
+        for req in self.requirements.values():
+            if req.property("met"):
+                req.setStyleSheet("color: #10B981; font-size: 14px;")  # Green
+            else:
+                req.setStyleSheet("color: #6B7280; font-size: 14px;")  # Gray
+        
+        # Update strength indicator
+        self.strength_bar.setValue(score)
+        
+        # Update strength label
+        if score < 40:
+            strength_text = "Weak"
+            strength_color = "#EF4444"  # Red
+        elif score < 80:
+            strength_text = "Medium"
+            strength_color = "#F59E0B"  # Yellow
+        else:
+            strength_text = "Strong"
+            strength_color = "#10B981"  # Green
+            
+        self.strength_label.setText(strength_text)
+        self.strength_label.setStyleSheet(f"color: {strength_color}; font-size: 14px; font-weight: bold;")
+        self.strength_bar.setStyleSheet(f"""
+            QProgressBar {{
+                border-radius: 4px;
+                background-color: #E2E8F0;
+            }}
+            QProgressBar::chunk {{
+                border-radius: 4px;
+                background-color: {strength_color};
+            }}
+        """)
+
+    def get_password(self):
+        return self.password_input.text()
+
+    def set_password(self, password):
+        self.password_input.setText(password)
+
+    def apply_styles(self):
+        self.setStyleSheet("""
+            QFrame {
+                background: transparent;
+            }
+            
+            #passwordInput {
+                padding: 12px 15px;
+                border: 2px solid #2D3748;
+                border-radius: 10px;
+                font-size: 16px;
+                background-color: #1E293B;
+                min-width: 300px;
+                color: white;
+            }
+            
+            #passwordInput:focus {
+                border-color: #4F46E5;
+            }
+            
+            #togglePassword {
+                background-color: #1E293B;
+                border: 2px solid #2D3748;
+                border-radius: 10px;
+                padding: 5px;
+                font-size: 20px;
+                margin-left: 10px;
+                color: white;
+            }
+            
+            #togglePassword:hover {
+                background-color: #2D3748;
+                border-color: #4F46E5;
+            }
+            
+            #strengthBar {
+                border-radius: 4px;
+                background-color: #0F172A;
+                min-width: 200px;
+                border: 1px solid #2D3748;
+                height: 8px;
+            }
+            
+            #strengthLabel {
+                font-size: 14px;
+                font-weight: bold;
+                margin-left: 15px;
+                min-width: 100px;
+                color: #E2E8F0;
+            }
+            
+            #requirement {
+                font-size: 14px;
+                padding: 3px 0;
+                color: #94A3B8;
+            }
+            
+            #requirement[met="true"] {
+                color: #4F46E5;
+            }
+        """)
 
 class ProfilePage(QMainWindow):
     def __init__(self, parent=None, is_light_mode=False):
@@ -23,8 +524,8 @@ class ProfilePage(QMainWindow):
         content_card = QFrame()
         content_card.setObjectName("contentCard")
         content_layout = QVBoxLayout(content_card)
-        content_layout.setSpacing(30)
-        content_layout.setContentsMargins(40, 40, 40, 40)
+        content_layout.setSpacing(5)
+        content_layout.setContentsMargins(40, 10, 40, 10)
 
         # Header with back button
         header_layout = QHBoxLayout()
@@ -60,7 +561,7 @@ class ProfilePage(QMainWindow):
         form_container = QFrame()
         form_container.setObjectName("formContainer")
         form_layout = QVBoxLayout(form_container)
-        form_layout.setSpacing(25)
+        form_layout.setSpacing(1)
         form_layout.setContentsMargins(30, 30, 30, 30)
 
         # Input fields with icons and labels
@@ -69,7 +570,6 @@ class ProfilePage(QMainWindow):
             'full_name': ('👤 Full Name', 'Enter your full name'),
             'email': ('📧 Email Address', 'Enter your email'),
             'username': ('🔤 Username', 'Choose a username'),
-            'password': ('🔒 Password', 'Enter your password')
         }
 
         for field_name, (label, placeholder) in field_configs.items():
@@ -87,14 +587,36 @@ class ProfilePage(QMainWindow):
             input_field = QLineEdit()
             input_field.setPlaceholderText(placeholder)
             input_field.setObjectName("inputField")
-            if field_name == 'password':
-                input_field.setEchoMode(QLineEdit.Password)
             
             self.fields[field_name] = input_field
             field_layout.addWidget(input_field)
 
             # Add to form layout
             form_layout.addWidget(field_container)
+            
+        # Add the new password field after the regular fields
+        password_container = QFrame()
+        password_container.setObjectName("fieldContainer")  # Match other fields' style
+        password_layout = QVBoxLayout(password_container)
+        password_layout.setSpacing(8)
+        password_layout.setContentsMargins(0, 0, 0, 0)
+
+        password_label = QLabel("🔒 Password")
+        password_label.setObjectName("fieldLabel")
+        password_label.setStyleSheet("""
+            QLabel {
+                font-size: 16px;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+        """)
+
+        self.password_field = PasswordField()
+
+        password_layout.addWidget(password_label)
+        password_layout.addWidget(self.password_field)
+
+        form_layout.addWidget(password_container)
 
         content_layout.addWidget(form_container)
 
@@ -642,11 +1164,18 @@ class AnimatedLabel(QLabel):
 
 
 class MCQHomePage(QMainWindow):
+    
    def setup_menu_actions(self):
         # Connect menu actions to their respective functions
         for action in self.dropdown_button.menu.actions():
             if action.text() == "👤 Profile":
                 action.triggered.connect(self.open_profile)
+            elif action.text() == "📊 MCQ History":
+                action.triggered.connect(self.open_mcq_history)
+
+   def open_mcq_history(self):
+        self.mcq_history_page = MCQHistoryPage(self, self.theme_toggle.isChecked())
+        self.mcq_history_page.showFullScreen()
 
    def open_profile(self):
         self.profile_page = ProfilePage(self, self.theme_toggle.isChecked())
