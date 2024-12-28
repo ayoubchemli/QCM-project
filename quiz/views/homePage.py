@@ -1,10 +1,812 @@
 import sys
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt, QPropertyAnimation, QRect, QEasingCurve, QSize, QTimer
-from PyQt5.QtGui import QFont, QColor, QPainter, QPainterPath, QLinearGradient, QIcon, QKeySequence
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
 
 # TODO : ayoubchemli (💾 Export Results + password field light theme)
 
+class ContactPage(QMainWindow):
+    def __init__(self, parent=None, is_light_mode=False):
+        super().__init__(parent)
+        self.parent = parent
+        self.setup_ui()
+        self.apply_theme(is_light_mode)
+
+    def setup_ui(self):
+        central_widget = QWidget()
+        self.setCentralWidget(central_widget)
+        main_layout = QVBoxLayout(central_widget)
+        main_layout.setSpacing(20)  # Reduced from 30
+        main_layout.setContentsMargins(30, 20, 30, 20)  # Reduced margins
+
+        # Create main content card
+        content_card = QFrame()
+        content_card.setObjectName("contentCard")
+        content_layout = QVBoxLayout(content_card)
+        content_layout.setSpacing(20)  # Reduced from 30
+        content_layout.setContentsMargins(20, 20, 20, 20)  # Reduced margins
+
+        # Header with back button and title
+        header_layout = QHBoxLayout()
+        header_layout.setSpacing(10)  # Added spacing control
+        
+        back_button = HoverButton("← Return to Home")
+        back_button.setFixedWidth(150)  # Reduced width
+        back_button.clicked.connect(self.return_to_home)
+        
+        title = AnimatedLabel("Contact Us")
+        title.setObjectName("contactTitle")
+        
+        header_layout.addWidget(back_button)
+        header_layout.addWidget(title, alignment=Qt.AlignCenter)
+        header_layout.addStretch()  # Better than fixed spacing
+        
+        content_layout.addLayout(header_layout)
+
+        # Contact Methods Section
+        methods_container = QFrame()
+        methods_container.setObjectName("methodsContainer")
+        methods_layout = QHBoxLayout(methods_container)
+        methods_layout.setSpacing(15)  # Reduced from 20
+        methods_layout.setContentsMargins(10, 10, 10, 10)  # Added margins
+
+        contact_methods = [
+            ("📧", "Email Us", "support@example.com", "Send us an email anytime"),
+            ("📱", "Call Us", "+1 (555) 123-4567", "Mon-Fri, 9:00-17:00"),
+            ("💬", "Live Chat", "Available 24/7", "Chat with our support team")
+        ]
+
+        for icon, title, detail, description in contact_methods:
+            card = self.create_contact_card(icon, title, detail, description)
+            methods_layout.addWidget(card)
+
+        content_layout.addWidget(methods_container)
+
+        # Form and FAQ side by side
+        bottom_container = QHBoxLayout()
+        bottom_container.setSpacing(15)
+
+        # Left side - Contact Form
+        form_container = QFrame()
+        form_container.setObjectName("formContainer")
+        form_layout = QVBoxLayout(form_container)
+        form_layout.setSpacing(15)  # Reduced from 20
+        form_layout.setContentsMargins(15, 15, 15, 15)
+
+        form_title = QLabel("Send us a Message")
+        form_title.setObjectName("sectionTitle")
+        form_layout.addWidget(form_title)
+
+        # Form fields
+        form_grid = QGridLayout()
+        form_grid.setSpacing(10)  # Reduced from 15
+
+        # Name fields in one row
+        first_name = QLineEdit()
+        first_name.setPlaceholderText("First Name")
+        first_name.setObjectName("formInput")
+        
+        last_name = QLineEdit()
+        last_name.setPlaceholderText("Last Name")
+        last_name.setObjectName("formInput")
+        
+        form_grid.addWidget(first_name, 0, 0)
+        form_grid.addWidget(last_name, 0, 1)
+
+        # Other fields
+        email = QLineEdit()
+        email.setPlaceholderText("Email Address")
+        email.setObjectName("formInput")
+        form_grid.addWidget(email, 1, 0, 1, 2)
+
+        subject = QLineEdit()
+        subject.setPlaceholderText("Subject")
+        subject.setObjectName("formInput")
+        form_grid.addWidget(subject, 2, 0, 1, 2)
+
+        message = QTextEdit()
+        message.setPlaceholderText("Your Message")
+        message.setObjectName("messageInput")
+        message.setMinimumHeight(100)  # Reduced from 150
+        form_grid.addWidget(message, 3, 0, 1, 2)
+
+        form_layout.addLayout(form_grid)
+
+        submit_btn = HoverButton("Send Message")
+        submit_btn.setObjectName("submitButton")
+        submit_btn.setFixedWidth(150)  # Reduced from 200
+        submit_btn.clicked.connect(self.submit_form)
+        form_layout.addWidget(submit_btn, alignment=Qt.AlignCenter)
+
+        # Right side - FAQ
+        faq_container = QFrame()
+        faq_container.setObjectName("faqContainer")
+        faq_layout = QVBoxLayout(faq_container)
+        faq_layout.setSpacing(10)
+        faq_layout.setContentsMargins(15, 15, 15, 15)
+
+        faq_title = QLabel("Frequently Asked Questions")
+        faq_title.setObjectName("sectionTitle")
+        faq_layout.addWidget(faq_title)
+
+        faqs = [
+            ("How do I reset my password?", 
+            "Click on the 'Forgot Password' link on the login page and follow the instructions sent to your email."),
+            ("Can I change my username?", 
+            "Yes, you can change your username in your profile settings."),
+            ("How are the MCQ scores calculated?", 
+            "Scores are calculated based on the number of correct answers. Each question carries equal marks."),
+            ("What happens if I lose connection during a test?", 
+            "Don't worry! Your progress is automatically saved. You can resume from where you left off.")
+        ]
+
+        for question, answer in faqs:
+            faq_item = self.create_faq_item(question, answer)
+            faq_layout.addWidget(faq_item)
+
+        # Add form and FAQ to bottom container
+        bottom_container.addWidget(form_container, 1)  # 1 is stretch factor
+        bottom_container.addWidget(faq_container, 1)   # 1 is stretch factor
+
+        content_layout.addLayout(bottom_container)
+        main_layout.addWidget(content_card)
+
+    def create_contact_card(self, icon, title, detail, description):
+        card = QFrame()
+        card.setObjectName("contactCard")
+        layout = QVBoxLayout(card)
+        layout.setSpacing(8)
+        layout.setContentsMargins(15, 15, 15, 15)
+
+
+        icon_label = QLabel(icon)
+        icon_label.setObjectName("contactIcon")
+        icon_label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(icon_label)
+
+        title_label = QLabel(title)
+        title_label.setObjectName("contactTitle")
+        title_label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(title_label)
+
+        detail_label = QLabel(detail)
+        detail_label.setObjectName("contactDetail")
+        detail_label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(detail_label)
+
+        desc_label = QLabel(description)
+        desc_label.setObjectName("contactDescription")
+        desc_label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(desc_label)
+
+        return card
+
+    def create_faq_item(self, question, answer):
+        item = QFrame()
+        item.setObjectName("faqItem")
+        layout = QVBoxLayout(item)
+
+        question_label = QLabel(question)
+        question_label.setObjectName("faqQuestion")
+        layout.addWidget(question_label)
+
+        answer_label = QLabel(answer)
+        answer_label.setObjectName("faqAnswer")
+        answer_label.setWordWrap(True)
+        layout.addWidget(answer_label)
+
+        return item
+
+    def submit_form(self):
+        submit_btn = self.findChild(HoverButton, "submitButton")
+        original_text = submit_btn.text()
+        submit_btn.setText("Sending...")
+        submit_btn.setEnabled(False)
+
+        # Simulate sending message
+        QTimer.singleShot(2000, lambda: self.show_submit_success(submit_btn, original_text))
+
+    def show_submit_success(self, button, original_text):
+        msg = QMessageBox(self)
+        msg.setWindowTitle("Success")
+        msg.setText("Message sent successfully!")
+        msg.setInformativeText("We'll get back to you soon.")
+        msg.setIcon(QMessageBox.Information)
+        msg.setStyleSheet("""
+            QMessageBox {
+                background-color: #1E293B;
+            }
+            QMessageBox QLabel {
+                color: white;
+                font-size: 14px;
+                padding: 10px;
+            }
+            QPushButton {
+                background-color: #4F46E5;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                padding: 8px 16px;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: #4338CA;
+            }
+        """)
+        
+        button.setText(original_text)
+        button.setEnabled(True)
+        
+        msg.exec_()
+
+    def apply_theme(self, is_light_mode):
+        if is_light_mode:
+            self.setStyleSheet("""
+                QMainWindow {
+                    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, 
+                        stop:0 #F8FAFC, stop:1 #F1F5F9);
+                }
+                #contentCard {
+                    background-color: white;
+                    border-radius: 20px;
+                    border: 1px solid #E2E8F0;
+                }
+                #contactCard {
+                    background-color: #F8FAFC;
+                    border: 1px solid #E2E8F0;
+                    border-radius: 15px;
+                    padding: 25px;
+                }
+                #contactIcon {
+                    font-size: 36px;
+                    margin-bottom: 10px;
+                }
+                #contactTitle {
+                    color: #1E293B;
+                    font-size: 20px;
+                    font-weight: bold;
+                }
+                #contactDetail {
+                    color: #4F46E5;
+                    font-size: 16px;
+                }
+                #contactDescription {
+                    color: #64748B;
+                    font-size: 14px;
+                }
+                #formContainer, #faqContainer {
+                    background-color: #F8FAFC;
+                    border: 1px solid #E2E8F0;
+                    border-radius: 15px;
+                    padding: 25px;
+                }
+                #sectionTitle {
+                    color: #1E293B;
+                    font-size: 24px;
+                    font-weight: bold;
+                    margin-bottom: 20px;
+                }
+                #formInput, #messageInput {
+                    background-color: white;
+                    border: 2px solid #E2E8F0;
+                    border-radius: 8px;
+                    padding: 12px;
+                    color: #1E293B;
+                }
+                #formInput:focus, #messageInput:focus {
+                    border-color: #4F46E5;
+                }
+                #faqItem {
+                    background-color: white;
+                    border: 1px solid #E2E8F0;
+                    border-radius: 10px;
+                    padding: 15px;
+                    margin-bottom: 10px;
+                }
+                #faqQuestion {
+                    color: #1E293B;
+                    font-size: 16px;
+                    font-weight: bold;
+                }
+                #faqAnswer {
+                    color: #64748B;
+                    font-size: 14px;
+                    margin-top: 8px;
+                }
+            """)
+        else:
+            self.setStyleSheet("""
+                QMainWindow {
+                    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, 
+                        stop:0 #0F172A, stop:1 #1E293B);
+                }
+                #contentCard {
+                    background-color: #1E293B;
+                    border-radius: 20px;
+                    border: 1px solid #2D3748;
+                }
+                #contactCard {
+                    background-color: #0F172A;
+                    border: 1px solid #2D3748;
+                    border-radius: 15px;
+                    padding: 25px;
+                }
+                #contactIcon {
+                    font-size: 36px;
+                    margin-bottom: 10px;
+                }
+                #contactTitle {
+                    color: white;
+                    font-size: 20px;
+                    font-weight: bold;
+                }
+                #contactDetail {
+                    color: #818CF8;
+                    font-size: 16px;
+                }
+                #contactDescription {
+                    color: #94A3B8;
+                    font-size: 14px;
+                }
+                #formContainer, #faqContainer {
+                    background-color: #0F172A;
+                    border: 1px solid #2D3748;
+                    border-radius: 15px;
+                    padding: 25px;
+                }
+                #sectionTitle {
+                    color: white;
+                    font-size: 24px;
+                    font-weight: bold;
+                    margin-bottom: 20px;
+                }
+                #formInput, #messageInput {
+                    background-color: #1E293B;
+                    border: 2px solid #2D3748;
+                    border-radius: 8px;
+                    padding: 12px;
+                    color: white;
+                }
+                #formInput:focus, #messageInput:focus {
+                    border-color: #4F46E5;
+                }
+                #faqItem {
+                    background-color: #1E293B;
+                    border: 1px solid #2D3748;
+                    border-radius: 10px;
+                    padding: 15px;
+                    margin-bottom: 10px;
+                }
+                #faqQuestion {
+                    color: white;
+                    font-size: 16px;
+                    font-weight: bold;
+                }
+                #faqAnswer {
+                    color: #94A3B8;
+                    font-size: 14px;
+                    margin-top: 8px;
+                }
+            """)
+
+    def return_to_home(self):
+        self.close()
+        if self.parent:
+            self.parent.show()
+
+class ExportResultsPage(QMainWindow):
+    def __init__(self, parent=None, is_light_mode=False):
+        super().__init__(parent)
+        self.parent = parent
+        self.selected_date_range = "all"  # Default to all time
+        self.selected_format = "csv"  # Default to CSV
+        self.setup_ui()
+        self.apply_theme(is_light_mode)
+
+    def setup_ui(self):
+        central_widget = QWidget()
+        self.setCentralWidget(central_widget)
+        main_layout = QVBoxLayout(central_widget)
+        main_layout.setSpacing(20)  # Reduced from 30
+        main_layout.setContentsMargins(30, 20, 30, 20)  # Reduced margins
+
+        # Create main content card
+        content_card = QFrame()
+        content_card.setObjectName("contentCard")
+        content_layout = QVBoxLayout(content_card)
+        content_layout.setSpacing(20)  # Reduced from 30
+        content_layout.setContentsMargins(30, 20, 30, 20)  # Reduced margins
+
+        # Header with back button and title in one row
+        header_layout = QHBoxLayout()
+        header_layout.setSpacing(15)
+        
+        back_button = HoverButton("← Return to Home")
+        back_button.setFixedWidth(150)  # Reduced width
+        back_button.clicked.connect(self.return_to_home)
+        
+        title = AnimatedLabel("Export Results")
+        title.setObjectName("exportTitle")
+        
+        header_layout.addWidget(back_button)
+        header_layout.addWidget(title, alignment=Qt.AlignCenter)
+        header_layout.addSpacing(150)  # Balance the layout
+        
+        content_layout.addLayout(header_layout)
+
+        # Create a horizontal layout for options and preview
+        main_content_layout = QHBoxLayout()
+        main_content_layout.setSpacing(20)
+
+        # Left side - Export Options
+        options_container = QFrame()
+        options_container.setFixedWidth(400)  # Fixed width for options
+        options_container.setObjectName("optionsContainer")
+        options_layout = QVBoxLayout(options_container)
+        options_layout.setSpacing(15)  # Reduced spacing
+        options_layout.setContentsMargins(20, 20, 20, 20)
+
+        # Date Range Selection
+        date_group = QFrame()
+        date_group.setObjectName("optionGroup")
+        date_layout = QVBoxLayout(date_group)
+        date_layout.setSpacing(10)
+        
+        date_title = QLabel("Select Date Range")
+        date_title.setObjectName("optionTitle")
+        date_layout.addWidget(date_title)
+
+        date_buttons_layout = QGridLayout()  # Changed to grid layout
+        date_buttons_layout.setSpacing(10)
+        date_ranges = ["Last 7 Days", "Last 30 Days", "Last 3 Months", "All Time"]
+        
+        for i, date_range in enumerate(date_ranges):
+            btn = QPushButton(date_range)
+            btn.setObjectName("dateRangeButton")
+            btn.setCheckable(True)
+            btn.setCursor(Qt.PointingHandCursor)
+            if date_range == "All Time":
+                btn.setChecked(True)
+            btn.clicked.connect(lambda checked, r=date_range: self.set_date_range(r))
+            date_buttons_layout.addWidget(btn, i//2, i%2)
+        
+        date_layout.addLayout(date_buttons_layout)
+        options_layout.addWidget(date_group)
+
+        # Custom Range Selection (in a more compact layout)
+        custom_range = QFrame()
+        custom_range.setObjectName("optionGroup")
+        custom_layout = QGridLayout(custom_range)
+        custom_layout.setSpacing(10)
+        
+        from_date = QDateEdit()
+        from_date.setCalendarPopup(True)
+        from_date.setDate(QDate.currentDate().addDays(-30))
+        to_date = QDateEdit()
+        to_date.setCalendarPopup(True)
+        to_date.setDate(QDate.currentDate())
+        
+        custom_layout.addWidget(QLabel("From:"), 0, 0)
+        custom_layout.addWidget(from_date, 0, 1)
+        custom_layout.addWidget(QLabel("To:"), 1, 0)
+        custom_layout.addWidget(to_date, 1, 1)
+        
+        options_layout.addWidget(custom_range)
+
+        # Export Format Selection
+        format_group = QFrame()
+        format_group.setObjectName("optionGroup")
+        format_layout = QVBoxLayout(format_group)
+        format_layout.setSpacing(10)
+        
+        format_title = QLabel("Select Export Format")
+        format_title.setObjectName("optionTitle")
+        format_layout.addWidget(format_title)
+
+        format_buttons_layout = QGridLayout()  # Changed to grid layout
+        format_buttons_layout.setSpacing(10)
+        formats = [
+            ("CSV File", "csv", "📊"),
+            ("Text File", "txt", "📝"),
+            ("Excel File", "xlsx", "📘"),
+            ("PDF Document", "pdf", "📄")
+        ]
+        
+        for i, (format_name, format_id, icon) in enumerate(formats):
+            btn = QPushButton(f"{icon} {format_name}")
+            btn.setObjectName("formatButton")
+            btn.setCheckable(True)
+            btn.setCursor(Qt.PointingHandCursor)
+            if format_id == "csv":
+                btn.setChecked(True)
+            btn.clicked.connect(lambda checked, f=format_id: self.set_format(f))
+            format_buttons_layout.addWidget(btn, i//2, i%2)
+        
+        format_layout.addLayout(format_buttons_layout)
+        options_layout.addWidget(format_group)
+
+        # Data Selection with better organization
+        data_group = QFrame()
+        data_group.setObjectName("optionGroup")
+        data_layout = QVBoxLayout(data_group)
+        data_layout.setSpacing(10)
+        
+        data_title = QLabel("Select Data to Export")
+        data_title.setObjectName("optionTitle")
+        data_layout.addWidget(data_title)
+
+        data_grid = QGridLayout()
+        data_grid.setSpacing(8)  # Reduced spacing
+        data_options = [
+            ("Test Scores", True), ("Date & Time", True),
+            ("Subject Details", True), ("Time Taken", True),
+            ("Correct Answers", True), ("Wrong Answers", True),
+            ("Performance Analysis", False), ("Detailed Responses", False)
+        ]
+        
+        for i, (option, checked) in enumerate(data_options):
+            checkbox = QCheckBox(option)
+            checkbox.setChecked(checked)
+            data_grid.addWidget(checkbox, i//2, i%2)
+        
+        data_layout.addLayout(data_grid)
+        options_layout.addWidget(data_group)
+
+        # Right side - Preview Section
+        preview_container = QFrame()
+        preview_container.setObjectName("previewContainer")
+        preview_layout = QVBoxLayout(preview_container)
+        preview_layout.setSpacing(15)
+        
+        preview_header = QHBoxLayout()
+        preview_title = QLabel("Preview")
+        preview_title.setObjectName("previewTitle")
+        preview_header.addWidget(preview_title)
+        
+        refresh_btn = QPushButton("🔄 Refresh Preview")
+        refresh_btn.setObjectName("refreshButton")
+        refresh_btn.setCursor(Qt.PointingHandCursor)
+        preview_header.addWidget(refresh_btn, alignment=Qt.AlignRight)
+        
+        preview_layout.addLayout(preview_header)
+        
+        # Preview table
+        preview_table = QTableWidget()
+        preview_table.setRowCount(5)
+        preview_table.setColumnCount(6)
+        preview_table.setHorizontalHeaderLabels([
+            "Date", "Subject", "Score", "Time Taken", "Correct", "Wrong"
+        ])
+        preview_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        
+        # Add sample preview data
+        sample_data = [
+            ("2024-12-27", "Algebra", "85%", "45 mins", "17/20", "3/20"),
+            ("2024-12-25", "Data Structures", "92%", "60 mins", "23/25", "2/25"),
+            ("2024-12-23", "File Systems", "78%", "30 mins", "14/18", "4/18"),
+            ("2024-12-20", "Linear Algebra", "65%", "45 mins", "13/20", "7/20"),
+            ("2024-12-18", "Algorithms", "88%", "50 mins", "22/25", "3/25")
+        ]
+        
+        for row, data in enumerate(sample_data):
+            for col, value in enumerate(data):
+                item = QTableWidgetItem(value)
+                item.setTextAlignment(Qt.AlignCenter)
+                preview_table.setItem(row, col, item)
+        
+        preview_layout.addWidget(preview_table)
+
+        # Add options and preview to main content layout
+        main_content_layout.addWidget(options_container)
+        main_content_layout.addWidget(preview_container, stretch=1)
+        content_layout.addLayout(main_content_layout)
+
+        # Export Button at the bottom
+        export_btn = HoverButton("Export Results")
+        export_btn.setObjectName("exportButton")
+        export_btn.setFixedWidth(200)
+        export_btn.setFixedHeight(50)
+        export_btn.clicked.connect(self.export_results)
+        
+        content_layout.addWidget(export_btn, alignment=Qt.AlignCenter)
+
+        # Add the content card to main layout
+        main_layout.addWidget(content_card)
+
+    def set_date_range(self, range_value):
+        self.selected_date_range = range_value
+        # Update buttons state
+        for btn in self.findChildren(QPushButton, "dateRangeButton"):
+            btn.setChecked(btn.text() == range_value)
+
+    def set_format(self, format_value):
+        self.selected_format = format_value
+        # Update buttons state
+        for btn in self.findChildren(QPushButton, "formatButton"):
+            btn.setChecked(btn.text().split()[-1].lower().startswith(format_value))
+
+    def export_results(self):
+        # Show loading state
+        export_btn = self.findChild(HoverButton, "exportButton")
+        original_text = export_btn.text()
+        export_btn.setText("Exporting...")
+        export_btn.setEnabled(False)
+
+        # Simulate export process
+        QTimer.singleShot(2000, lambda: self.show_export_success(export_btn, original_text))
+
+    def show_export_success(self, button, original_text):
+        # Create success message
+        msg = QMessageBox(self)
+        msg.setWindowTitle("Success")
+        msg.setText("Results exported successfully!")
+        msg.setInformativeText(f"File saved as: results_{QDate.currentDate().toString('yyyy-MM-dd')}.{self.selected_format}")
+        msg.setIcon(QMessageBox.Information)
+        msg.setStyleSheet("""
+            QMessageBox {
+                background-color: #1E293B;
+            }
+            QMessageBox QLabel {
+                color: white;
+                font-size: 14px;
+                padding: 10px;
+            }
+            QPushButton {
+                background-color: #4F46E5;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                padding: 8px 16px;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: #4338CA;
+            }
+        """)
+        
+        # Reset button state
+        button.setText(original_text)
+        button.setEnabled(True)
+        
+        msg.exec_()
+
+    def apply_theme(self, is_light_mode):
+        # [Previous theme code remains the same, add these new styles:]
+        if is_light_mode:
+            self.setStyleSheet("""
+                /* ... [Previous light theme styles] ... */
+                #optionsContainer {
+                    background-color: #F8FAFC;
+                    border-radius: 15px;
+                    border: 1px solid #E2E8F0;
+                }
+                #optionGroup {
+                    background-color: white;
+                    border-radius: 10px;
+                    border: 1px solid #E2E8F0;
+                    padding: 20px;
+                }
+                #optionTitle {
+                    color: #1E293B;
+                    font-size: 18px;
+                    font-weight: bold;
+                    margin-bottom: 15px;
+                }
+                #dateRangeButton, #formatButton {
+                    background-color: white;
+                    border: 2px solid #E2E8F0;
+                    border-radius: 8px;
+                    padding: 10px 20px;
+                    color: #4A5568;
+                }
+                #dateRangeButton:checked, #formatButton:checked {
+                    background-color: #4F46E5;
+                    color: white;
+                    border-color: #4F46E5;
+                }
+                QCheckBox {
+                    color: #4A5568;
+                    font-size: 14px;
+                    padding: 5px;
+                }
+                QCheckBox::indicator {
+                    width: 18px;
+                    height: 18px;
+                }
+                #refreshButton {
+                    background-color: #F1F5F9;
+                    border: none;
+                    border-radius: 5px;
+                    padding: 8px 15px;
+                    color: #4A5568;
+                }
+                #refreshButton:hover {
+                    background-color: #E2E8F0;
+                }
+                #exportButton {
+                    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                        stop:0 #4F46E5, stop:1 #7C3AED);
+                    color: white;
+                    border: none;
+                    border-radius: 25px;
+                    font-weight: bold;
+                }
+                #exportButton:hover {
+                    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                        stop:0 #4338CA, stop:1 #6D28D9);
+                }
+            """)
+        else:
+            self.setStyleSheet("""
+                /* ... [Previous dark theme styles] ... */
+                #optionsContainer {
+                    background-color: #0F172A;
+                    border-radius: 15px;
+                    border: 1px solid #2D3748;
+                }
+                #optionGroup {
+                    background-color: #1E293B;
+                    border-radius: 10px;
+                    border: 1px solid #2D3748;
+                    padding: 20px;
+                }
+                #optionTitle {
+                    color: white;
+                    font-size: 18px;
+                    font-weight: bold;
+                    margin-bottom: 15px;
+                }
+                #dateRangeButton, #formatButton {
+                    background-color: #1E293B;
+                    border: 2px solid #2D3748;
+                    border-radius: 8px;
+                    padding: 10px 20px;
+                    color: #E2E8F0;
+                }
+                #dateRangeButton:checked, #formatButton:checked {
+                    background-color: #4F46E5;
+                    color: white;
+                    border-color: #4F46E5;
+                }
+                QCheckBox {
+                    color: #E2E8F0;
+                    font-size: 14px;
+                    padding: 5px;
+                }
+                QCheckBox::indicator {
+                    width: 18px;
+                    height: 18px;
+                }
+                #refreshButton {
+                    background-color: #2D3748;
+                    border: none;
+                    border-radius: 5px;
+                    padding: 8px 15px;
+                    color: #E2E8F0;
+                }
+                #refreshButton:hover {
+                    background-color: #374151;
+                }
+                #exportButton {
+                    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                        stop:0 #4F46E5, stop:1 #7C3AED);
+                    color: white;
+                    border: none;
+                    border-radius: 25px;
+                    font-weight: bold;
+                }
+                #exportButton:hover {
+                    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                        stop:0 #4338CA, stop:1 #6D28D9);
+                }
+            """)
+
+    def return_to_home(self):
+        self.close()
+        if self.parent:
+            self.parent.show()
+                    
+                    
 class MCQHistoryPage(QMainWindow):
     def __init__(self, parent=None, is_light_mode=False):
         super().__init__(parent)
@@ -1172,7 +1974,18 @@ class MCQHomePage(QMainWindow):
                 action.triggered.connect(self.open_profile)
             elif action.text() == "📊 MCQ History":
                 action.triggered.connect(self.open_mcq_history)
+            elif action.text() == "💾 Export Results":
+                action.triggered.connect(self.open_export_results)
+            elif action.text() == "📞 Contact":
+                action.triggered.connect(self.open_contact)
 
+   def open_contact(self):
+        self.contact_page = ContactPage(self, self.theme_toggle.isChecked())
+        self.contact_page.showFullScreen()
+
+   def open_export_results(self):
+        self.export_results_page = ExportResultsPage(self, self.theme_toggle.isChecked())
+        self.export_results_page.showFullScreen()
    def open_mcq_history(self):
         self.mcq_history_page = MCQHistoryPage(self, self.theme_toggle.isChecked())
         self.mcq_history_page.showFullScreen()
