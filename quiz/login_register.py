@@ -2,13 +2,15 @@ from data_handler import read_users,write_users
 import hashlib
 from User import User
 from take_test import takeTest
+import re
 
 
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
 def is_valid_email(email):
-    return True #todo
+    email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    return bool(re.match(email_regex, email))
 
 def verify_password_length(password):
     return bool(len(password)>8)
@@ -81,6 +83,7 @@ def main():
 
                 subject = input("Enter the subject for the test: ")
                 # -------------------------------- HANOUNI  🚜🦖🦕🐇---------------------------------------#
+                # on doit verifier ila dekhel khalouta
                 test_instance = takeTest(result, subject)
 
                 questions = test_instance.get_questions()
