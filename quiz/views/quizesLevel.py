@@ -197,7 +197,7 @@ class CategoryCard(QFrame):
         
         layout.addLayout(right_section, stretch=1)
 
-class MCQHomePage(QMainWindow):
+class quizesLevel(QMainWindow):
     
     def setup_themes(self):
         self.dark_theme = {
@@ -475,6 +475,6 @@ if __name__ == '__main__':
     font_db.setFamily("Segoe UI")
     app.setFont(font_db)
     
-    window = MCQHomePage()
+    window = quizesLevel()
     window.show()
     sys.exit(app.exec_())

@@ -43,6 +43,18 @@ class MCQPage(QMainWindow):
                 "correct": 1,
                 "explanation": "Stack uses Last In First Out (LIFO) principle."
             },
+            {
+                "question": "What is the time complexity of binary search?",
+                "options": ["O(n)", "O(log n)", "O(n log n)", "O(n²)"],
+                "correct": 1,
+                "explanation": "Binary search has a time complexity of O(log n) as it divides the search space in half with each iteration."
+            },
+            {
+                "question": "Which data structure uses LIFO?",
+                "options": ["Queue", "Stack", "Tree", "Graph"],
+                "correct": 1,
+                "explanation": "Stack uses Last In First Out (LIFO) principle."
+            }
             # Add more questions as needed
         ]
         self.total_questions = len(self.questions)
