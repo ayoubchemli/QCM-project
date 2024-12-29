@@ -1,0 +1,91 @@
+{
+    "id": 4,
+    "title": "Backend Development",
+    "description": "Challenge yourself with questions about server-side programming, databases, and APIs.",
+    "questions_count": 8,
+    "time_estimate": "35 mins",
+    "difficulty": "Intermediate",
+    "is_new": false,
+    "questions": [
+        {
+            "question": "Which of the following is a popular backend programming language?",
+            "answers": [
+                "Python",
+                "JavaScript",
+                "HTML",
+                "CSS"
+            ],
+            "correctAnswer": 0
+        },
+        {
+            "question": "What is the primary purpose of a REST API?",
+            "answers": [
+                "To manage databases",
+                "To send data between server and client using HTTP methods",
+                "To build user interfaces",
+                "To authenticate users"
+            ],
+            "correctAnswer": 1
+        },
+        {
+            "question": "Which HTTP method is used to send data to the server to create a resource?",
+            "answers": [
+                "GET",
+                "POST",
+                "PUT",
+                "DELETE"
+            ],
+            "correctAnswer": 1
+        },
+        {
+            "question": "Which database is known as a NoSQL database?",
+            "answers": [
+                "MySQL",
+                "PostgreSQL",
+                "MongoDB",
+                "SQLite"
+            ],
+            "correctAnswer": 2
+        },
+        {
+            "question": "What is the purpose of the 'Express.js' framework in backend development?",
+            "answers": [
+                "To create user interfaces",
+                "To manage data on the frontend",
+                "To handle routing and middleware in Node.js applications",
+                "To style HTML pages"
+            ],
+            "correctAnswer": 2
+        },
+        {
+            "question": "Which of the following is a common use of the 'Node.js' runtime environment?",
+            "answers": [
+                "To build interactive UIs",
+                "To run server-side JavaScript",
+                "To manage databases",
+                "To create static websites"
+            ],
+            "correctAnswer": 1
+        },
+        {
+            "question": "What does the term 'middleware' refer to in a backend context?",
+            "answers": [
+                "The layer between the frontend and backend that processes requests",
+                "The server configuration for databases",
+                "The frontend components used to display data",
+                "The data sent between server and client"
+            ],
+            "correctAnswer": 0
+        },
+        {
+            "question": "Which of the following is a popular method for storing user authentication data securely in backend development?",
+            "answers": [
+                "Plain text",
+                "Base64 encoding",
+                "Hashing with salt",
+                "Encrypting with AES"
+            ],
+            "correctAnswer": 2
+        }
+    ]
+}
