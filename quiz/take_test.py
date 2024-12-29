@@ -2,15 +2,16 @@ from data_handler import *
 from Score import Score
 
 class takeTest:
-    def __init__(self,user,subject):
+    def __init__(self, user, course, category):
         self.user = user
-        self.subject = subject
+        self.course = course
+        self.category = category
         self.list_of_answers=[]
         self.list_of_correct_answers=self.get_correct_answers()
         self.current_test_score=0
 
     def get_questions(self):
-        return read_questions(self.subject)
+        return read_questions(self.course, self.category)
 
     def get_number_of_questions(self):
         return len(self.get_questions())
@@ -20,7 +21,7 @@ class takeTest:
         questions = self.get_questions()
         return [question['correctAnswer'] for question in questions]
 
-    def set_list_of_answers(self, list_of_answers) :
+    def set_list_of_answers(self, list_of_answers):
         self.list_of_answers=list_of_answers.copy()
         self.current_test_score=self.calculate_score_in_percentage()
         self.save_score()
@@ -44,7 +45,7 @@ class takeTest:
 
     def save_score(self):
         """Save the score to the user's profile."""
-        score = Score(self.subject, self.current_test_score)
+        score = Score(self.course, self.category, self.current_test_score)
         self.user.scores.append(score)
         users = read_users()
 

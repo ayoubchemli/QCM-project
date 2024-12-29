@@ -19,24 +19,25 @@ class User:
             "email": self.email,
             "username": self.username,
             "password": self.password,
-            "scores": [score.to_dict() for score in self.scores]
+            "scores": [Score(score.course, score.category, score.score).to_dict() for score in self.scores]
         }
 
     @staticmethod
     def from_dict(data):
         """Create a User instance from a dictionary."""
-        scores = [Score(score_data['subject'], score_data['points']) for score_data in
+        scores = [Score(score_data['course'], score_data['category'], score_data['points']) for score_data in
                   data['scores']]
         return User(data['fullname'], data['email'], data['username'], data['password'], scores)
 
 
-    def add_scores(self, subject,points):
-        return #todo
+    def add_scores(self, course, category, points):
+        """Add a new score to the user's score list."""
+        # If the course with same category doesn't exist, add a new Score object
+        self.scores.append(Score(course, category, points))
 
 
-    def viwe_scores(self):
+    def view_scores(self):
         return self.scores
-    #todo chakib
 
 
 
