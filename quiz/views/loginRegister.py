@@ -228,12 +228,11 @@ class MCQApp(QMainWindow):
         registration_page = QWidget()
         layout = QVBoxLayout(registration_page)
         layout.setAlignment(Qt.AlignCenter)
-        layout.setSpacing(40)
+        layout.setSpacing(15)
         
-        # Create glass-morphism container with enhanced styling
+        # Create glass-morphism container
         container = QFrame()
-        self.container = container  # Store it as class attribute
-
+        self.container = container
         container.setObjectName("glassContainer")
         container.setStyleSheet("""
             #glassContainer {
@@ -252,91 +251,118 @@ class MCQApp(QMainWindow):
         shadow.setColor(QColor(0, 0, 0, 80))
         container.setGraphicsEffect(shadow)
         
-        container_layout = QVBoxLayout(container)
-        self.container_layout = container_layout  # Store it as class attribute
-        container_layout.setSpacing(25)
+        # Main container layout is now horizontal
+        container_layout = QHBoxLayout(container)
+        self.container_layout = container_layout
         container_layout.setContentsMargins(40, 40, 40, 40)
+        container_layout.setSpacing(30)
+
+        # Left column for form inputs
+        left_column = QVBoxLayout()
+        left_column.setSpacing(10)
         
-        # Add error message container at the top
-        self.error_container = QFrame()
-        self.error_layout = QVBoxLayout(self.error_container)
-        self.error_container.hide()
-        
-        # Title section with enhanced animation
+        # Title section
         title_label = QLabel("Create Account")
-        title_label.setFont(QFont('Poppins', 36, QFont.Bold))
+        title_label.setFont(QFont('Poppins', 32, QFont.Bold))
         title_label.setStyleSheet("color: white;")
-        title_label.setAlignment(Qt.AlignCenter)
-        
-        # Add fade-in animation for title
-        title_animation = QPropertyAnimation(title_label, b"windowOpacity")
-        title_animation.setDuration(1000)
-        title_animation.setStartValue(0)
-        title_animation.setEndValue(1)
-        title_animation.start()
+        title_label.setAlignment(Qt.AlignLeft)
         
         subtitle_label = QLabel("Join Our Learning Community")
-        subtitle_label.setFont(QFont('Poppins', 16))
+        subtitle_label.setFont(QFont('Poppins', 14))
         subtitle_label.setStyleSheet("color: rgba(255, 255, 255, 0.8);")
-        subtitle_label.setAlignment(Qt.AlignCenter)
+        subtitle_label.setAlignment(Qt.AlignLeft)
         
-        # Input fields with enhanced validation
+        # Input fields container
+        inputs_container = QFrame()
+        inputs_layout = QVBoxLayout(inputs_container)
+        inputs_layout.setSpacing(10)
+        inputs_layout.setContentsMargins(0, 0, 0, 0)
+        
+        # Create input field containers
         # Full Name
         fullname_container = QFrame()
-        fullname_layout = QHBoxLayout(fullname_container)
+        fullname_layout = QVBoxLayout(fullname_container)
         fullname_layout.setContentsMargins(0, 0, 0, 0)
+        fullname_layout.setSpacing(3)
         
+        fullname_label = QLabel("Full Name")
+        fullname_label.setFont(QFont('Poppins', 12))
+        fullname_label.setStyleSheet("color: white;")
+        
+        fullname_input_container = QHBoxLayout()
         fullname_icon = QLabel()
         fullname_icon.setPixmap(QIcon(":/icons/user.png").pixmap(24, 24))
-        
         self.fullname_input = EnhancedFancyLineEdit("Enter your full name", "fullname")
-        self.fullname_input.setMaxLength(100)
         
-        fullname_layout.addWidget(fullname_icon)
-        fullname_layout.addWidget(self.fullname_input)
+        fullname_input_container.addWidget(fullname_icon)
+        fullname_input_container.addWidget(self.fullname_input)
+        
+        fullname_layout.addWidget(fullname_label)
+        fullname_layout.addLayout(fullname_input_container)
         
         # Email
         email_container = QFrame()
-        email_layout = QHBoxLayout(email_container)
+        email_layout = QVBoxLayout(email_container)
         email_layout.setContentsMargins(0, 0, 0, 0)
+        email_layout.setSpacing(3)
         
+        email_label = QLabel("Email Address")
+        email_label.setFont(QFont('Poppins', 12))
+        email_label.setStyleSheet("color: white;")
+        
+        email_input_container = QHBoxLayout()
         email_icon = QLabel()
         email_icon.setPixmap(QIcon(":/icons/email.png").pixmap(24, 24))
+        self.email_input = EnhancedFancyLineEdit("Enter your email address", "email")
         
-        self.email_input = EnhancedFancyLineEdit("Enter your email", "email")
-        self.email_input.setMaxLength(255)
+        email_input_container.addWidget(email_icon)
+        email_input_container.addWidget(self.email_input)
         
-        email_layout.addWidget(email_icon)
-        email_layout.addWidget(self.email_input)
+        email_layout.addWidget(email_label)
+        email_layout.addLayout(email_input_container)
         
         # Username
         username_container = QFrame()
-        username_layout = QHBoxLayout(username_container)
+        username_layout = QVBoxLayout(username_container)
         username_layout.setContentsMargins(0, 0, 0, 0)
+        username_layout.setSpacing(3)
         
+        username_label = QLabel("Username")
+        username_label.setFont(QFont('Poppins', 12))
+        username_label.setStyleSheet("color: white;")
+        
+        username_input_container = QHBoxLayout()
         username_icon = QLabel()
         username_icon.setPixmap(QIcon(":/icons/user.png").pixmap(24, 24))
-        
         self.reg_username_input = EnhancedFancyLineEdit("Choose a username", "username")
-        self.reg_username_input.setMaxLength(50)
         
-        username_layout.addWidget(username_icon)
-        username_layout.addWidget(self.reg_username_input)
+        username_input_container.addWidget(username_icon)
+        username_input_container.addWidget(self.reg_username_input)
+        
+        username_layout.addWidget(username_label)
+        username_layout.addLayout(username_input_container)
         
         # Password
         password_container = QFrame()
-        password_layout = QHBoxLayout(password_container)
+        password_layout = QVBoxLayout(password_container)
         password_layout.setContentsMargins(0, 0, 0, 0)
+        password_layout.setSpacing(3)
         
+        password_label = QLabel("Password")
+        password_label.setFont(QFont('Poppins', 12))
+        password_label.setStyleSheet("color: white;")
+        
+        password_input_container = QHBoxLayout()
         password_icon = QLabel()
         password_icon.setPixmap(QIcon(":/icons/lock.png").pixmap(24, 24))
-        
         self.reg_password_input = EnhancedFancyLineEdit("Create a password", "password")
         self.reg_password_input.setEchoMode(QLineEdit.Password)
-        self.reg_password_input.setMaxLength(128)
         
-        password_layout.addWidget(password_icon)
-        password_layout.addWidget(self.reg_password_input)
+        password_input_container.addWidget(password_icon)
+        password_input_container.addWidget(self.reg_password_input)
+        
+        password_layout.addWidget(password_label)
+        password_layout.addLayout(password_input_container)
         
         # Password Strength Indicator
         self.password_strength = PasswordStrengthIndicator()
@@ -344,29 +370,38 @@ class MCQApp(QMainWindow):
         
         # Confirm Password
         confirm_password_container = QFrame()
-        confirm_password_layout = QHBoxLayout(confirm_password_container)
+        confirm_password_layout = QVBoxLayout(confirm_password_container)
         confirm_password_layout.setContentsMargins(0, 0, 0, 0)
+        confirm_password_layout.setSpacing(3)
         
+        confirm_password_label = QLabel("Confirm Password")
+        confirm_password_label.setFont(QFont('Poppins', 12))
+        confirm_password_label.setStyleSheet("color: white;")
+        
+        confirm_password_input_container = QHBoxLayout()
         confirm_password_icon = QLabel()
         confirm_password_icon.setPixmap(QIcon(":/icons/lock.png").pixmap(24, 24))
-        
         self.confirm_password_input = EnhancedFancyLineEdit("Confirm your password")
         self.confirm_password_input.setEchoMode(QLineEdit.Password)
-        self.confirm_password_input.setMaxLength(128)
         
-        confirm_password_layout.addWidget(confirm_password_icon)
-        confirm_password_layout.addWidget(self.confirm_password_input)
+        confirm_password_input_container.addWidget(confirm_password_icon)
+        confirm_password_input_container.addWidget(self.confirm_password_input)
         
-        # Add real-time password match validation
-        def check_passwords_match(text):
-            if self.confirm_password_input.text():
-                passwords_match = self.reg_password_input.text() == self.confirm_password_input.text()
-                self.confirm_password_input.update_validation_style(passwords_match)
-                
-        self.reg_password_input.textChanged.connect(check_passwords_match)
-        self.confirm_password_input.textChanged.connect(check_passwords_match)
+        confirm_password_layout.addWidget(confirm_password_label)
+        confirm_password_layout.addLayout(confirm_password_input_container)
         
-        # Register Button with enhanced animation
+        # Add all inputs to the inputs container
+        inputs_layout.addWidget(fullname_container)
+        inputs_layout.addWidget(email_container)
+        inputs_layout.addWidget(username_container)
+        inputs_layout.addWidget(password_container)
+        inputs_layout.addWidget(self.password_strength)
+        inputs_layout.addWidget(confirm_password_container)
+        
+        # Buttons at the bottom
+        buttons_container = QVBoxLayout()
+        buttons_container.setSpacing(15)
+        
         register_button = AnimatedButton("Create Account")
         register_button.setFont(QFont('Poppins', 14, QFont.Bold))
         register_button.setStyleSheet("""
@@ -377,7 +412,7 @@ class MCQApp(QMainWindow):
                 padding: 15px;
                 border: none;
                 border-radius: 10px;
-                min-width: 250px;
+                min-width: 200px;
             }
             QPushButton:hover {
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
@@ -386,7 +421,6 @@ class MCQApp(QMainWindow):
         """)
         register_button.clicked.connect(self.handle_registration)
         
-        # Back to Login Button
         back_button = AnimatedButton("Already have an account? Login here")
         back_button.setFont(QFont('Poppins', 12))
         back_button.setStyleSheet("""
@@ -405,23 +439,68 @@ class MCQApp(QMainWindow):
         """)
         back_button.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(0))
         
-        # Add all elements to container
-        container_layout.addWidget(title_label)
-        container_layout.addWidget(subtitle_label)
-        container_layout.addWidget(self.error_container)
-        container_layout.addWidget(fullname_container)
-        container_layout.addWidget(email_container)
-        container_layout.addWidget(username_container)
-        container_layout.addWidget(password_container)
-        container_layout.addWidget(self.password_strength)
-        container_layout.addWidget(confirm_password_container)
-        container_layout.addWidget(register_button, alignment=Qt.AlignCenter)
-        container_layout.addWidget(back_button, alignment=Qt.AlignCenter)
+        buttons_container.addWidget(register_button, alignment=Qt.AlignCenter)
+        buttons_container.addWidget(back_button, alignment=Qt.AlignCenter)
+        
+        # Add elements to left column
+        left_column.addWidget(title_label)
+        left_column.addWidget(subtitle_label)
+        left_column.addSpacing(20)
+        left_column.addWidget(inputs_container)
+        left_column.addStretch()
+        left_column.addLayout(buttons_container)
+        
+        # Right column for validation messages
+        right_column = QVBoxLayout()
+        right_column.setSpacing(15)
+        
+        # Validation status container
+        self.validation_container = QFrame()
+        self.validation_container.setStyleSheet("""
+            QFrame {
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 15px;
+                padding: 20px;
+                min-width: 300px;
+            }
+        """)
+        validation_layout = QVBoxLayout(self.validation_container)
+        
+        validation_title = QLabel("Registration Status")
+        validation_title.setFont(QFont('Poppins', 16, QFont.Bold))
+        validation_title.setStyleSheet("color: white;")
+        
+        self.validation_list = QVBoxLayout()
+        self.validation_list.setSpacing(10)
+        
+        validation_layout.addWidget(validation_title)
+        validation_layout.addLayout(self.validation_list)
+        validation_layout.addStretch()
+        
+        # Error container
+        self.error_container = QFrame()
+        self.error_layout = QVBoxLayout(self.error_container)
+        self.error_container.hide()
+        
+        # Add to right column
+        right_column.addWidget(self.validation_container)
+        right_column.addWidget(self.error_container)
+        right_column.addStretch()
+        
+        # Add both columns to container
+        left_widget = QWidget()
+        left_widget.setLayout(left_column)
+        right_widget = QWidget()
+        right_widget.setLayout(right_column)
+        
+        # Set the ratio of left to right columns (60:40)
+        container_layout.addWidget(left_widget, 60)
+        container_layout.addWidget(right_widget, 40)
         
         # Add container to main layout
         layout.addWidget(container)
         
-        # Footer with heart animation
+        # Footer
         footer_label = QLabel("© 2024 USTHB Computer Science. Made with ❤️")
         footer_label.setFont(QFont('Poppins', 10))
         footer_label.setStyleSheet("color: rgba(255, 255, 255, 0.7);")
@@ -474,28 +553,37 @@ class MCQApp(QMainWindow):
     def show_error_messages(self, messages):
         self.clear_error_messages()
         
-        error_frame = QFrame()
-        error_frame.setStyleSheet("""
-            QFrame {
-                background: rgba(255, 82, 82, 0.1);
-                border: 1px solid #FF5252;
-                border-radius: 5px;
-                padding: 10px;
-            }
-        """)
-        
-        error_layout = QVBoxLayout(error_frame)
-        
         for message in messages:
-            error_label = QLabel(f"• {message}")
+            error_frame = QFrame()
+            error_frame.setStyleSheet("""
+                QFrame {
+                    background: rgba(255, 82, 82, 0.1);
+                    border-left: 4px solid #FF5252;
+                    border-radius: 5px;
+                    padding: 12px;
+                    margin-bottom: 8px;
+                }
+            """)
+            
+            error_layout = QHBoxLayout(error_frame)
+            error_layout.setContentsMargins(12, 8, 12, 8)
+            
+            icon_label = QLabel("⚠️")
+            icon_label.setStyleSheet("font-size: 16px;")
+            
+            error_label = QLabel(message)
             error_label.setStyleSheet("""
                 color: #FF5252;
                 font-size: 14px;
                 font-weight: bold;
             """)
-            error_layout.addWidget(error_label)
+            error_label.setWordWrap(True)
             
-        self.error_layout.addWidget(error_frame)
+            error_layout.addWidget(icon_label)
+            error_layout.addWidget(error_label, 1)
+            
+            self.error_layout.addWidget(error_frame)
+        
         self.error_container.show()
 
     def clear_error_messages(self):

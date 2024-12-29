@@ -3,7 +3,6 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 
-# TODO : ayoubchemli (💾 Export Results + password field light theme)
 
 class ContactPage(QMainWindow):
     def __init__(self, parent=None, is_light_mode=False):
@@ -31,7 +30,7 @@ class ContactPage(QMainWindow):
         header_layout.setSpacing(10)  # Added spacing control
         
         back_button = HoverButton("← Return to Home")
-        back_button.setFixedWidth(150)  # Reduced width
+        back_button.setFixedWidth(200)  
         back_button.clicked.connect(self.return_to_home)
         
         title = AnimatedLabel("Contact Us")
@@ -422,7 +421,7 @@ class ExportResultsPage(QMainWindow):
         header_layout.setSpacing(15)
         
         back_button = HoverButton("← Return to Home")
-        back_button.setFixedWidth(150)  # Reduced width
+        back_button.setFixedWidth(200)  # Reduced width
         back_button.clicked.connect(self.return_to_home)
         
         title = AnimatedLabel("Export Results")
@@ -1096,8 +1095,9 @@ class MCQHistoryPage(QMainWindow):
             
             
 class PasswordField(QFrame):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, is_light_mode=False):
         super().__init__(parent)
+        self.is_light_mode = is_light_mode
         self.setup_ui()
         self.setup_connections()
 
@@ -1211,28 +1211,32 @@ class PasswordField(QFrame):
             if req.property("met"):
                 req.setStyleSheet("color: #10B981; font-size: 14px;")  # Green
             else:
-                req.setStyleSheet("color: #6B7280; font-size: 14px;")  # Gray
+                req.setStyleSheet(f"color: {'#64748B' if self.is_light_mode else '#94A3B8'}; font-size: 14px;")
+
         
         # Update strength indicator
         self.strength_bar.setValue(score)
         
         # Update strength label
-        if score < 40:
+        if score <= 20:
             strength_text = "Weak"
             strength_color = "#EF4444"  # Red
-        elif score < 80:
+        elif score <= 60:
             strength_text = "Medium"
             strength_color = "#F59E0B"  # Yellow
-        else:
+        elif score <= 80:
             strength_text = "Strong"
             strength_color = "#10B981"  # Green
+        else:
+            strength_text = "very Strong"
+            strength_color = "#0fa900"  # DARK Green
             
         self.strength_label.setText(strength_text)
         self.strength_label.setStyleSheet(f"color: {strength_color}; font-size: 14px; font-weight: bold;")
         self.strength_bar.setStyleSheet(f"""
             QProgressBar {{
                 border-radius: 4px;
-                background-color: #E2E8F0;
+                background-color: {'#F8FAFC' if self.is_light_mode else '#0F172A'};
             }}
             QProgressBar::chunk {{
                 border-radius: 4px;
@@ -1247,75 +1251,140 @@ class PasswordField(QFrame):
         self.password_input.setText(password)
 
     def apply_styles(self):
-        self.setStyleSheet("""
-            QFrame {
-                background: transparent;
-            }
-            
-            #passwordInput {
-                padding: 12px 15px;
-                border: 2px solid #2D3748;
-                border-radius: 10px;
-                font-size: 16px;
-                background-color: #1E293B;
-                min-width: 300px;
-                color: white;
-            }
-            
-            #passwordInput:focus {
-                border-color: #4F46E5;
-            }
-            
-            #togglePassword {
-                background-color: #1E293B;
-                border: 2px solid #2D3748;
-                border-radius: 10px;
-                padding: 5px;
-                font-size: 20px;
-                margin-left: 10px;
-                color: white;
-            }
-            
-            #togglePassword:hover {
-                background-color: #2D3748;
-                border-color: #4F46E5;
-            }
-            
-            #strengthBar {
-                border-radius: 4px;
-                background-color: #0F172A;
-                min-width: 200px;
-                border: 1px solid #2D3748;
-                height: 8px;
-            }
-            
-            #strengthLabel {
-                font-size: 14px;
-                font-weight: bold;
-                margin-left: 15px;
-                min-width: 100px;
-                color: #E2E8F0;
-            }
-            
-            #requirement {
-                font-size: 14px;
-                padding: 3px 0;
-                color: #94A3B8;
-            }
-            
-            #requirement[met="true"] {
-                color: #4F46E5;
-            }
-        """)
+        if self.is_light_mode:
+            # Light theme styles
+            self.setStyleSheet("""
+                QFrame {
+                    background: transparent;
+                }
+                
+                #passwordInput {
+                    padding: 12px 15px;
+                    border: 2px solid #E2E8F0;
+                    border-radius: 10px;
+                    font-size: 16px;
+                    background-color: white;
+                    min-width: 300px;
+                    color: #1E293B;
+                }
+                
+                #passwordInput:focus {
+                    border-color: #4F46E5;
+                }
+                
+                #togglePassword {
+                    background-color: white;
+                    border: 2px solid #E2E8F0;
+                    border-radius: 10px;
+                    padding: 5px;
+                    font-size: 20px;
+                    margin-left: 10px;
+                    color: #1E293B;
+                }
+                
+                #togglePassword:hover {
+                    background-color: #F8FAFC;
+                    border-color: #4F46E5;
+                }
+                
+                #strengthBar {
+                    border-radius: 4px;
+                    background-color: #F8FAFC;
+                    min-width: 200px;
+                    border: 1px solid #E2E8F0;
+                    height: 8px;
+                }
+                
+                #strengthLabel {
+                    font-size: 14px;
+                    font-weight: bold;
+                    margin-left: 15px;
+                    min-width: 100px;
+                    color: #1E293B;
+                }
+                
+                #requirement {
+                    font-size: 14px;
+                    padding: 3px 0;
+                    color: #64748B;
+                }
+                
+                #requirement[met="true"] {
+                    color: #10B981;
+                }
+            """)
+        else:
+            # Dark theme styles
+            self.setStyleSheet("""
+                QFrame {
+                    background: transparent;
+                }
+                
+                #passwordInput {
+                    padding: 12px 15px;
+                    border: 2px solid #2D3748;
+                    border-radius: 10px;
+                    font-size: 16px;
+                    background-color: #1E293B;
+                    min-width: 300px;
+                    color: white;
+                }
+                
+                #passwordInput:focus {
+                    border-color: #4F46E5;
+                }
+                
+                #togglePassword {
+                    background-color: #1E293B;
+                    border: 2px solid #2D3748;
+                    border-radius: 10px;
+                    padding: 5px;
+                    font-size: 20px;
+                    margin-left: 10px;
+                    color: white;
+                }
+                
+                #togglePassword:hover {
+                    background-color: #2D3748;
+                    border-color: #4F46E5;
+                }
+                
+                #strengthBar {
+                    border-radius: 4px;
+                    background-color: #0F172A;
+                    min-width: 200px;
+                    border: 1px solid #2D3748;
+                    height: 8px;
+                }
+                
+                #strengthLabel {
+                    font-size: 14px;
+                    font-weight: bold;
+                    margin-left: 15px;
+                    min-width: 100px;
+                    color: #E2E8F0;
+                }
+                
+                #requirement {
+                    font-size: 14px;
+                    padding: 3px 0;
+                    color: #94A3B8;
+                }
+                
+                #requirement[met="true"] {
+                    color: #10B981;
+                }
+            """)
+
 
 class ProfilePage(QMainWindow):
     def __init__(self, parent=None, is_light_mode=False):
         super().__init__(parent)
         self.parent = parent
-        self.setup_ui()
+        self.setup_ui(is_light_mode)
         self.apply_theme(is_light_mode)
 
-    def setup_ui(self):
+    def setup_ui(self, theme):
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
         main_layout = QVBoxLayout(central_widget)
@@ -1413,7 +1482,7 @@ class ProfilePage(QMainWindow):
             }
         """)
 
-        self.password_field = PasswordField()
+        self.password_field = PasswordField(is_light_mode=theme)
 
         password_layout.addWidget(password_label)
         password_layout.addWidget(self.password_field)
