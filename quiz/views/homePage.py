@@ -1,4 +1,5 @@
 import sys
+import re
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
@@ -1619,8 +1620,119 @@ class ProfilePage(QMainWindow):
         save_button.setText("Saving...")
         save_button.setEnabled(False)
         
-        # Simulate saving delay
-        QTimer.singleShot(1500, lambda: self.show_save_success(save_button, original_text))
+        # Get all the field values
+        profile_data = {
+            'full_name': self.fields['full_name'].text(),
+            'email': self.fields['email'].text(),
+            'username': self.fields['username'].text(),
+            'password': self.password_field.get_password() if self.password_field.get_password() else None
+        }
+        
+        # Validate fields
+        if not self.validate_fields(profile_data):
+            save_button.setText(original_text)
+            save_button.setEnabled(True)
+            return
+        
+        try:
+            # TODO : Here you would typically:
+            # 1. Connect to your database
+            # 2. Update the user's profile
+            # 3. Handle any potential errors
+            
+            #note:
+            
+            # Example database update (replace with your actual database code):
+            # self.db.update_user_profile(user_id, profile_data)
+            
+            # Simulate network delay
+            QTimer.singleShot(1500, lambda: self.show_save_success(save_button, original_text))
+            
+        except Exception as e:
+            # Show error message
+            msg = QMessageBox(self)
+            msg.setWindowTitle("Error")
+            msg.setText(f"Failed to save changes: {str(e)}")
+            msg.setIcon(QMessageBox.Critical)
+            msg.setStyleSheet("""
+                QMessageBox {
+                    background-color: #1E293B;
+                }
+                QMessageBox QLabel {
+                    color: white;
+                    font-size: 14px;
+                    padding: 10px;
+                }
+                QPushButton {
+                    background-color: #EF4444;
+                    color: white;
+                    border: none;
+                    border-radius: 5px;
+                    padding: 8px 16px;
+                    font-weight: bold;
+                }
+                QPushButton:hover {
+                    background-color: #DC2626;
+                }
+            """)
+            msg.exec_()
+            
+            # Reset button state
+            save_button.setText(original_text)
+            save_button.setEnabled(True)
+
+    def validate_fields(self, profile_data):
+        # Validate email format
+        email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        if not re.match(email_regex, profile_data['email']):
+            self.show_error("Invalid email format")
+            return False
+        
+        # Validate required fields
+        if not profile_data['full_name'] or not profile_data['username']:
+            self.show_error("Please fill in all required fields")
+            return False
+        
+        # Validate username format (example: alphanumeric only)
+        if not profile_data['username'].isalnum():
+            self.show_error("Username must contain only letters and numbers")
+            return False
+        
+        # If password is being changed, validate it
+        if profile_data['password']:
+            if len(profile_data['password']) < 8:
+                self.show_error("Password must be at least 8 characters long")
+                return False
+        
+        return True
+
+    def show_error(self, message):
+        msg = QMessageBox(self)
+        msg.setWindowTitle("Error")
+        msg.setText(message)
+        msg.setIcon(QMessageBox.Critical)
+        msg.setStyleSheet("""
+            QMessageBox {
+                background-color: #1E293B;
+            }
+            QMessageBox QLabel {
+                color: white;
+                font-size: 14px;
+                padding: 10px;
+            }
+            QPushButton {
+                background-color: #EF4444;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                padding: 8px 16px;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: #DC2626;
+            }
+        """)
+        msg.exec_()
 
     def show_save_success(self, button, original_text):
         # Create a custom success message box
@@ -2133,6 +2245,7 @@ class MCQHomePage(QMainWindow):
 
     layout.addStretch()
     enroll_btn = HoverButton("Enroll Now")
+    enroll_btn.clicked.connect(lambda checked, t=title: self.handle_enroll(t))
     layout.addWidget(enroll_btn)
 
     shadow = QGraphicsDropShadowEffect()
@@ -2150,6 +2263,18 @@ class MCQHomePage(QMainWindow):
         }
     """)
     return card
+
+    # Add this new method to handle enrollment
+   def handle_enroll(self, course_title):
+        # TODO : Add your enrollment logic here
+        # For example:
+        print(f"Enrolling in course: {course_title}")
+        # You could:
+        # 1. Open an enrollment confirmation dialog
+        # 2. Make an API call to your backend
+        # 3. Update the database
+        # 4. Show a success message
+        # 5. Navigate to the course content
 
    def apply_theme(self, is_light_mode=False):
     theme = self.light_theme if is_light_mode else self.dark_theme

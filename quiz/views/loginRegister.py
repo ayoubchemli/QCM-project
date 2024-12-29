@@ -53,6 +53,14 @@ class EnhancedFancyLineEdit(QLineEdit):
             has_digit = any(c.isdigit() for c in text)
             has_special = any(not c.isalnum() for c in text)
             valid = len(text) >= 8 and has_digit and (has_upper or has_lower or has_special)
+        elif self.validator_type == "confirm password":
+            parent_widget = self.parent()
+            while parent_widget and not hasattr(parent_widget, 'reg_password_input'):
+                parent_widget = parent_widget.parent()
+            if parent_widget and hasattr(parent_widget, 'reg_password_input'):
+                valid = text == parent_widget.reg_password_input.text()
+            else:
+                valid = False
         elif self.validator_type == "username":
             valid = len(text) >= 4 and text.isalnum()
         else:
@@ -381,7 +389,8 @@ class MCQApp(QMainWindow):
         confirm_password_input_container = QHBoxLayout()
         confirm_password_icon = QLabel()
         confirm_password_icon.setPixmap(QIcon(":/icons/lock.png").pixmap(24, 24))
-        self.confirm_password_input = EnhancedFancyLineEdit("Confirm your password")
+        self.confirm_password_input = EnhancedFancyLineEdit("Confirm your password", "confirm password")
+
         self.confirm_password_input.setEchoMode(QLineEdit.Password)
         
         confirm_password_input_container.addWidget(confirm_password_icon)
@@ -389,6 +398,13 @@ class MCQApp(QMainWindow):
         
         confirm_password_layout.addWidget(confirm_password_label)
         confirm_password_layout.addLayout(confirm_password_input_container)
+        
+        self.reg_password_input.textChanged.connect(
+            lambda: self.confirm_password_input.validate()
+        )
+        self.confirm_password_input.textChanged.connect(
+            lambda: self.confirm_password_input.validate()
+        )
         
         # Add all inputs to the inputs container
         inputs_layout.addWidget(fullname_container)
@@ -625,37 +641,73 @@ class MCQApp(QMainWindow):
                 shake_animation.start()
 
     def complete_registration(self):
-        success_frame = QFrame()
-        success_frame.setStyleSheet("""
-            QFrame {
-                background: rgba(76, 175, 80, 0.1);
-                border: 1px solid #4CAF50;
-                border-radius: 5px;
-                padding: 10px;
-            }
-        """)
+        try:
+            # Get form data
+            fullname = self.fullname_input.text().strip()
+            email = self.email_input.text().strip()
+            username = self.reg_username_input.text().strip()
+            password = self.reg_password_input.text().strip()
+
+            # TODO: Add your database connection here
+            # Example with SQLite:
+            # import sqlite3
+            # conn = sqlite3.connect('users.db')
+            # cursor = conn.cursor()
+            
+            # TODO: Hash the password before storing
+            # Example with bcrypt:
+            # import bcrypt
+            # hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+            
+            # TODO: Insert user data into database
+            # Example SQL:
+            # cursor.execute("""
+            #     INSERT INTO users (fullname, email, username, password)
+            #     VALUES (?, ?, ?, ?)
+            # """, (fullname, email, username, hashed_password))
+            # conn.commit()
+            
+            # If registration is successful, show success message
+            success_frame = QFrame()
+            success_frame.setStyleSheet("""
+                QFrame {
+                    background: rgba(76, 175, 80, 0.1);
+                    border: 1px solid #4CAF50;
+                    border-radius: 5px;
+                    padding: 10px;
+                }
+            """)
+            
+            success_layout = QVBoxLayout(success_frame)
+            
+            success_label = QLabel("✓ Registration Successful!")
+            success_label.setStyleSheet("""
+                color: #4CAF50;
+                font-size: 18px;
+                font-weight: bold;
+            """)
+            success_layout.addWidget(success_label)
+            
+            self.error_layout.addWidget(success_frame)
+            self.error_container.show()
+            
+            # Re-enable form inputs
+            self.disable_form_inputs(False)
+            
+            # Wait 2 seconds then clear form and return to login page
+            QTimer.singleShot(2000, lambda: [
+                self.clear_form(),
+                self.stacked_widget.setCurrentIndex(0)
+            ])
+            
+        except Exception as e:
+            # Handle registration errors
+            error_message = f"Registration failed: {str(e)}"
+            self.show_error_messages([error_message])
+            self.disable_form_inputs(False)
         
-        success_layout = QVBoxLayout(success_frame)
-        
-        success_label = QLabel("✓ Registration Successful!")
-        success_label.setStyleSheet("""
-            color: #4CAF50;
-            font-size: 18px;
-            font-weight: bold;
-        """)
-        success_layout.addWidget(success_label)
-        
-        self.error_layout.addWidget(success_frame)
-        self.error_container.show()
-        
-        self.disable_form_inputs(False)
-        
-        QTimer.singleShot(2000, lambda: [
-            self.clear_form(),
-            self.stacked_widget.setCurrentIndex(0)
-        ])
-        
-        self._registration_in_progress = False
+        finally:
+            self._registration_in_progress = False
 
     def disable_form_inputs(self, disabled):
         self.fullname_input.setDisabled(disabled)
@@ -868,11 +920,81 @@ class MCQApp(QMainWindow):
         self.stacked_widget.addWidget(login_page)
         
     def handle_login(self):
-        username = self.username_input.text()
-        password = self.password_input.text()
-        if username.strip() and password.strip():
-            print(f"User {username} attempting to log in")
-            # Add your login logic here
+        username = self.username_input.text().strip()
+        password = self.password_input.text().strip()
+        
+        if not username or not password:
+            self.show_login_error("Please enter both username and password")
+            return
+            
+        try:
+            # TODO: Add your database connection here
+            # Example with SQLite:
+            # conn = sqlite3.connect('users.db')
+            # cursor = conn.cursor()
+            
+            # TODO: Fetch user data and verify password
+            # Example SQL:
+            # cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
+            # user = cursor.fetchone()
+            
+            # TODO: Verify password using the same hashing method used in registration
+            # Example with bcrypt:
+            # if user and bcrypt.checkpw(password.encode('utf-8'), user['password']):
+            #     self.login_successful(user)
+            # else:
+            #     self.show_login_error("Invalid username or password")
+            
+            # For testing, remove this line when you implement real login:
+            self.login_successful({"username": username})
+            
+        except Exception as e:
+            self.show_login_error(f"Login failed: {str(e)}")
+            
+    def login_successful(self, user):
+        """Handle successful login"""
+        # Create success message
+        success_frame = QFrame()
+        success_frame.setStyleSheet("""
+            QFrame {
+                background: rgba(76, 175, 80, 0.1);
+                border: 1px solid #4CAF50;
+                border-radius: 5px;
+                padding: 10px;
+                margin: 10px;
+            }
+        """)
+        
+        success_layout = QHBoxLayout(success_frame)
+        
+        icon_label = QLabel("✓")
+        icon_label.setStyleSheet("""
+            font-size: 16px;
+            color: #4CAF50;
+        """)
+        
+        success_label = QLabel(f"Welcome back, {user['username']}!")
+        success_label.setStyleSheet("""
+            color: #4CAF50;
+            font-size: 14px;
+            font-weight: bold;
+        """)
+        
+        success_layout.addWidget(icon_label)
+        success_layout.addWidget(success_label)
+        
+        # Add success message to layout
+        container = self.username_input.parent().parent()
+        layout = container.layout()
+        layout.insertWidget(layout.count()-2, success_frame)
+        
+        # Disable inputs during transition
+        self.username_input.setEnabled(False)
+        self.password_input.setEnabled(False)
+        
+        # TODO: Navigate to main application after successful login
+        # Example:
+        # QTimer.singleShot(1500, lambda: self.show_main_page())
 
 def main():
     app = QApplication(sys.argv)
