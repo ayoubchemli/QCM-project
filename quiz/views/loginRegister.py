@@ -52,7 +52,7 @@ class EnhancedFancyLineEdit(QLineEdit):
             has_lower = any(c.islower() for c in text)
             has_digit = any(c.isdigit() for c in text)
             has_special = any(not c.isalnum() for c in text)
-            valid = len(text) >= 8 and has_upper and has_lower and has_digit and has_special
+            valid = len(text) >= 8 and has_digit and (has_upper or has_lower or has_special)
         elif self.validator_type == "username":
             valid = len(text) >= 4 and text.isalnum()
         else:
