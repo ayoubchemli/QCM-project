@@ -1,0 +1,81 @@
+{
+    "id": 3,
+    "title": "Model Evaluation and Hyperparameter Tuning",
+    "description": "Learn about evaluating models and fine-tuning hyperparameters to improve performance.",
+    "questions_count": 7,
+    "time_estimate": "20 mins",
+    "difficulty": "Advanced",
+    "is_new": false,
+    "questions": [
+        {
+            "question": "Which method is commonly used to evaluate a machine learning model\u00e2\u20ac\u2122s performance?",
+            "answers": [
+                "Confusion matrix",
+                "Feature selection",
+                "Gradient descent",
+                "Data preprocessing"
+            ],
+            "correctAnswer": 0
+        },
+        {
+            "question": "What is cross-validation used for in machine learning?",
+            "answers": [
+                "To split data into training and test sets",
+                "To evaluate a model's generalization ability",
+                "To improve feature selection",
+                "To adjust the model\u00e2\u20ac\u2122s weights"
+            ],
+            "correctAnswer": 1
+        },
+        {
+            "question": "What is the main goal of hyperparameter tuning?",
+            "answers": [
+                "To increase the number of training data",
+                "To find the optimal parameters for a given model",
+                "To reduce the model complexity",
+                "To transform the features"
+            ],
+            "correctAnswer": 1
+        },
+        {
+            "question": "Which of the following is a commonly used method for hyperparameter tuning?",
+            "answers": [
+                "Grid search",
+                "Random forest",
+                "Naive Bayes",
+                "Support vector machines"
+            ],
+            "correctAnswer": 0
+        },
+        {
+            "question": "What is the effect of using a very high learning rate during model training?",
+            "answers": [
+                "It speeds up training without affecting accuracy.",
+                "It may cause the model to converge too quickly and miss the optimal solution.",
+                "It improves the model\u00e2\u20ac\u2122s generalization.",
+                "It makes the model less sensitive to the training data."
+            ],
+            "correctAnswer": 1
+        },
+        {
+            "question": "Which evaluation metric is used to measure how well a regression model fits the data?",
+            "answers": [
+                "Precision",
+                "Recall",
+                "R-squared",
+                "F1-score"
+            ],
+            "correctAnswer": 2
+        },
+        {
+            "question": "What is the purpose of a confusion matrix in model evaluation?",
+            "answers": [
+                "To calculate the accuracy of the model",
+                "To summarize the performance of a classification model",
+                "To assess the variance of the model",
+                "To tune the model's hyperparameters"
+            ],
+            "correctAnswer": 1
+        }
+    ]
+}

@@ -1,0 +1,91 @@
+{
+    "id": 3,
+    "title": "JavaScript Fundamentals",
+    "description": "Test your knowledge of JavaScript syntax, functions, loops, and events.",
+    "questions_count": 8,
+    "time_estimate": "30 mins",
+    "difficulty": "Beginner",
+    "is_new": true,
+    "questions": [
+        {
+            "question": "What is the correct syntax for a JavaScript function?",
+            "answers": [
+                "function myFunction() {}",
+                "function:myFunction() {}",
+                "def myFunction() {}",
+                "function => myFunction() {}"
+            ],
+            "correctAnswer": 0
+        },
+        {
+            "question": "Which of the following is NOT a JavaScript data type?",
+            "answers": [
+                "Boolean",
+                "String",
+                "Integer",
+                "Object"
+            ],
+            "correctAnswer": 2
+        },
+        {
+            "question": "What does the 'let' keyword do in JavaScript?",
+            "answers": [
+                "Declares a block-scoped variable",
+                "Declares a global-scoped variable",
+                "Declares a constant",
+                "Declares a function"
+            ],
+            "correctAnswer": 0
+        },
+        {
+            "question": "Which operator is used to assign a value to a variable in JavaScript?",
+            "answers": [
+                "=",
+                "==",
+                "===",
+                "=>"
+            ],
+            "correctAnswer": 0
+        },
+        {
+            "question": "Which event is triggered when a user clicks on an HTML element?",
+            "answers": [
+                "onclick",
+                "onmouseover",
+                "onchange",
+                "onfocus"
+            ],
+            "correctAnswer": 0
+        },
+        {
+            "question": "Which of the following is a JavaScript array method to add an item to the end of an array?",
+            "answers": [
+                "push()",
+                "shift()",
+                "unshift()",
+                "pop()"
+            ],
+            "correctAnswer": 0
+        },
+        {
+            "question": "What is the correct way to declare a JavaScript object?",
+            "answers": [
+                "var obj = {name: 'John', age: 30};",
+                "object obj = {name: 'John', age: 30};",
+                "var obj = (name: 'John', age: 30);",
+                "obj = {name: 'John', age: 30};"
+            ],
+            "correctAnswer": 0
+        },
+        {
+            "question": "Which loop will execute the code block at least once, even if the condition is false?",
+            "answers": [
+                "do...while",
+                "while",
+                "for",
+                "for...in"
+            ],
+            "correctAnswer": 0
+        }
+    ]
+}
