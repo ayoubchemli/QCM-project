@@ -6,42 +6,60 @@
         "password": "15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225",
         "scores": [
             {
-                "subject": "python",
-                "points": 1620.3078584931138,
-                "date": "2024"
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter": "Cryptography"
+                },
+                "points": 90.1,
+                "date": "2024-12-01 07:39:28"
             },
             {
-                "subject": "python",
-                "points": 372.67080745341616,
-                "date": "2024"
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter": "Python Basics"
+                },
+                "points": 72.67,
+                "date": "2024-12-06 13:35:17"
             },
             {
-                "subject": "python",
-                "points": 85.71428571428571,
-                "date": "2024"
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter": "Object-Oriented Programming"
+                },
+                "points": 85.71,
+                "date": "2024-12-11 16:28:00"
             },
             {
-                "subject": "python",
-                "points": 36.84210526315789,
-                "date": "2024"
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter": "Libraries and Frameworks"
+                },
+                "points": 36.84,
+                "date": "2024-12-13 08:19:36"
             },
             {
-                "subject": "python",
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter": "Advanced Python"
+                },
                 "points": 100.0,
-                "date": "2024"
+                "date": "2024-12-16 02:58:18"
             }
         ]
     },
     {
         "fullname": "chakib chikour hanouni",
-        "email": "schakibhad@gmail.com",
+        "email": "schakibhaddadi@gmail.com",
         "username": "schakib",
         "password": "15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225",
         "scores": [
             {
-                "subject": "python",
-                "points": 36.84210526315789,
-                "date": "2024-12-28 19:07:59"
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter": "Python Basics"
+                },
+                "points": 36.84,
+                "date": "2024-12-01 07:39:28"
             }
         ]
     },
