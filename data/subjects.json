@@ -1,0 +1,32 @@
+[
+    {
+        "title": "Web Development",
+        "description": "Learn the foundations of building dynamic and responsive web applications.",
+        "chapters": ["HTML Basics", "CSS Styling", "JavaScript Fundamentals", "Backend Development"],
+        "is_new": true
+    },
+    {
+        "title": "Machine Learning",
+        "description": "Learn the fundamentals and advanced techniques in machine learning, including supervised and unsupervised learning, model evaluation, and more.",
+        "chapters": ["Supervised Learning", "Unsupervised Learning", "Model Evaluation and Hyperparameter Tuning"],
+        "is_new": true
+    },
+    {
+        "title": "Cyber Security",
+        "description": "Learn about the fundamentals of cybersecurity, including network security, cryptography, and risk management.",
+        "chapters": ["Network Security", "Cryptography", "Risk Management and Threats"],
+        "is_new": true
+    },
+    {
+        "title": "Python Programming",
+        "description": "Learn Python from basics to advanced concepts, including data structures, algorithms, and libraries for data science and web development.",
+        "chapters": ["Python Basics", "Object-Oriented Programming", "Libraries and Frameworks", "Advanced Python"],
+        "is_new": true
+    },
+    {
+        "title": "Database",
+        "description": "Learn the principles of database design, management, and optimization, along with SQL and NoSQL databases.",
+        "chapters": ["SQL Basics", "Database Design", "NoSQL Databases", "Database Optimization"],
+        "is_new": true
+    }
+]
