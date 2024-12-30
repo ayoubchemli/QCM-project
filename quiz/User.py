@@ -1,4 +1,7 @@
 from Score import Score
+from subject import Subject
+
+
 class User:
     def __init__(self, fullname, email, username, password, scores=None):
         if scores is None:
@@ -25,16 +28,25 @@ class User:
     @staticmethod
     def from_dict(data):
         """Create a User instance from a dictionary."""
-        scores = [Score(score_data['course'], score_data['category'], score_data['points']) for score_data in
-                  data['scores']]
-        return User(data['fullname'], data['email'], data['username'], data['password'], scores)
+        scores = []
+        for score_data in data.get('scores', []):
+            subject_data = score_data.get('subject', {})
+            course = subject_data.get('course')
+            chapter_id = subject_data.get('chapter_id')
+            chapter = subject_data.get('chapter')
 
+            subject = Subject(course, chapter_id, chapter)
 
-    def add_scores(self, course, category, points):
-        """Add a new score to the user's score list."""
-        # If the course with same category doesn't exist, add a new Score object
-        self.scores.append(Score(course, category, points))
+            score = Score(subject, score_data['points'], score_data.get('date'))
+            scores.append(score.to_dict())
 
+        return User(
+            fullname=data.get('fullname', ''),
+            email=data.get('email', ''),
+            username=data.get('username', ''),
+            password=data.get('password', ''),
+            scores=scores
+        )
 
     def view_scores(self):
         return self.scores

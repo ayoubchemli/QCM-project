@@ -56,10 +56,46 @@
             {
                 "subject": {
                     "course": "Python Programming",
+                    "chapter_id": 1,
                     "chapter": "Python Basics"
                 },
                 "points": 36.84,
                 "date": "2024-12-01 07:39:28"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 0,
+                    "chapter": "Network Security"
+                },
+                "points": 36.84,
+                "date": "2024-12-01 08:39:28"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 1,
+                    "chapter": "Cryptography"
+                },
+                "points": 36.84,
+                "date": "2024-12-01 09:39:28"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter": "Risk Management and Threats"
+                },
+                "points": 98,
+                "date": "2024-12-30 14:41:55"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 2,
+                    "chapter": "Risk Management and Threats"
+                },
+                "points": 98,
+                "date": "2024-12-30 15:46:48"
             }
         ]
     },
@@ -76,5 +112,48 @@
         "username": "az",
         "password": "15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225",
         "scores": []
+    },
+    {
+        "fullname": "popey",
+        "email": "fafa@gmail.com",
+        "username": "admin",
+        "password": "ac9689e2272427085e35b9d3e3e8bed88cb3434828b43b86fc0596cad4c6e270",
+        "scores": [
+            {
+                "subject": {
+                    "course": "Database",
+                    "chapter_id": 1,
+                    "chapter": "Database Design"
+                },
+                "points": 41.66666666666667,
+                "date": "2024-12-30 15:51:10"
+            }
+        ]
+    },
+    {
+        "fullname": "titi tawata",
+        "email": "gmial.OM@gmail.com",
+        "username": "123456789",
+        "password": "15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225",
+        "scores": [
+            {
+                "subject": {
+                    "course": "Database",
+                    "chapter_id": 1,
+                    "chapter": "Database Design"
+                },
+                "points": 33.33333333333333,
+                "date": "2024-12-30 15:53:50"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 2,
+                    "chapter": "Risk Management and Threats"
+                },
+                "points": 100.0,
+                "date": "2024-12-30 16:02:22"
+            }
+        ]
     }
 ]

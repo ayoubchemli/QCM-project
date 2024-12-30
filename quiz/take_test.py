@@ -1,20 +1,28 @@
 from data_handler import *
 from Score import Score
+from subject import Subject
 
 class takeTest:
-    def __init__(self, user, course, category):
+    def __init__(self, user, subject):
         self.user = user
-        self.course = course
-        self.category = category
+        self.subject = subject
         self.list_of_answers=[]
         self.list_of_correct_answers=self.get_correct_answers()
         self.current_test_score=0
 
     def get_questions(self):
-        return read_questions(self.course, self.category)
+        """Retuns list of questions (questions+options+answer)"""
+        all_chapters = Subject.get_all_chapters_of_course(self.subject.course)
+        chapter = all_chapters[self.subject.chapter_id]
+
+        questions = chapter['questions']
+        return questions
 
     def get_number_of_questions(self):
-        return len(self.get_questions())
+        """Returns the number of questions in the current test"""
+        all_chapters = Subject.get_all_chapters_of_course(self.subject.course)
+        chapter = all_chapters[self.subject.chapter_id]
+        return chapter['questions_count']
 
     def get_correct_answers(self):
         """Return a list of correct answers."""
@@ -45,7 +53,7 @@ class takeTest:
 
     def save_score(self):
         """Save the score to the user's profile."""
-        score = Score(self.course, self.category, self.current_test_score)
+        score = Score(self.subject, self.current_test_score)
         self.user.scores.append(score)
         users = read_users()
 
@@ -54,4 +62,3 @@ class takeTest:
                 user['scores'].append(score.to_dict())
                 write_users(users)
                 return
-
