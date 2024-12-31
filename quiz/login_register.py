@@ -15,7 +15,7 @@ def is_valid_email(email):
     return bool(re.match(email_regex, email))
 
 def verify_password_length(password):
-    return bool(len(password)>8)
+    return bool(len(password)>=8)
 
 #udpos213
 def register(fullname,email,username,password):
@@ -85,7 +85,7 @@ def main():
                 print("\nAvailable courses:")
                 #------- This is for the main
                 Subject.print_all_subjects()
-                print(Subject.get_all_courses())
+                # print(Subject.get_all_courses())
 
                 course = input("\nEnter the name of the course for the test: ")
                 find = False

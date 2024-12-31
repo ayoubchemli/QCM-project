@@ -4,7 +4,7 @@ class Score:
     def __init__(self, subject, score,date=None):
         self.date =date
         self.subject = subject
-        self.score = score
+        self.score = round(score, 2)
         if self.date is None:
             self.date=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
