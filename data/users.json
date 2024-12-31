@@ -155,5 +155,75 @@
                 "date": "2024-12-30 16:02:22"
             }
         ]
+    },
+    {
+        "fullname": "adam",
+        "email": "adam@mail.com",
+        "username": "dzdm",
+        "password": "8e787b53ad557d5b8d96eca35b2de1c2eb21fd85336a9e7f21b1ff6ebac28ca3",
+        "scores": [
+            {
+                "subject": {
+                    "course": "Database",
+                    "chapter_id": 0,
+                    "chapter": "SQL Basics"
+                },
+                "points": 50.0,
+                "date": "2024-12-30 20:49:43"
+            },
+            {
+                "subject": {
+                    "course": "Database",
+                    "chapter_id": 0,
+                    "chapter": "SQL Basics"
+                },
+                "points": 50.0,
+                "date": "2024-12-30 20:53:09"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 0,
+                    "chapter": "Network Security"
+                },
+                "points": 0.0,
+                "date": "2024-12-30 20:54:09"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 0,
+                    "chapter": "Network Security"
+                },
+                "points": 37.5,
+                "date": "2024-12-30 20:54:33"
+            }
+        ]
+    },
+    {
+        "fullname": "adam belkadi",
+        "email": "adambelk@gmail.com",
+        "username": "adam",
+        "password": "d3f638ce9a9183eb0e9f98b3798513483f1badf203cc1b812b6a42c4e16ff0b3",
+        "scores": [
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 1,
+                    "chapter": "Cryptography"
+                },
+                "points": 12.5,
+                "date": "2024-12-30 21:19:59"
+            },
+            {
+                "subject": {
+                    "course": "Database",
+                    "chapter_id": 0,
+                    "chapter": "SQL Basics"
+                },
+                "points": 50.0,
+                "date": "2024-12-30 21:36:16"
+            }
+        ]
     }
 ]
