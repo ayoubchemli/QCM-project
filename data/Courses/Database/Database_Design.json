@@ -1,0 +1,130 @@
+    {
+        "title": "Database Design",
+        "description": "Test your understanding of designing efficient and normalized databases, including relationships and schemas.",
+        "questions_count": 12,
+        "time_estimate": "25 mins",
+        "difficulty": "Advanced",
+        "is_new": true,
+        "questions": [
+            {
+                "question": "What does database normalization primarily aim to achieve?",
+                "answers": [
+                    "Reduce redundancy and dependency",
+                    "Increase data retrieval speed",
+                    "Improve data security",
+                    "Reduce table size"
+                ],
+                "correctAnswer": 0
+            },
+            {
+                "question": "Which normal form eliminates transitive dependency?",
+                "answers": [
+                    "Third Normal Form (3NF)",
+                    "Second Normal Form (2NF)",
+                    "Boyce-Codd Normal Form (BCNF)",
+                    "First Normal Form (1NF)"
+                ],
+                "correctAnswer": 1
+            },
+            {
+                "question": "In a relational database, what is a 'foreign key'?",
+                "answers": [
+                    "A column that links to the primary key of another table",
+                    "A unique identifier for each record",
+                    "A column that stores unique values",
+                    "A column that stores date values"
+                ],
+                "correctAnswer": 0
+            },
+            {
+                "question": "What is a schema in a relational database?",
+                "answers": [
+                    "The structure that defines the organization of data",
+                    "A collection of related records",
+                    "A table that stores metadata",
+                    "A set of stored procedures"
+                ],
+                "correctAnswer": 3
+            },
+            {
+                "question": "Which of the following is a type of relationship in a database?",
+                "answers": [
+                    "One-to-many",
+                    "Many-to-many",
+                    "One-to-one",
+                    "All of the above"
+                ],
+                "correctAnswer": 3
+            },
+            {
+                "question": "Which of the following is a feature of a 'many-to-many' relationship?",
+                "answers": [
+                    "Requires a junction table to implement",
+                    "Involves only one table",
+                    "Is always redundant",
+                    "Cannot be implemented in SQL"
+                ],
+                "correctAnswer": 0
+            },
+            {
+                "question": "What is the purpose of indexing in a database?",
+                "answers": [
+                    "To speed up data retrieval operations",
+                    "To ensure data integrity",
+                    "To store backup copies of data",
+                    "To restrict user access to data"
+                ],
+                "correctAnswer": 2
+            },
+            {
+                "question": "Which of the following is true about a primary key?",
+                "answers": [
+                    "It uniquely identifies each record in a table",
+                    "It can contain NULL values",
+                    "It is used to link tables together",
+                    "It is not mandatory in every table"
+                ],
+                "correctAnswer": 0
+            },
+            {
+                "question": "Which of the following is a valid SQL join type?",
+                "answers": [
+                    "INNER JOIN",
+                    "LEFT JOIN",
+                    "RIGHT JOIN",
+                    "All of the above"
+                ],
+                "correctAnswer": 1
+            },
+            {
+                "question": "In a database, what is a 'transaction'?",
+                "answers": [
+                    "A sequence of operations that are executed as a single unit",
+                    "A type of database query",
+                    "A backup of data",
+                    "A method for storing large data"
+                ],
+                "correctAnswer": 1
+            },
+            {
+                "question": "Which of the following ensures that a database transaction is reliable and consistent?",
+                "answers": [
+                    "ACID properties",
+                    "Data redundancy",
+                    "SQL constraints",
+                    "Data normalization"
+                ],
+                "correctAnswer": 0
+            },
+            {
+                "question": "Which normalization form eliminates partial dependency?",
+                "answers": [
+                    "Second Normal Form (2NF)",
+                    "First Normal Form (1NF)",
+                    "Third Normal Form (3NF)",
+                    "Boyce-Codd Normal Form (BCNF)"
+                ],
+                "correctAnswer": 2
+            }
+        ]
+    }

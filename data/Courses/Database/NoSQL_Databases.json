@@ -1,0 +1,130 @@
+{
+        "title": "NoSQL Databases",
+        "description": "Test your knowledge of NoSQL databases, including key concepts like document, column-family, graph, and key-value stores.",
+        "questions_count": 12,
+        "time_estimate": "25 mins",
+        "difficulty": "Advanced",
+        "is_new": true,
+        "questions": [
+            {
+                "question": "Which of the following is a NoSQL database type?",
+                "answers": [
+                    "Document store",
+                    "Relational database",
+                    "Columnar store",
+                    "Graph database"
+                ],
+                "correctAnswer": 0
+            },
+            {
+                "question": "Which NoSQL database is known for storing data in key-value pairs?",
+                "answers": [
+                    "Redis",
+                    "MongoDB",
+                    "Cassandra",
+                    "Neo4j"
+                ],
+                "correctAnswer": 0
+            },
+            {
+                "question": "Which of the following is a key feature of a document-based NoSQL database?",
+                "answers": [
+                    "Data is stored in JSON or BSON format",
+                    "Data is stored in tables with rows and columns",
+                    "Uses SQL for querying",
+                    "Stores data in graph format"
+                ],
+                "correctAnswer": 0
+            },
+            {
+                "question": "What is the main use case for a graph database?",
+                "answers": [
+                    "Storing interconnected data",
+                    "Storing large amounts of tabular data",
+                    "Handling massive amounts of time-series data",
+                    "Managing high-velocity transactional data"
+                ],
+                "correctAnswer": 0
+            },
+            {
+                "question": "Which of the following NoSQL databases is best known for horizontal scalability?",
+                "answers": [
+                    "Cassandra",
+                    "MongoDB",
+                    "SQLite",
+                    "PostgreSQL"
+                ],
+                "correctAnswer": 0
+            },
+            {
+                "question": "Which of the following is a feature of column-family NoSQL databases?",
+                "answers": [
+                    "Data is stored in columns rather than rows",
+                    "Data is organized into key-value pairs",
+                    "Uses SQL-like queries",
+                    "Stores data in hierarchical tree structures"
+                ],
+                "correctAnswer": 0
+            },
+            {
+                "question": "Which of the following is an example of a graph-based NoSQL database?",
+                "answers": [
+                    "Neo4j",
+                    "Cassandra",
+                    "MongoDB",
+                    "HBase"
+                ],
+                "correctAnswer": 0
+            },
+            {
+                "question": "What is a key advantage of NoSQL databases over traditional relational databases?",
+                "answers": [
+                    "Ability to handle unstructured data",
+                    "Strict consistency",
+                    "SQL support",
+                    "Transactions and ACID properties"
+                ],
+                "correctAnswer": 0
+            },
+            {
+                "question": "Which NoSQL database is commonly used for real-time analytics and can scale horizontally?",
+                "answers": [
+                    "Cassandra",
+                    "PostgreSQL",
+                    "Oracle",
+                    "MySQL"
+                ],
+                "correctAnswer": 0
+            },
+            {
+                "question": "What is a feature of a key-value store?",
+                "answers": [
+                    "Data is stored in pairs of keys and values",
+                    "Uses a relational model for data",
+                    "Supports SQL queries",
+                    "Data is stored in tables with rows and columns"
+                ],
+                "correctAnswer": 1
+            },
+            {
+                "question": "Which NoSQL database is known for its document-oriented approach?",
+                "answers": [
+                    "MongoDB",
+                    "Cassandra",
+                    "HBase",
+                    "PostgreSQL"
+                ],
+                "correctAnswer": 0
+            },
+            {
+                "question": "Which of the following is true about NoSQL databases?",
+                "answers": [
+                    "They are typically used for large-scale, distributed data",
+                    "They only support SQL queries",
+                    "They do not support high availability",
+                    "They cannot scale horizontally"
+                ],
+                "correctAnswer": 0
+            }
+        ]
+}

@@ -1,0 +1,90 @@
+{
+    "title": "Network Security",
+    "description": "Test your knowledge of securing networks, firewalls, and intrusion detection systems.",
+    "questions_count": 8,
+    "time_estimate": "25 mins",
+    "difficulty": "Intermediate",
+    "is_new": true,
+    "questions": [
+        {
+            "question": "What is the purpose of a firewall in network security?",
+            "answers": [
+                "To prevent unauthorized access to a network",
+                "To increase internet speed",
+                "To store network data",
+                "To manage email traffic"
+            ],
+            "correctAnswer": 0
+        },
+        {
+            "question": "Which of the following is a common method used to detect intrusions in a network?",
+            "answers": [
+                "Encryption",
+                "Intrusion Detection System (IDS)",
+                "Load balancing",
+                "Data backup"
+            ],
+            "correctAnswer": 1
+        },
+        {
+            "question": "What is the purpose of a VPN (Virtual Private Network)?",
+            "answers": [
+                "To create a secure connection over a public network",
+                "To increase network bandwidth",
+                "To improve network performance",
+                "To monitor network activity"
+            ],
+            "correctAnswer": 0
+        },
+        {
+            "question": "Which of the following is a type of attack aimed at intercepting communication between two parties?",
+            "answers": [
+                "Man-in-the-middle attack",
+                "Denial of Service (DoS)",
+                "SQL Injection",
+                "Phishing"
+            ],
+            "correctAnswer": 0
+        },
+        {
+            "question": "What does a Denial of Service (DoS) attack do?",
+            "answers": [
+                "Steals sensitive information",
+                "Overloads the system, causing service interruption",
+                "Encrypts data to hold it hostage",
+                "Monitors network traffic"
+            ],
+            "correctAnswer": 1
+        },
+        {
+            "question": "What does the term 'Phishing' refer to in cybersecurity?",
+            "answers": [
+                "The process of stealing credit card information",
+                "A type of social engineering attack to deceive individuals into giving sensitive information",
+                "An attack that encrypts files and demands a ransom",
+                "An attack that floods a network with excessive traffic"
+            ],
+            "correctAnswer": 1
+        },
+        {
+            "question": "Which of the following protocols is commonly used to secure communication over the internet?",
+            "answers": [
+                "HTTP",
+                "FTP",
+                "HTTPS",
+                "SMTP"
+            ],
+            "correctAnswer": 2
+        },
+        {
+            "question": "What is a common technique to prevent unauthorized access to a network?",
+            "answers": [
+                "Password cracking",
+                "Multi-factor authentication",
+                "Keylogging",
+                "DDoS protection"
+            ],
+            "correctAnswer": 1
+        }
+    ]
+}

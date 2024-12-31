@@ -1,0 +1,150 @@
+{
+    "title": "CSS Styling",
+    "description": "Challenge yourself with questions about CSS selectors, properties, and layouts.",
+    "questions_count": 14,
+    "time_estimate": "25 mins",
+    "difficulty": "Intermediate",
+    "is_new": false,
+    "questions": [
+        {
+            "question": "Which CSS property is used to change the text color of an element?",
+            "answers": [
+                "font-color",
+                "color",
+                "text-color",
+                "background-color"
+            ],
+            "correctAnswer": 1
+        },
+        {
+            "question": "What does the 'z-index' property control?",
+            "answers": [
+                "The size of an element",
+                "The stack order of elements",
+                "The transparency of an element",
+                "The font size of text"
+            ],
+            "correctAnswer": 1
+        },
+        {
+            "question": "What is the default value of the `position` property in CSS?",
+            "answers": [
+                "relative",
+                "absolute",
+                "fixed",
+                "static"
+            ],
+            "correctAnswer": 3
+        },
+        {
+            "question": "Which CSS property controls the space between the content and the border of an element?",
+            "answers": [
+                "margin",
+                "padding",
+                "border-spacing",
+                "box-sizing"
+            ],
+            "correctAnswer": 1
+        },
+        {
+            "question": "Which selector targets all `<p>` elements within a container with the class `box`?",
+            "answers": [
+                ".box p",
+                "#box p",
+                "p.box",
+                "box p"
+            ],
+            "correctAnswer": 0
+        },
+        {
+            "question": "How do you apply styles to an element with the class `highlight`?",
+            "answers": [
+                "#highlight",
+                ".highlight",
+                "highlight",
+                "*highlight"
+            ],
+            "correctAnswer": 1
+        },
+        {
+            "question": "Which of the following is the correct syntax for a CSS comment?",
+            "answers": [
+                "// This is a comment",
+                "/* This is a comment */",
+                "<!-- This is a comment -->",
+                "# This is a comment"
+            ],
+            "correctAnswer": 1
+        },
+        {
+            "question": "Which CSS property is used to set the font size of an element?",
+            "answers": [
+                "font-size",
+                "text-size",
+                "font-style",
+                "font-weight"
+            ],
+            "correctAnswer": 0
+        },
+        {
+            "question": "What does the `float` property do in CSS?",
+            "answers": [
+                "It makes an element move horizontally across the page",
+                "It aligns an element to the right or left of its container",
+                "It adds margin space to an element",
+                "It wraps text around an element"
+            ],
+            "correctAnswer": 1
+        },
+        {
+            "question": "What does the `display` property of `inline-block` do?",
+            "answers": [
+                "Makes the element behave like a block-level element",
+                "Makes the element behave like an inline element",
+                "Allows elements to line up next to each other",
+                "Makes the element invisible"
+            ],
+            "correctAnswer": 2
+        },
+        {
+            "question": "Which CSS property is used to control the text alignment?",
+            "answers": [
+                "align-text",
+                "text-align",
+                "align-content",
+                "text-align-center"
+            ],
+            "correctAnswer": 1
+        },
+        {
+            "question": "Which CSS property is used to change the font style of text?",
+            "answers": [
+                "font-style",
+                "font-weight",
+                "text-style",
+                "font-family"
+            ],
+            "correctAnswer": 0
+        },
+        {
+            "question": "Which property is used to set the space between lines of text?",
+            "answers": [
+                "line-height",
+                "letter-spacing",
+                "text-spacing",
+                "font-spacing"
+            ],
+            "correctAnswer": 0
+        },
+        {
+            "question": "What does the `clear` property do in CSS?",
+            "answers": [
+                "Clears the padding of an element",
+                "Clears the float property",
+                "Clears the margin of an element",
+                "Clears the content of an element"
+            ],
+            "correctAnswer": 1
+        }
+    ]
+}

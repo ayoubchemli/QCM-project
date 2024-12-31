@@ -1,0 +1,130 @@
+{
+    "title": "HTML Basics",
+    "description": "Test your knowledge of HTML structure, tags, and attributes.",
+    "questions_count": 12,
+    "time_estimate": "25 mins",
+    "difficulty": "Beginner",
+    "is_new": true,
+    "questions": [
+        {
+            "question": "What is the correct structure of an HTML document?",
+            "answers": [
+                "<html><head></head><body></body></html>",
+                "<html><head><body></body></head></html>",
+                "<html><body></body></head><html>",
+                "<html><head><body></html>"
+            ],
+            "correctAnswer": 0
+        },
+        {
+            "question": "Which of the following tags is used to define an unordered list in HTML?",
+            "answers": [
+                "<list>",
+                "<ul>",
+                "<ol>",
+                "<li>"
+            ],
+            "correctAnswer": 1
+        },
+        {
+            "question": "Which CSS property is used to change the background color of an element?",
+            "answers": [
+                "background-color",
+                "color",
+                "bg-color",
+                "background"
+            ],
+            "correctAnswer": 0
+        },
+        {
+            "question": "What is the correct CSS selector to select an element with the class `container`?",
+            "answers": [
+                "#container",
+                ".container",
+                "container",
+                "*container"
+            ],
+            "correctAnswer": 1
+        },
+        {
+            "question": "Which input type is used to create a password field in an HTML form?",
+            "answers": [
+                "<input type=\"text\">",
+                "<input type=\"password\">",
+                "<input type=\"password-field\">",
+                "<input type=\"hidden\">"
+            ],
+            "correctAnswer": 1
+        },
+        {
+            "question": "Which CSS property is used to align items horizontally in a Flexbox container?",
+            "answers": [
+                "justify-items",
+                "justify-content",
+                "align-items",
+                "align-content"
+            ],
+            "correctAnswer": 1
+        },
+        {
+            "question": "What attribute is required to specify the image source in the `<img>` tag?",
+            "answers": [
+                "href",
+                "src",
+                "alt",
+                "path"
+            ],
+            "correctAnswer": 1
+        },
+        {
+            "question": "What does the CSS `box-sizing` property control?",
+            "answers": [
+                "The visibility of an element",
+                "How padding and border are included in the element\u00e2\u20ac\u2122s width and height",
+                "The position of an element relative to the viewport",
+                "The color of the element\u00e2\u20ac\u2122s border"
+            ],
+            "correctAnswer": 1
+        },
+        {
+            "question": "Which HTML tag is used to define a hyperlink?",
+            "answers": [
+                "<a>",
+                "<link>",
+                "<href>",
+                "<url>"
+            ],
+            "correctAnswer": 0
+        },
+        {
+            "question": "Which CSS property is used to position an element relative to its normal position?",
+            "answers": [
+                "absolute",
+                "relative",
+                "fixed",
+                "sticky"
+            ],
+            "correctAnswer": 1
+        },
+        {
+            "question": "Which tag is used to define a row in an HTML table?",
+            "answers": [
+                "<td>",
+                "<th>",
+                "<tr>",
+                "<table-row>"
+            ],
+            "correctAnswer": 2
+        },
+        {
+            "question": "Which property is used to define the size of columns in a CSS Grid?",
+            "answers": [
+                "grid-column",
+                "column-size",
+                "grid-template-columns",
+                "column-template"
+            ],
+            "correctAnswer": 2
+        }
+    ]
+}
