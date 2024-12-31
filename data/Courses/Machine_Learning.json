@@ -1,0 +1,406 @@
+[
+
+    {
+        "title": "Supervised Learning",
+        "description": "Test your knowledge of supervised learning techniques such as classification and regression.",
+        "questions_count": 10,
+        "time_estimate": "30 mins",
+        "difficulty": "Intermediate",
+        "is_new": true,
+        "questions": [
+            {
+                "question": "Which of the following is a type of supervised learning algorithm?",
+                "answers": [
+                    "K-means clustering",
+                    "Decision tree",
+                    "Principal Component Analysis",
+                    "Gaussian Mixture Model"
+                ],
+                "correctAnswer": 1
+            },
+            {
+                "question": "What does overfitting mean in a machine learning model?",
+                "answers": [
+                    "The model is too simple and cannot capture the underlying pattern.",
+                    "The model fits the training data too well and performs poorly on new data.",
+                    "The model is too large and cannot be trained properly.",
+                    "The model uses too few features."
+                ],
+                "correctAnswer": 1
+            },
+            {
+                "question": "Which of the following is an example of a regression problem?",
+                "answers": [
+                    "Predicting the price of a house based on its features.",
+                    "Classifying emails as spam or not spam.",
+                    "Identifying the breed of a dog in an image.",
+                    "Predicting whether a customer will click on an ad."
+                ],
+                "correctAnswer": 0
+            },
+            {
+                "question": "Which technique can help prevent overfitting in a machine learning model?",
+                "answers": [
+                    "Cross-validation",
+                    "Increasing model complexity",
+                    "Using a smaller dataset",
+                    "Ignoring feature scaling"
+                ],
+                "correctAnswer": 0
+            },
+            {
+                "question": "Which of the following is a commonly used evaluation metric for classification problems?",
+                "answers": [
+                    "Mean Squared Error (MSE)",
+                    "Confusion matrix",
+                    "Root Mean Squared Error (RMSE)",
+                    "R-squared"
+                ],
+                "correctAnswer": 1
+            },
+            {
+                "question": "What is the purpose of a validation set in machine learning?",
+                "answers": [
+                    "To train the model on a smaller subset of data",
+                    "To evaluate the model\u00e2\u20ac\u2122s performance on unseen data",
+                    "To test the model after training",
+                    "To store the training data"
+                ],
+                "correctAnswer": 1
+            },
+            {
+                "question": "What does a confusion matrix show?",
+                "answers": [
+                    "The total accuracy of the model",
+                    "The relationship between training data and target data",
+                    "The number of correct and incorrect predictions, broken down by class",
+                    "The error rates of the model"
+                ],
+                "correctAnswer": 2
+            },
+            {
+                "question": "Which algorithm is commonly used for classification tasks?",
+                "answers": [
+                    "K-means clustering",
+                    "Linear regression",
+                    "Logistic regression",
+                    "Principal Component Analysis"
+                ],
+                "correctAnswer": 2
+            },
+            {
+                "question": "What does gradient descent do in machine learning?",
+                "answers": [
+                    "It finds the best possible model by testing all possible solutions.",
+                    "It adjusts the model\u00e2\u20ac\u2122s parameters to minimize the cost function.",
+                    "It determines the features to use in the model.",
+                    "It increases the complexity of the model."
+                ],
+                "correctAnswer": 1
+            },
+            {
+                "question": "Which metric is typically used to evaluate a regression model?",
+                "answers": [
+                    "Accuracy",
+                    "Mean Squared Error (MSE)",
+                    "Precision",
+                    "F1-score"
+                ],
+                "correctAnswer": 1
+            }
+        ]
+    },
+
+    {
+        "title": "Unsupervised Learning",
+        "description": "Test your knowledge of unsupervised learning algorithms, including clustering and dimensionality reduction.",
+        "questions_count": 8,
+        "time_estimate": "25 mins",
+        "difficulty": "Intermediate",
+        "is_new": false,
+        "questions": [
+            {
+                "question": "Which of the following is a common unsupervised learning algorithm?",
+                "answers": [
+                    "Support Vector Machines",
+                    "Linear regression",
+                    "K-means clustering",
+                    "Logistic regression"
+                ],
+                "correctAnswer": 2
+            },
+            {
+                "question": "What is the primary purpose of K-means clustering?",
+                "answers": [
+                    "To predict continuous values based on input data",
+                    "To classify data points into predefined categories",
+                    "To reduce the dimensionality of the data",
+                    "To group data points into clusters based on similarity"
+                ],
+                "correctAnswer": 3
+            },
+            {
+                "question": "What does PCA (Principal Component Analysis) do in machine learning?",
+                "answers": [
+                    "It reduces the dimensionality of the dataset while preserving most of the variance.",
+                    "It classifies data into categories based on a training set.",
+                    "It optimizes the cost function of a supervised model.",
+                    "It normalizes the data for better performance."
+                ],
+                "correctAnswer": 0
+            },
+            {
+                "question": "Which of the following is a key challenge in unsupervised learning?",
+                "answers": [
+                    "Finding the right evaluation metric for the model",
+                    "Choosing a model that will perform well on new data",
+                    "Labeling the training data",
+                    "Determining the number of clusters in K-means"
+                ],
+                "correctAnswer": 3
+            },
+            {
+                "question": "Which of the following is an example of a dimensionality reduction technique?",
+                "answers": [
+                    "Random Forests",
+                    "K-means clustering",
+                    "Principal Component Analysis (PCA)",
+                    "Support Vector Machines"
+                ],
+                "correctAnswer": 2
+            },
+            {
+                "question": "What does hierarchical clustering produce?",
+                "answers": [
+                    "A classification tree",
+                    "A set of clusters based on the distance between points",
+                    "A regression line",
+                    "A feature importance ranking"
+                ],
+                "correctAnswer": 1
+            },
+            {
+                "question": "Which of the following is true about unsupervised learning algorithms?",
+                "answers": [
+                    "They require labeled data to train.",
+                    "They can work with unlabeled data and find patterns on their own.",
+                    "They can only be used for classification tasks.",
+                    "They are less computationally intensive than supervised learning."
+                ],
+                "correctAnswer": 1
+            },
+            {
+                "question": "In unsupervised learning, how is performance typically evaluated?",
+                "answers": [
+                    "By using a test set with labeled data",
+                    "By visualizing clusters or principal components",
+                    "By measuring accuracy and precision",
+                    "By minimizing the loss function"
+                ],
+                "correctAnswer": 1
+            }
+        ]
+    },
+
+    {
+        "title": "Model Evaluation and Hyperparameter Tuning",
+        "description": "Learn about evaluating models and fine-tuning hyperparameters to improve performance.",
+        "questions_count": 20,
+        "time_estimate": "20 mins",
+        "difficulty": "Advanced",
+        "is_new": false,
+        "questions": [
+            {
+                "question": "Which method is commonly used to evaluate a machine learning model’s performance?",
+                "answers": [
+                    "Confusion matrix",
+                    "Feature selection",
+                    "Gradient descent",
+                    "Data preprocessing"
+                ],
+                "correctAnswer": 0
+            },
+            {
+                "question": "What is cross-validation used for in machine learning?",
+                "answers": [
+                    "To split data into training and test sets",
+                    "To evaluate a model's generalization ability",
+                    "To improve feature selection",
+                    "To adjust the model’s weights"
+                ],
+                "correctAnswer": 1
+            },
+            {
+                "question": "What is the main goal of hyperparameter tuning?",
+                "answers": [
+                    "To increase the number of training data",
+                    "To find the optimal parameters for a given model",
+                    "To reduce the model complexity",
+                    "To transform the features"
+                ],
+                "correctAnswer": 1
+            },
+            {
+                "question": "Which of the following is a commonly used method for hyperparameter tuning?",
+                "answers": [
+                    "Grid search",
+                    "Random forest",
+                    "Naive Bayes",
+                    "Support vector machines"
+                ],
+                "correctAnswer": 0
+            },
+            {
+                "question": "What is the effect of using a very high learning rate during model training?",
+                "answers": [
+                    "It speeds up training without affecting accuracy.",
+                    "It may cause the model to converge too quickly and miss the optimal solution.",
+                    "It improves the model’s generalization.",
+                    "It makes the model less sensitive to the training data."
+                ],
+                "correctAnswer": 1
+            },
+            {
+                "question": "Which evaluation metric is used to measure how well a regression model fits the data?",
+                "answers": [
+                    "Precision",
+                    "Recall",
+                    "R-squared",
+                    "F1-score"
+                ],
+                "correctAnswer": 2
+            },
+            {
+                "question": "What is the purpose of a confusion matrix in model evaluation?",
+                "answers": [
+                    "To calculate the accuracy of the model",
+                    "To summarize the performance of a classification model",
+                    "To assess the variance of the model",
+                    "To tune the model's hyperparameters"
+                ],
+                "correctAnswer": 1
+            },
+            {
+                "question": "What is the purpose of regularization in machine learning?",
+                "answers": [
+                    "To make the model simpler and reduce overfitting",
+                    "To increase the training data size",
+                    "To speed up the training process",
+                    "To improve the accuracy of predictions"
+                ],
+                "correctAnswer": 0
+            },
+            {
+                "question": "Which hyperparameter is commonly adjusted in decision trees to prevent overfitting?",
+                "answers": [
+                    "Max depth",
+                    "Number of estimators",
+                    "Learning rate",
+                    "Kernel type"
+                ],
+                "correctAnswer": 0
+            },
+            {
+                "question": "What is grid search used for in hyperparameter tuning?",
+                "answers": [
+                    "To search for the best algorithm",
+                    "To find the optimal combination of hyperparameters",
+                    "To split data into training and test sets",
+                    "To generate random training data"
+                ],
+                "correctAnswer": 1
+            },
+            {
+                "question": "Which of the following methods is used to evaluate a classification model’s performance?",
+                "answers": [
+                    "F1-score",
+                    "Mean squared error",
+                    "R-squared",
+                    "Area under the curve"
+                ],
+                "correctAnswer": 0
+            },
+            {
+                "question": "What is a potential consequence of using too many features in a machine learning model?",
+                "answers": [
+                    "Improved model accuracy",
+                    "Overfitting the model",
+                    "Reduction in training time",
+                    "Better generalization"
+                ],
+                "correctAnswer": 1
+            },
+            {
+                "question": "What does a learning curve represent in machine learning?",
+                "answers": [
+                    "The relationship between model complexity and training time",
+                    "The relationship between model performance and training data size",
+                    "The change in model's accuracy during hyperparameter tuning",
+                    "The performance of the model during cross-validation"
+                ],
+                "correctAnswer": 1
+            },
+            {
+                "question": "Which of the following is an example of a model evaluation metric for classification problems?",
+                "answers": [
+                    "Accuracy",
+                    "Mean absolute error",
+                    "R-squared",
+                    "Root mean squared error"
+                ],
+                "correctAnswer": 0
+            },
+            {
+                "question": "What does the term 'bias-variance tradeoff' refer to in machine learning?",
+                "answers": [
+                    "The balance between underfitting and overfitting",
+                    "The tradeoff between training time and accuracy",
+                    "The choice between different types of models",
+                    "The relationship between model parameters and data distribution"
+                ],
+                "correctAnswer": 0
+            },
+            {
+                "question": "Which technique is used to prevent overfitting in neural networks?",
+                "answers": [
+                    "Early stopping",
+                    "Momentum",
+                    "Weight decay",
+                    "Batch normalization"
+                ],
+                "correctAnswer": 0
+            },
+            {
+                "question": "What is the role of the validation set during model evaluation?",
+                "answers": [
+                    "To train the model",
+                    "To fine-tune the hyperparameters",
+                    "To evaluate the model's performance on unseen data",
+                    "To test the final model performance"
+                ],
+                "correctAnswer": 2
+            },
+            {
+                "question": "In which scenario is a high variance model most likely to occur?",
+                "answers": [
+                    "When the model is too simple",
+                    "When there is insufficient training data",
+                    "When the model is too complex",
+                    "When the model has low bias"
+                ],
+                "correctAnswer": 2
+            },
+            {
+                "question": "Which metric is often used for evaluating a model’s ability to predict the probability of a class?",
+                "answers": [
+                    "Log loss",
+                    "Accuracy",
+                    "Precision",
+                    "Recall"
+                ],
+                "correctAnswer": 0
+            }
+        ]
+    }
+    
+]

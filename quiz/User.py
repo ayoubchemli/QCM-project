@@ -1,5 +1,8 @@
 from Score import Score
 from subject import Subject
+import json
+import csv
+from datetime import datetime
 
 
 class User:
@@ -50,8 +53,64 @@ class User:
 
     def view_scores(self):
         return self.scores
+    
 
+   
 
-
-
-
+def export_user_scores(username):
+    """
+    Extract scores data for a specific username and save to CSV.
+    
+    Args:
+        username (str): Username to search for
+    
+    Returns:
+        bool: True if successful, False if user not found
+    """
+    try:
+        # Read JSON file
+        with open('users.json', 'r') as file:
+            data = json.load(file)
+        
+        # Find user
+        user_data = None
+        for user in data:
+            if user['username'] == username:
+                user_data = user
+                break
+        
+        if user_data is None:
+            print(f"User '{username}' not found.")
+            return False
+        
+        # Extract scores
+        scores = user_data['scores']
+        if not scores:
+            print(f"No scores found for user '{username}'.")
+            return False
+            
+        # Write to CSV
+        output_csv_file = f"{username}_scores.csv"
+        with open(output_csv_file, 'w', newline='') as file:
+            writer = csv.writer(file)
+            # Write header
+            writer.writerow(['Course', 'Chapter', 'Points', 'Date'])
+            
+            # Write scores
+            for score in scores:
+                writer.writerow([
+                    score['subject']['course'],
+                    score['subject']['chapter'],
+                    score['points'],
+                    score['date']
+                ])
+        
+        print(f"Scores exported successfully to {username}_scores.csv")
+        return True
+        
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+        return False    
+   
+         # to emplement : export_user_scores("op")
+    

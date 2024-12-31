@@ -20,7 +20,7 @@
     {
         "title": "Python Programming",
         "description": "Learn Python from basics to advanced concepts, including data structures, algorithms, and libraries for data science and web development.",
-        "chapters": ["Python Basics", "Object-Oriented Programming", "Libraries and Frameworks", "Advanced Python"],
+        "chapters": ["Python Basics", "Object-Oriented Programming", "Libraries and Frameworks"],
         "is_new": true
     },
     {
