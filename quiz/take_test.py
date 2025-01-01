@@ -1,6 +1,6 @@
-from data_handler import *
-from Score import Score
-from subject import Subject
+from .data_handler import *
+from .Score import Score
+from .subject import Subject
 
 class takeTest:
     def __init__(self, user, subject):

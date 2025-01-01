@@ -7,8 +7,9 @@ import sys
 import os
 
 class MCQPage(QMainWindow):
-    def __init__(self, parent=None, is_light_mode=True):
+    def __init__(self, questions, parent=None, is_light_mode=True):
         super().__init__(parent)
+        self.questions = questions
         self.parent = parent
         self.current_question = 0
         self.score = 0
@@ -30,33 +31,33 @@ class MCQPage(QMainWindow):
         
     def setup_questions(self):
         # Sample questions - in practice, these would be loaded from a database or file
-        self.questions = [
-            {
-                "question": "What is the time complexity of binary search?",
-                "options": ["O(n)", "O(log n)", "O(n log n)", "O(n²)"],
-                "correct": 1,
-                "explanation": "Binary search has a time complexity of O(log n) as it divides the search space in half with each iteration."
-            },
-            {
-                "question": "Which data structure uses LIFO?",
-                "options": ["Queue", "Stack", "Tree", "Graph"],
-                "correct": 1,
-                "explanation": "Stack uses Last In First Out (LIFO) principle."
-            },
-            {
-                "question": "What is the time complexity of binary search?",
-                "options": ["O(n)", "O(log n)", "O(n log n)", "O(n²)"],
-                "correct": 1,
-                "explanation": "Binary search has a time complexity of O(log n) as it divides the search space in half with each iteration."
-            },
-            {
-                "question": "Which data structure uses LIFO?",
-                "options": ["Queue", "Stack", "Tree", "Graph"],
-                "correct": 1,
-                "explanation": "Stack uses Last In First Out (LIFO) principle."
-            }
-            # Add more questions as needed
-        ]
+        # self.questions = [
+        #     {
+        #         "question": "What is the time complexity of binary search?",
+        #         "options": ["O(n)", "O(log n)", "O(n log n)", "O(n²)"],
+        #         "correct": 1,
+        #         "explanation": "Binary search has a time complexity of O(log n) as it divides the search space in half with each iteration."
+        #     },
+        #     {
+        #         "question": "Which data structure uses LIFO?",
+        #         "options": ["Queue", "Stack", "Tree", "Graph"],
+        #         "correct": 1,
+        #         "explanation": "Stack uses Last In First Out (LIFO) principle."
+        #     },
+        #     {
+        #         "question": "What is the time complexity of binary search?",
+        #         "options": ["O(n)", "O(log n)", "O(n log n)", "O(n²)"],
+        #         "correct": 1,
+        #         "explanation": "Binary search has a time complexity of O(log n) as it divides the search space in half with each iteration."
+        #     },
+        #     {
+        #         "question": "Which data structure uses LIFO?",
+        #         "options": ["Queue", "Stack", "Tree", "Graph"],
+        #         "correct": 1,
+        #         "explanation": "Stack uses Last In First Out (LIFO) principle."
+        #     }
+        #     # Add more questions as needed
+        # ]
         self.total_questions = len(self.questions)
 
     def setup_ui(self):
@@ -209,7 +210,7 @@ class MCQPage(QMainWindow):
             self.question_label.setText(f"Q{index + 1}. {question['question']}")
             
             # Load options and restore previous answer if exists
-            for i, option in enumerate(question['options']):
+            for i, option in enumerate(question['answers']):
                 self.option_buttons[i].setText(f"{chr(65 + i)}. {option}")
                 self.option_buttons[i].setChecked(False)
             
@@ -327,8 +328,8 @@ class MCQPage(QMainWindow):
                 status = QLabel("✗ Incorrect")
                 status.setStyleSheet("color: #EF4444; font-weight: bold;")
                 
-                selected = QLabel(f"Your answer: {question['options'][result['selected_option']]}")
-                correct = QLabel(f"Correct answer: {question['options'][result['correct_option']]}")
+                selected = QLabel(f"Your answer: {question['answers'][result['selected_option']]}")
+                correct = QLabel(f"Correct answer: {question['answers'][result['correct_option']]}")
                 explanation = QLabel(f"Explanation: {question['explanation']}")
                 explanation.setWordWrap(True)
                 
@@ -377,8 +378,8 @@ class MCQPage(QMainWindow):
             question = self.questions[q_index]
             export_data['questions'].append({
                 'question': question['question'],
-                'selected_answer': question['options'][result['selected_option']],
-                'correct_answer': question['options'][result['correct_option']],
+                'selected_answer': question['answers'][result['selected_option']],
+                'correct_answer': question['answers'][result['correct_option']],
                 'is_correct': result['is_correct'],
                 'explanation': question['explanation']
             })
@@ -591,10 +592,10 @@ class MCQPage(QMainWindow):
                 }
             """)
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
     
-    app = QApplication(sys.argv)
-    font = QFont("Segoe UI", 10)
-    app.setFont(font)
-    window = MCQPage(is_light_mode=False)
-    sys.exit(app.exec_())
+#     app = QApplication(sys.argv)
+#     font = QFont("Segoe UI", 10)
+#     app.setFont(font)
+#     window = MCQPage(is_light_mode=False)
+#     sys.exit(app.exec_())

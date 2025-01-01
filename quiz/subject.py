@@ -1,4 +1,4 @@
-from data_handler import read_subjects,read_chapters
+from .data_handler import read_subjects,read_chapters
 
 class Subject:
     def __init__(self, course,chapter_id,chapter_title):

@@ -4,6 +4,10 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 
+from quiz.views.quizesLevel import quizesLevel
+
+from quiz.subject import Subject
+
 
 class ContactPage(QMainWindow):
     def __init__(self, parent=None, is_light_mode=False):
@@ -2387,8 +2391,9 @@ class MCQHomePage(QMainWindow):
         elif label.text().startswith("Glad to see you"):
             label.setStyleSheet(subtitle_style)
 
-   def __init__(self):
+   def __init__(self, appstate):
         super().__init__()
+        self.appstate = appstate
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)
         main_layout = QVBoxLayout(self.central_widget)
@@ -2448,44 +2453,46 @@ class MCQHomePage(QMainWindow):
         self.scroll_widget = HorizontalScrollArea()
         main_layout.addWidget(self.scroll_widget)
 
-        courses = [
-            {
-                "title": "File and data structure",
-                "description": "Master fundamental data structures and algorithms with hands-on practice.",
-                "chapters": ["Basic Data Types", "Arrays & Lists", "Trees & Graphs", "Advanced Algorithms"],
-                "is_new": False
-            },
-            {
-                "title": "Algebra",
-                "description": "Dive deep into advanced algebraic concepts and their applications.",
-                "chapters": ["Linear Algebra", "Abstract Algebra", "Number Theory", "Applications"],
-                "is_new": True
-            },
-            {
-                "title": "File and data structure",
-                "description": "Master fundamental data structures and algorithms with hands-on practice.",
-                "chapters": ["Basic Data Types", "Arrays & Lists", "Trees & Graphs", "Advanced Algorithms"],
-                "is_new": False
-            },
-            {
-                "title": "Algebra",
-                "description": "Dive deep into advanced algebraic concepts and their applications.",
-                "chapters": ["Linear Algebra", "Abstract Algebra", "Number Theory", "Applications"],
-                "is_new": True
-            },
-            {
-                "title": "File and data structure",
-                "description": "Master fundamental data structures and algorithms with hands-on practice.",
-                "chapters": ["Basic Data Types", "Arrays & Lists", "Trees & Graphs", "Advanced Algorithms"],
-                "is_new": False
-            },
-            {
-                "title": "Algebra",
-                "description": "Dive deep into advanced algebraic concepts and their applications.",
-                "chapters": ["Linear Algebra", "Abstract Algebra", "Number Theory", "Applications"],
-                "is_new": True
-            }
-        ]
+        courses = Subject.get_all_courses()
+
+        # courses = [
+        #     {
+        #         "title": "File and data structure",
+        #         "description": "Master fundamental data structures and algorithms with hands-on practice.",
+        #         "chapters": ["Basic Data Types", "Arrays & Lists", "Trees & Graphs", "Advanced Algorithms"],
+        #         "is_new": False
+        #     },
+        #     {
+        #         "title": "Algebra",
+        #         "description": "Dive deep into advanced algebraic concepts and their applications.",
+        #         "chapters": ["Linear Algebra", "Abstract Algebra", "Number Theory", "Applications"],
+        #         "is_new": True
+        #     },
+        #     {
+        #         "title": "File and data structure",
+        #         "description": "Master fundamental data structures and algorithms with hands-on practice.",
+        #         "chapters": ["Basic Data Types", "Arrays & Lists", "Trees & Graphs", "Advanced Algorithms"],
+        #         "is_new": False
+        #     },
+        #     {
+        #         "title": "Algebra",
+        #         "description": "Dive deep into advanced algebraic concepts and their applications.",
+        #         "chapters": ["Linear Algebra", "Abstract Algebra", "Number Theory", "Applications"],
+        #         "is_new": True
+        #     },
+        #     {
+        #         "title": "File and data structure",
+        #         "description": "Master fundamental data structures and algorithms with hands-on practice.",
+        #         "chapters": ["Basic Data Types", "Arrays & Lists", "Trees & Graphs", "Advanced Algorithms"],
+        #         "is_new": False
+        #     },
+        #     {
+        #         "title": "Algebra",
+        #         "description": "Dive deep into advanced algebraic concepts and their applications.",
+        #         "chapters": ["Linear Algebra", "Abstract Algebra", "Number Theory", "Applications"],
+        #         "is_new": True
+        #     }
+        # ]
         
         for i, course in enumerate(courses):
             card = self.create_course_card(
