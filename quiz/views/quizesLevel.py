@@ -7,7 +7,7 @@ from PyQt5.QtCore import Qt, QPropertyAnimation, QRect, QEasingCurve, QSize
 from PyQt5.QtGui import QFont, QColor, QPainter, QPainterPath, QLinearGradient, QIcon, QKeySequence
 from PyQt5.QtWidgets import QLineEdit, QMenu
 
-from quiz.views.MCQPage import MCQPage
+import quiz.views.MCQPage
 from quiz.AppState import AppState
 from quiz.subject import Subject
 from quiz.User import User
@@ -18,8 +18,8 @@ from quiz.take_test import takeTest
 
 
 class ThemeToggleButton(QPushButton):
-    def __init__(self, parent=None):
-        super().__init__(parent)
+    def __init__(self):
+        super().__init__()
         self.setCheckable(True)
         self.setCursor(Qt.PointingHandCursor)
         self.setFixedSize(60, 30)
@@ -290,12 +290,13 @@ class quizesLevel(QMainWindow):
         
     
 
-    def __init__(self, appstate, categories):
+    def __init__(self, appstate):
         
         super().__init__()
+        self.appstate = appstate
         
         # Initialize all UI elements first
-        self.theme_toggle = ThemeToggleButton(self)
+        self.theme_toggle = ThemeToggleButton()
         
         # Position the widgets
         self.theme_toggle.move(self.width() - 120, 20)
@@ -395,6 +396,10 @@ class quizesLevel(QMainWindow):
         cards_layout.setContentsMargins(20, 20, 20, 20)
         cards_layout.setSpacing(20)
         cards_layout.setAlignment(Qt.AlignHCenter)
+
+        categories = Subject.get_all_chapters_of_course(appstate.getCourse())
+        print(categories)
+        print(appstate.getCourse())
         
         # Quiz categories
         # categories = [
@@ -450,7 +455,7 @@ class quizesLevel(QMainWindow):
                 category["time_estimate"],
                 category["difficulty"],
                 category["is_new"],
-                on_start=create_on_start_handler(chapter_id, appstate),
+                on_start=self.create_on_start_handler(chapter_id),
             )
             cards_layout.addWidget(card)
         
@@ -458,6 +463,24 @@ class quizesLevel(QMainWindow):
         scroll_area.setWidget(cards_widget)
         main_layout.addWidget(scroll_area)
         self.apply_theme(False)
+
+    def create_on_start_handler(self, chapter_id):
+        def on_start():
+            self.start_quiz(chapter_id)
+        return on_start
+
+    def start_quiz(self, chapter_id):
+        self.appstate.setChapterID(chapter_id)
+        user = self.appstate.getUser()
+        course = self.appstate.getCourse()
+        chapter_name = Subject.get_all_chapters_of_course(course)[chapter_id]['title']
+        subject = Subject(course, chapter_id, chapter_name)
+        test_instance = takeTest(user, subject)
+        questions = test_instance.get_questions()
+        self.appstate.setQuestions(questions)
+        MCQPage = quiz.views.MCQPage.MCQPage(self.appstate, False)
+        self.parent().addWidget(MCQPage)
+        self.parent().setCurrentWidget(MCQPage)
         
 
     def resizeEvent(self, event):
@@ -471,23 +494,8 @@ class quizesLevel(QMainWindow):
         # Update positions
         self.theme_toggle.move(self.width() - 120, 20)
 
-def create_on_start_handler(chapter_id, appstate):
-    def on_start():
-        start_quiz(chapter_id, appstate)
-    return on_start
-
-def start_quiz(chapter_id, appstate):
-    appstate.setChapterID(chapter_id)
-    course = appstate.getCourse()
-    chapter_name = Subject.get_all_chapters_of_course(course)[chapter_id]['title']
-    subject = Subject(course, chapter_id, chapter_name)
-    test_instance = takeTest(user, subject)
-    questions = test_instance.get_questions()
-    appstate.setQuestions(questions)
-    MCQPage = MCQPage(questions)
-    stacked_widget = appstate.getStacked_widget()
-    stacked_widget.addWidget(MCQPage)
     
+
 
     # self.close()
         

@@ -2273,6 +2273,10 @@ class MCQHomePage(QMainWindow):
         # TODO : Add your enrollment logic here
         # For example:
         print(f"Enrolling in course: {course_title}")
+        self.appstate.setCourse(course_title)
+        self.quizeslevel = quizesLevel(self.appstate)
+        self.stacked_widget.addWidget(self.quizeslevel)
+        self.stacked_widget.setCurrentWidget(self.quizeslevel)
         # You could:
         # 1. Open an enrollment confirmation dialog
         # 2. Make an API call to your backend
@@ -2395,7 +2399,9 @@ class MCQHomePage(QMainWindow):
         super().__init__()
         self.appstate = appstate
         self.central_widget = QWidget()
-        self.setCentralWidget(self.central_widget)
+        self.stacked_widget = QStackedWidget()
+        self.setCentralWidget(self.stacked_widget)
+        self.stacked_widget.addWidget(self.central_widget)
         main_layout = QVBoxLayout(self.central_widget)
         main_layout.setSpacing(40)
         
@@ -2420,7 +2426,7 @@ class MCQHomePage(QMainWindow):
         center_layout = QVBoxLayout(center_content)
         center_layout.setSpacing(20)
 
-        title = QLabel("welcome (name)")
+        title = QLabel(f"welcome {appstate.getUser().fullname}")
         title.setStyleSheet("""
             font-size: 48px;
             color: white;

@@ -7,10 +7,9 @@ import sys
 import os
 
 class MCQPage(QMainWindow):
-    def __init__(self, questions, parent=None, is_light_mode=True):
-        super().__init__(parent)
-        self.questions = questions
-        self.parent = parent
+    def __init__(self, appstate, is_light_mode=True):
+        super().__init__()
+        self.appstate = appstate
         self.current_question = 0
         self.score = 0
         self.answers = {}
@@ -30,6 +29,7 @@ class MCQPage(QMainWindow):
 
         
     def setup_questions(self):
+        self.questions = self.appstate.getQuestions()
         # Sample questions - in practice, these would be loaded from a database or file
         # self.questions = [
         #     {
