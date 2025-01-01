@@ -1,465 +1,507 @@
 [
-    {
-        "title": "HTML Basics",
-        "description": "Test your knowledge of HTML structure, tags, and attributes.",
-        "questions_count": 12,
-        "time_estimate": "25 mins",
-        "difficulty": "Beginner",
-        "is_new": true,
-        "questions": [
-            {
-                "question": "What is the correct structure of an HTML document?",
-                "answers": [
-                    "<html><head></head><body></body></html>",
-                    "<html><head><body></body></head></html>",
-                    "<html><body></body></head><html>",
-                    "<html><head><body></html>"
-                ],
-                "correctAnswer": 0
-            },
-            {
-                "question": "Which of the following tags is used to define an unordered list in HTML?",
-                "answers": [
-                    "<list>",
-                    "<ul>",
-                    "<ol>",
-                    "<li>"
-                ],
-                "correctAnswer": 1
-            },
-            {
-                "question": "Which CSS property is used to change the background color of an element?",
-                "answers": [
-                    "background-color",
-                    "color",
-                    "bg-color",
-                    "background"
-                ],
-                "correctAnswer": 0
-            },
-            {
-                "question": "What is the correct CSS selector to select an element with the class `container`?",
-                "answers": [
-                    "#container",
-                    ".container",
-                    "container",
-                    "*container"
-                ],
-                "correctAnswer": 1
-            },
-            {
-                "question": "Which input type is used to create a password field in an HTML form?",
-                "answers": [
-                    "<input type=\"text\">",
-                    "<input type=\"password\">",
-                    "<input type=\"password-field\">",
-                    "<input type=\"hidden\">"
-                ],
-                "correctAnswer": 1
-            },
-            {
-                "question": "Which CSS property is used to align items horizontally in a Flexbox container?",
-                "answers": [
-                    "justify-items",
-                    "justify-content",
-                    "align-items",
-                    "align-content"
-                ],
-                "correctAnswer": 1
-            },
-            {
-                "question": "What attribute is required to specify the image source in the `<img>` tag?",
-                "answers": [
-                    "href",
-                    "src",
-                    "alt",
-                    "path"
-                ],
-                "correctAnswer": 1
-            },
-            {
-                "question": "What does the CSS `box-sizing` property control?",
-                "answers": [
-                    "The visibility of an element",
-                    "How padding and border are included in the element\u00e2\u20ac\u2122s width and height",
-                    "The position of an element relative to the viewport",
-                    "The color of the element\u00e2\u20ac\u2122s border"
-                ],
-                "correctAnswer": 1
-            },
-            {
-                "question": "Which HTML tag is used to define a hyperlink?",
-                "answers": [
-                    "<a>",
-                    "<link>",
-                    "<href>",
-                    "<url>"
-                ],
-                "correctAnswer": 0
-            },
-            {
-                "question": "Which CSS property is used to position an element relative to its normal position?",
-                "answers": [
-                    "absolute",
-                    "relative",
-                    "fixed",
-                    "sticky"
-                ],
-                "correctAnswer": 1
-            },
-            {
-                "question": "Which tag is used to define a row in an HTML table?",
-                "answers": [
-                    "<td>",
-                    "<th>",
-                    "<tr>",
-                    "<table-row>"
-                ],
-                "correctAnswer": 2
-            },
-            {
-                "question": "Which property is used to define the size of columns in a CSS Grid?",
-                "answers": [
-                    "grid-column",
-                    "column-size",
-                    "grid-template-columns",
-                    "column-template"
-                ],
-                "correctAnswer": 2
-            }
-        ]
-    },
+    
+        {
+            "title": "HTML Basics",
+            "description": "Test your knowledge of HTML structure, tags, and attributes.",
+            "questions_count": 12,
+            "time_estimate": "25 mins",
+            "difficulty": "Beginner",
+            "is_new": true,
+            "questions": [
+                {
+                    "question": "What is the correct structure of an HTML document?",
+                    "answers": [
+                        "<html><head></head><body></body></html>",
+                        "<html><head><body></body></head></html>",
+                        "<html><body></body></head><html>",
+                        "<html><head><body></html>"
+                    ],
+                    "correctAnswer": 0,
+                    "explanation": "The correct HTML structure follows a specific hierarchy: the <html> tag contains two main sections - <head> for metadata and <body> for visible content. These sections must be properly nested and closed. The head section must come before the body section for valid HTML markup."
+                },
+                {
+                    "question": "Which of the following tags is used to define an unordered list in HTML?",
+                    "answers": [
+                        "<list>",
+                        "<ul>",
+                        "<ol>",
+                        "<li>"
+                    ],
+                    "correctAnswer": 1,
+                    "explanation": "The <ul> tag (unordered list) is used to create bullet-point lists in HTML. While <li> is used for individual list items, <ol> is for ordered (numbered) lists, and <list> is not a valid HTML tag. The <ul> tag must contain <li> elements as its children."
+                },
+                {
+                    "question": "Which CSS property is used to change the background color of an element?",
+                    "answers": [
+                        "background-color",
+                        "color",
+                        "bg-color",
+                        "background"
+                    ],
+                    "correctAnswer": 0,
+                    "explanation": "The 'background-color' property is specifically used to set an element's background color. While 'background' is also valid and can set multiple background properties at once, 'background-color' is more specific. 'color' affects text color, and 'bg-color' is not a valid CSS property."
+                },
+                {
+                    "question": "What is the correct CSS selector to select an element with the class `container`?",
+                    "answers": [
+                        "#container",
+                        ".container",
+                        "container",
+                        "*container"
+                    ],
+                    "correctAnswer": 1,
+                    "explanation": "The dot (.) prefix is used to select elements by class name in CSS. '#' is used for IDs, not classes. Using just 'container' would look for a <container> element, and '*container' is not valid CSS syntax. The .container selector will match any element that has the class 'container'."
+                },
+                {
+                    "question": "Which input type is used to create a password field in an HTML form?",
+                    "answers": [
+                        "<input type=\"text\">",
+                        "<input type=\"password\">",
+                        "<input type=\"password-field\">",
+                        "<input type=\"hidden\">"
+                    ],
+                    "correctAnswer": 1,
+                    "explanation": "The type=\"password\" attribute creates an input field that masks the entered characters (typically with dots or asterisks) for security. This is the standard way to create password fields in HTML forms. Other types like 'text' show characters plainly, and 'password-field' is not a valid input type."
+                },
+                {
+                    "question": "Which CSS property is used to align items horizontally in a Flexbox container?",
+                    "answers": [
+                        "justify-items",
+                        "justify-content",
+                        "align-items",
+                        "align-content"
+                    ],
+                    "correctAnswer": 1,
+                    "explanation": "In Flexbox, 'justify-content' is used for horizontal alignment along the main axis. 'align-items' is for vertical alignment, 'justify-items' is not a valid Flexbox property, and 'align-content' controls space between flex lines when there's wrapping."
+                },
+                {
+                    "question": "What attribute is required to specify the image source in the `<img>` tag?",
+                    "answers": [
+                        "href",
+                        "src",
+                        "alt",
+                        "path"
+                    ],
+                    "correctAnswer": 1,
+                    "explanation": "The 'src' attribute is mandatory for <img> tags as it specifies the path to the image file. 'href' is used for links (<a> tags), 'alt' provides alternative text for accessibility but isn't required, and 'path' is not a valid HTML attribute."
+                },
+                {
+                    "question": "What does the CSS `box-sizing` property control?",
+                    "answers": [
+                        "The visibility of an element",
+                        "How padding and border are included in the element's width and height",
+                        "The position of an element relative to the viewport",
+                        "The color of the element's border"
+                    ],
+                    "correctAnswer": 1,
+                    "explanation": "The 'box-sizing' property determines how the total width and height of an element is calculated. With 'border-box', padding and border are included in the element's dimensions, while with 'content-box' (default), they are added to the specified width and height."
+                },
+                {
+                    "question": "Which HTML tag is used to define a hyperlink?",
+                    "answers": [
+                        "<a>",
+                        "<link>",
+                        "<href>",
+                        "<url>"
+                    ],
+                    "correctAnswer": 0,
+                    "explanation": "The <a> (anchor) tag is used to create hyperlinks in HTML. The <link> tag is used in the head section for external resources, <href> is an attribute (not a tag), and <url> is not a valid HTML tag. The <a> tag requires an href attribute to specify the destination URL."
+                },
+                {
+                    "question": "Which CSS property is used to position an element relative to its normal position?",
+                    "answers": [
+                        "absolute",
+                        "relative",
+                        "fixed",
+                        "sticky"
+                    ],
+                    "correctAnswer": 1,
+                    "explanation": "The 'position: relative' property positions an element relative to where it would normally appear in the document flow. Unlike 'absolute' (which removes from flow) or 'fixed' (which positions relative to viewport), 'relative' maintains the element's space in the layout."
+                },
+                {
+                    "question": "Which tag is used to define a row in an HTML table?",
+                    "answers": [
+                        "<td>",
+                        "<th>",
+                        "<tr>",
+                        "<table-row>"
+                    ],
+                    "correctAnswer": 2,
+                    "explanation": "The <tr> (table row) tag defines a row in an HTML table. <td> is for table data cells, <th> is for header cells, and <table-row> is not a valid HTML tag. Table rows (<tr>) contain cells (<td> or <th>) and help structure table content."
+                },
+                {
+                    "question": "Which property is used to define the size of columns in a CSS Grid?",
+                    "answers": [
+                        "grid-column",
+                        "column-size",
+                        "grid-template-columns",
+                        "column-template"
+                    ],
+                    "correctAnswer": 2,
+                    "explanation": "The 'grid-template-columns' property defines the width and number of columns in a CSS Grid layout. It can accept various units and the 'fr' unit for fractional spaces. 'grid-column' is used for positioning items within the grid, while 'column-size' and 'column-template' are not valid CSS properties."
+                }
+            ]
+        },
+        {
+            "title": "CSS Styling",
+            "description": "Challenge yourself with questions about CSS selectors, properties, and layouts.",
+            "questions_count": 14,
+            "time_estimate": "25 mins",
+            "difficulty": "Intermediate",
+            "is_new": false,
+            "questions": [
+                {
+                    "question": "Which CSS property is used to change the text color of an element?",
+                    "answers": [
+                        "font-color",
+                        "color",
+                        "text-color",
+                        "background-color"
+                    ],
+                    "correctAnswer": 1,
+                    "explanation": "The 'color' property is used to set the color of text content. While 'font-color' and 'text-color' might seem intuitive, they are not valid CSS properties. 'background-color' affects the element's background, not the text color."
+                },
+                {
+                    "question": "What does the 'z-index' property control?",
+                    "answers": [
+                        "The size of an element",
+                        "The stack order of elements",
+                        "The transparency of an element",
+                        "The font size of text"
+                    ],
+                    "correctAnswer": 1,
+                    "explanation": "The 'z-index' property controls how elements stack on top of each other in the third dimension (z-axis). Higher z-index values appear on top of elements with lower values. This only works on positioned elements (position: relative, absolute, fixed, or sticky)."
+                },
+                {
+                    "question": "What is the default value of the `position` property in CSS?",
+                    "answers": [
+                        "relative",
+                        "absolute",
+                        "fixed",
+                        "static"
+                    ],
+                    "correctAnswer": 3,
+                    "explanation": "The default position value is 'static', meaning the element follows the normal document flow. Static elements are not affected by top, right, bottom, or left properties, and z-index doesn't apply to them."
+                },
+                {
+                    "question": "Which CSS property controls the space between the content and the border of an element?",
+                    "answers": [
+                        "margin",
+                        "padding",
+                        "border-spacing",
+                        "box-sizing"
+                    ],
+                    "correctAnswer": 1,
+                    "explanation": "Padding controls the space between an element's content and its border. Margin controls space outside the border, border-spacing is for table cells, and box-sizing determines how dimensions are calculated."
+                },
+                {
+                    "question": "Which selector targets all `<p>` elements within a container with the class `box`?",
+                    "answers": [
+                        ".box p",
+                        "#box p",
+                        "p.box",
+                        "box p"
+                    ],
+                    "correctAnswer": 0,
+                    "explanation": "The selector '.box p' targets all paragraph elements that are descendants of any element with the class 'box'. This is called a descendant selector. 'p.box' would select paragraphs that have the class 'box', which is different."
+                },
+                {
+                    "question": "How do you apply styles to an element with the class `highlight`?",
+                    "answers": [
+                        "#highlight",
+                        ".highlight",
+                        "highlight",
+                        "*highlight"
+                    ],
+                    "correctAnswer": 1,
+                    "explanation": "To target elements by class, use a dot (.) followed by the class name. '#' is for IDs, just the name would target an element of that name, and '*' is the universal selector. Multiple elements can share the same class."
+                },
+                {
+                    "question": "Which of the following is the correct syntax for a CSS comment?",
+                    "answers": [
+                        "// This is a comment",
+                        "/* This is a comment */",
+                        "<!-- This is a comment -->",
+                        "# This is a comment"
+                    ],
+                    "correctAnswer": 1,
+                    "explanation": "CSS comments use /* */ syntax. // is used in JavaScript, <!-- --> is for HTML comments, and # is not valid for CSS comments. CSS comments can span multiple lines between the opening /* and closing */."
+                },
+                {
+                    "question": "Which CSS property is used to set the font size of an element?",
+                    "answers": [
+                        "font-size",
+                        "text-size",
+                        "font-style",
+                        "font-weight"
+                    ],
+                    "correctAnswer": 0,
+                    "explanation": "The 'font-size' property controls text size. 'font-style' is for italic/normal text, 'font-weight' controls boldness, and 'text-size' is not a valid CSS property. Font size can be specified in various units like px, em, rem, or percentage."
+                },
+                {
+                    "question": "What does the `float` property do in CSS?",
+                    "answers": [
+                        "It makes an element move horizontally across the page",
+                        "It aligns an element to the right or left of its container",
+                        "It adds margin space to an element",
+                        "It wraps text around an element"
+                    ],
+                    "correctAnswer": 1,
+                    "explanation": "The float property pushes an element to the left or right of its container, allowing other content to wrap around it. While it can be used for layout, modern alternatives like Flexbox and Grid are often better choices for complex layouts."
+                },
+                {
+                    "question": "What does the `display` property of `inline-block` do?",
+                    "answers": [
+                        "Makes the element behave like a block-level element",
+                        "Makes the element behave like an inline element",
+                        "Allows elements to line up next to each other",
+                        "Makes the element invisible"
+                    ],
+                    "correctAnswer": 2,
+                    "explanation": "inline-block combines features of both inline and block elements. It allows elements to sit next to each other (like inline) while maintaining block properties like respecting width/height and having margins/padding on all sides."
+                },
+                {
+                    "question": "Which CSS property is used to control the text alignment?",
+                    "answers": [
+                        "align-text",
+                        "text-align",
+                        "align-content",
+                        "text-align-center"
+                    ],
+                    "correctAnswer": 1,
+                    "explanation": "The 'text-align' property controls horizontal text alignment within an element. It can be set to values like left, right, center, or justify. 'align-content' is for flexbox/grid, and the others are not valid CSS properties."
+                },
+                {
+                    "question": "Which CSS property is used to change the font style of text?",
+                    "answers": [
+                        "font-style",
+                        "font-weight",
+                        "text-style",
+                        "font-family"
+                    ],
+                    "correctAnswer": 0,
+                    "explanation": "The 'font-style' property is used to make text italic or normal. 'font-weight' controls boldness, 'font-family' sets the typeface, and 'text-style' is not a valid CSS property. Common values are normal, italic, and oblique."
+                },
+                {
+                    "question": "Which property is used to set the space between lines of text?",
+                    "answers": [
+                        "line-height",
+                        "letter-spacing",
+                        "text-spacing",
+                        "font-spacing"
+                    ],
+                    "correctAnswer": 0,
+                    "explanation": "The 'line-height' property controls the vertical space between lines of text. It can be set as a number (multiplier), length, or percentage. 'letter-spacing' controls space between characters, and the others are not valid CSS properties."
+                },
+                {
+                    "question": "What does the `clear` property do in CSS?",
+                    "answers": [
+                        "Clears the padding of an element",
+                        "Clears the float property",
+                        "Clears the margin of an element",
+                        "Clears the content of an element"
+                    ],
+                    "correctAnswer": 1,
+                    "explanation": "The 'clear' property prevents elements from floating beside cleared elements on the specified side (left, right, or both). It's commonly used to prevent elements from wrapping around floated elements and to clear float containers."
+                }
+            ]
+        },
 
-    {
-        "title": "CSS Styling",
-        "description": "Challenge yourself with questions about CSS selectors, properties, and layouts.",
-        "questions_count": 14,
-        "time_estimate": "25 mins",
-        "difficulty": "Intermediate",
-        "is_new": false,
-        "questions": [
-            {
-                "question": "Which CSS property is used to change the text color of an element?",
-                "answers": [
-                    "font-color",
-                    "color",
-                    "text-color",
-                    "background-color"
-                ],
-                "correctAnswer": 1
-            },
-            {
-                "question": "What does the 'z-index' property control?",
-                "answers": [
-                    "The size of an element",
-                    "The stack order of elements",
-                    "The transparency of an element",
-                    "The font size of text"
-                ],
-                "correctAnswer": 1
-            },
-            {
-                "question": "What is the default value of the `position` property in CSS?",
-                "answers": [
-                    "relative",
-                    "absolute",
-                    "fixed",
-                    "static"
-                ],
-                "correctAnswer": 3
-            },
-            {
-                "question": "Which CSS property controls the space between the content and the border of an element?",
-                "answers": [
-                    "margin",
-                    "padding",
-                    "border-spacing",
-                    "box-sizing"
-                ],
-                "correctAnswer": 1
-            },
-            {
-                "question": "Which selector targets all `<p>` elements within a container with the class `box`?",
-                "answers": [
-                    ".box p",
-                    "#box p",
-                    "p.box",
-                    "box p"
-                ],
-                "correctAnswer": 0
-            },
-            {
-                "question": "How do you apply styles to an element with the class `highlight`?",
-                "answers": [
-                    "#highlight",
-                    ".highlight",
-                    "highlight",
-                    "*highlight"
-                ],
-                "correctAnswer": 1
-            },
-            {
-                "question": "Which of the following is the correct syntax for a CSS comment?",
-                "answers": [
-                    "// This is a comment",
-                    "/* This is a comment */",
-                    "<!-- This is a comment -->",
-                    "# This is a comment"
-                ],
-                "correctAnswer": 1
-            },
-            {
-                "question": "Which CSS property is used to set the font size of an element?",
-                "answers": [
-                    "font-size",
-                    "text-size",
-                    "font-style",
-                    "font-weight"
-                ],
-                "correctAnswer": 0
-            },
-            {
-                "question": "What does the `float` property do in CSS?",
-                "answers": [
-                    "It makes an element move horizontally across the page",
-                    "It aligns an element to the right or left of its container",
-                    "It adds margin space to an element",
-                    "It wraps text around an element"
-                ],
-                "correctAnswer": 1
-            },
-            {
-                "question": "What does the `display` property of `inline-block` do?",
-                "answers": [
-                    "Makes the element behave like a block-level element",
-                    "Makes the element behave like an inline element",
-                    "Allows elements to line up next to each other",
-                    "Makes the element invisible"
-                ],
-                "correctAnswer": 2
-            },
-            {
-                "question": "Which CSS property is used to control the text alignment?",
-                "answers": [
-                    "align-text",
-                    "text-align",
-                    "align-content",
-                    "text-align-center"
-                ],
-                "correctAnswer": 1
-            },
-            {
-                "question": "Which CSS property is used to change the font style of text?",
-                "answers": [
-                    "font-style",
-                    "font-weight",
-                    "text-style",
-                    "font-family"
-                ],
-                "correctAnswer": 0
-            },
-            {
-                "question": "Which property is used to set the space between lines of text?",
-                "answers": [
-                    "line-height",
-                    "letter-spacing",
-                    "text-spacing",
-                    "font-spacing"
-                ],
-                "correctAnswer": 0
-            },
-            {
-                "question": "What does the `clear` property do in CSS?",
-                "answers": [
-                    "Clears the padding of an element",
-                    "Clears the float property",
-                    "Clears the margin of an element",
-                    "Clears the content of an element"
-                ],
-                "correctAnswer": 1
-            }
-        ]
-    },
+        {
+            "title": "JavaScript Fundamentals",
+            "description": "Test your knowledge of JavaScript syntax, functions, loops, and events.",
+            "questions_count": 8,
+            "time_estimate": "30 mins",
+            "difficulty": "Beginner",
+            "is_new": true,
+            "questions": [
+                {
+                    "question": "What is the correct syntax for a JavaScript function?",
+                    "answers": [
+                        "function myFunction() {}",
+                        "function:myFunction() {}",
+                        "def myFunction() {}",
+                        "function => myFunction() {}"
+                    ],
+                    "correctAnswer": 0,
+                    "explanation": "The correct syntax uses the 'function' keyword followed by the function name and parentheses for parameters, then curly braces for the function body. 'def' is used in Python, and 'function:' is not valid JavaScript syntax. While arrow functions exist in JavaScript, their syntax is different (const myFunction = () => {})."
+                },
+                {
+                    "question": "Which of the following is NOT a JavaScript data type?",
+                    "answers": [
+                        "Boolean",
+                        "String",
+                        "Integer",
+                        "Object"
+                    ],
+                    "correctAnswer": 2,
+                    "explanation": "JavaScript does not have a specific 'Integer' type. Instead, all numbers in JavaScript are of type 'number', which can represent both integers and floating-point numbers. Boolean, String, and Object are all valid JavaScript data types, along with number, undefined, null, and symbol."
+                },
+                {
+                    "question": "What does the 'let' keyword do in JavaScript?",
+                    "answers": [
+                        "Declares a block-scoped variable",
+                        "Declares a global-scoped variable",
+                        "Declares a constant",
+                        "Declares a function"
+                    ],
+                    "correctAnswer": 0,
+                    "explanation": "'let' declares a block-scoped variable, meaning the variable is only accessible within the block, statement, or expression it was defined in. Unlike 'var' which is function-scoped, 'let' provides better scoping rules and helps prevent common programming mistakes. 'const' is used for constants, and variables declared without any keyword become global."
+                },
+                {
+                    "question": "Which operator is used to assign a value to a variable in JavaScript?",
+                    "answers": [
+                        "=",
+                        "==",
+                        "===",
+                        "=>"
+                    ],
+                    "correctAnswer": 0,
+                    "explanation": "The single equals sign (=) is the assignment operator in JavaScript. '==' is the equality operator that compares values, '===' is the strict equality operator that compares both value and type, and '=>' is used for arrow functions. The assignment operator assigns the value on the right to the variable on the left."
+                },
+                {
+                    "question": "Which event is triggered when a user clicks on an HTML element?",
+                    "answers": [
+                        "onclick",
+                        "onmouseover",
+                        "onchange",
+                        "onfocus"
+                    ],
+                    "correctAnswer": 0,
+                    "explanation": "The 'onclick' event is triggered when a user clicks on an element. 'onmouseover' is triggered when the mouse pointer moves over an element, 'onchange' occurs when the value of an input element changes, and 'onfocus' happens when an element receives focus. Modern JavaScript often uses addEventListener('click', ...) instead of onclick."
+                },
+                {
+                    "question": "Which of the following is a JavaScript array method to add an item to the end of an array?",
+                    "answers": [
+                        "push()",
+                        "shift()",
+                        "unshift()",
+                        "pop()"
+                    ],
+                    "correctAnswer": 0,
+                    "explanation": "The push() method adds one or more elements to the end of an array and returns the new length. pop() removes the last element, shift() removes the first element, and unshift() adds elements to the beginning of the array. push() is commonly used for adding items to a stack-like data structure."
+                },
+                {
+                    "question": "What is the correct way to declare a JavaScript object?",
+                    "answers": [
+                        "var obj = {name: 'John', age: 30};",
+                        "object obj = {name: 'John', age: 30};",
+                        "var obj = (name: 'John', age: 30);",
+                        "obj = {name: 'John', age: 30};"
+                    ],
+                    "correctAnswer": 0,
+                    "explanation": "Objects in JavaScript are declared using curly braces {} with key-value pairs. The correct syntax uses a variable declaration (var, let, or const) followed by an assignment operator and object literal notation. The 'object' keyword doesn't exist in JavaScript, and parentheses () are not used for object declaration."
+                },
+                {
+                    "question": "Which loop will execute the code block at least once, even if the condition is false?",
+                    "answers": [
+                        "do...while",
+                        "while",
+                        "for",
+                        "for...in"
+                    ],
+                    "correctAnswer": 0,
+                    "explanation": "The do...while loop always executes its code block at least once before checking the condition. Other loops (while, for, for...in) check their condition first, so they might never execute if the condition is initially false. This makes do...while useful when you need to ensure the code runs at least once."
+                }
+            ]   
+         },
 
-    {
-        "title": "JavaScript Fundamentals",
-        "description": "Test your knowledge of JavaScript syntax, functions, loops, and events.",
-        "questions_count": 8,
-        "time_estimate": "30 mins",
-        "difficulty": "Beginner",
-        "is_new": true,
-        "questions": [
             {
-                "question": "What is the correct syntax for a JavaScript function?",
-                "answers": [
-                    "function myFunction() {}",
-                    "function:myFunction() {}",
-                    "def myFunction() {}",
-                    "function => myFunction() {}"
-                ],
-                "correctAnswer": 0
-            },
-            {
-                "question": "Which of the following is NOT a JavaScript data type?",
-                "answers": [
-                    "Boolean",
-                    "String",
-                    "Integer",
-                    "Object"
-                ],
-                "correctAnswer": 2
-            },
-            {
-                "question": "What does the 'let' keyword do in JavaScript?",
-                "answers": [
-                    "Declares a block-scoped variable",
-                    "Declares a global-scoped variable",
-                    "Declares a constant",
-                    "Declares a function"
-                ],
-                "correctAnswer": 0
-            },
-            {
-                "question": "Which operator is used to assign a value to a variable in JavaScript?",
-                "answers": [
-                    "=",
-                    "==",
-                    "===",
-                    "=>"
-                ],
-                "correctAnswer": 0
-            },
-            {
-                "question": "Which event is triggered when a user clicks on an HTML element?",
-                "answers": [
-                    "onclick",
-                    "onmouseover",
-                    "onchange",
-                    "onfocus"
-                ],
-                "correctAnswer": 0
-            },
-            {
-                "question": "Which of the following is a JavaScript array method to add an item to the end of an array?",
-                "answers": [
-                    "push()",
-                    "shift()",
-                    "unshift()",
-                    "pop()"
-                ],
-                "correctAnswer": 0
-            },
-            {
-                "question": "What is the correct way to declare a JavaScript object?",
-                "answers": [
-                    "var obj = {name: 'John', age: 30};",
-                    "object obj = {name: 'John', age: 30};",
-                    "var obj = (name: 'John', age: 30);",
-                    "obj = {name: 'John', age: 30};"
-                ],
-                "correctAnswer": 0
-            },
-            {
-                "question": "Which loop will execute the code block at least once, even if the condition is false?",
-                "answers": [
-                    "do...while",
-                    "while",
-                    "for",
-                    "for...in"
-                ],
-                "correctAnswer": 0
-            }
-        ]
-    },
-
-    {
-        "title": "Backend Development",
-        "description": "Challenge yourself with questions about server-side programming, databases, and APIs.",
-        "questions_count": 8,
-        "time_estimate": "35 mins",
-        "difficulty": "Intermediate",
-        "is_new": false,
-        "questions": [
-            {
-                "question": "Which of the following is a popular backend programming language?",
-                "answers": [
-                    "Python",
-                    "JavaScript",
-                    "HTML",
-                    "CSS"
-                ],
-                "correctAnswer": 0
-            },
-            {
-                "question": "What is the primary purpose of a REST API?",
-                "answers": [
-                    "To manage databases",
-                    "To send data between server and client using HTTP methods",
-                    "To build user interfaces",
-                    "To authenticate users"
-                ],
-                "correctAnswer": 1
-            },
-            {
-                "question": "Which HTTP method is used to send data to the server to create a resource?",
-                "answers": [
-                    "GET",
-                    "POST",
-                    "PUT",
-                    "DELETE"
-                ],
-                "correctAnswer": 1
-            },
-            {
-                "question": "Which database is known as a NoSQL database?",
-                "answers": [
-                    "MySQL",
-                    "PostgreSQL",
-                    "MongoDB",
-                    "SQLite"
-                ],
-                "correctAnswer": 2
-            },
-            {
-                "question": "What is the purpose of the 'Express.js' framework in backend development?",
-                "answers": [
-                    "To create user interfaces",
-                    "To manage data on the frontend",
-                    "To handle routing and middleware in Node.js applications",
-                    "To style HTML pages"
-                ],
-                "correctAnswer": 2
-            },
-            {
-                "question": "Which of the following is a common use of the 'Node.js' runtime environment?",
-                "answers": [
-                    "To build interactive UIs",
-                    "To run server-side JavaScript",
-                    "To manage databases",
-                    "To create static websites"
-                ],
-                "correctAnswer": 1
-            },
-            {
-                "question": "What does the term 'middleware' refer to in a backend context?",
-                "answers": [
-                    "The layer between the frontend and backend that processes requests",
-                    "The server configuration for databases",
-                    "The frontend components used to display data",
-                    "The data sent between server and client"
-                ],
-                "correctAnswer": 0
-            },
-            {
-                "question": "Which of the following is a popular method for storing user authentication data securely in backend development?",
-                "answers": [
-                    "Plain text",
-                    "Base64 encoding",
-                    "Hashing with salt",
-                    "Encrypting with AES"
-                ],
-                "correctAnswer": 2
-            }
-        ]
-    }
+            "title": "Backend Development",
+            "description": "Challenge yourself with questions about server-side programming, databases, and APIs.",
+            "questions_count": 8,
+            "time_estimate": "35 mins",
+            "difficulty": "Intermediate",
+            "is_new": false,
+            "questions": [
+                {
+                    "question": "Which of the following is a popular backend programming language?",
+                    "answers": [
+                        "Python",
+                        "JavaScript",
+                        "HTML",
+                        "CSS"
+                    ],
+                    "correctAnswer": 0,
+                    "explanation": "Python is a popular backend programming language known for its simplicity and extensive libraries. While JavaScript can also be used for backend development (Node.js), HTML and CSS are frontend technologies used for structure and styling respectively. Python's frameworks like Django and Flask make it particularly suitable for backend development."
+                },
+                {
+                    "question": "What is the primary purpose of a REST API?",
+                    "answers": [
+                        "To manage databases",
+                        "To send data between server and client using HTTP methods",
+                        "To build user interfaces",
+                        "To authenticate users"
+                    ],
+                    "correctAnswer": 1,
+                    "explanation": "REST (Representational State Transfer) APIs primarily facilitate communication between clients and servers using HTTP methods (GET, POST, PUT, DELETE). While they can involve database operations and authentication, their main purpose is to provide a standardized way for different systems to communicate over HTTP using these methods."
+                },
+                {
+                    "question": "Which HTTP method is used to send data to the server to create a resource?",
+                    "answers": [
+                        "GET",
+                        "POST",
+                        "PUT",
+                        "DELETE"
+                    ],
+                    "correctAnswer": 1,
+                    "explanation": "POST is the HTTP method used to create new resources on the server. GET is used to retrieve data, PUT is used to update existing resources, and DELETE is used to remove resources. POST requests typically include data in the request body that defines the new resource to be created."
+                },
+                {
+                    "question": "Which database is known as a NoSQL database?",
+                    "answers": [
+                        "MySQL",
+                        "PostgreSQL",
+                        "MongoDB",
+                        "SQLite"
+                    ],
+                    "correctAnswer": 2,
+                    "explanation": "MongoDB is a NoSQL database that stores data in flexible, JSON-like documents. Unlike traditional SQL databases (MySQL, PostgreSQL, SQLite) which use structured tables with predefined schemas, NoSQL databases like MongoDB offer more flexibility in data structure and are better suited for handling unstructured or semi-structured data."
+                },
+                {
+                    "question": "What is the purpose of the 'Express.js' framework in backend development?",
+                    "answers": [
+                        "To create user interfaces",
+                        "To manage data on the frontend",
+                        "To handle routing and middleware in Node.js applications",
+                        "To style HTML pages"
+                    ],
+                    "correctAnswer": 2,
+                    "explanation": "Express.js is a web application framework for Node.js that simplifies the process of building web applications and APIs. It provides features for routing HTTP requests, configuring middleware to add functionality, and handling responses. It's not used for frontend development or styling, but rather for organizing server-side code."
+                },
+                {
+                    "question": "Which of the following is a common use of the 'Node.js' runtime environment?",
+                    "answers": [
+                        "To build interactive UIs",
+                        "To run server-side JavaScript",
+                        "To manage databases",
+                        "To create static websites"
+                    ],
+                    "correctAnswer": 1,
+                    "explanation": "Node.js is primarily used to run JavaScript code outside of a web browser, particularly for server-side applications. While it can be used in conjunction with database management or static site generation, its main purpose is to execute JavaScript on the server, enabling full-stack JavaScript development."
+                },
+                {
+                    "question": "What does the term 'middleware' refer to in a backend context?",
+                    "answers": [
+                        "The layer between the frontend and backend that processes requests",
+                        "The server configuration for databases",
+                        "The frontend components used to display data",
+                        "The data sent between server and client"
+                    ],
+                    "correctAnswer": 0,
+                    "explanation": "Middleware acts as intermediary software that processes requests between the client and the main application logic. It can perform tasks like authentication, logging, data parsing, error handling, etc. Middleware functions have access to the request and response objects and can modify them or end the request-response cycle."
+                },
+                {
+                    "question": "Which of the following is a popular method for storing user authentication data securely in backend development?",
+                    "answers": [
+                        "Plain text",
+                        "Base64 encoding",
+                        "Hashing with salt",
+                        "Encrypting with AES"
+                    ],
+                    "correctAnswer": 2,
+                    "explanation": "Hashing with salt is the recommended method for storing passwords. A salt is random data added to the password before hashing, making the hash unique even for identical passwords. Plain text is extremely insecure, Base64 encoding is easily reversible, and encryption (like AES) is designed to be decrypted, which isn't necessary for password storage."
+                }
+            ]
+        }
 ]
