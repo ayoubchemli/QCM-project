@@ -950,9 +950,11 @@ class MCQHistoryPage(QMainWindow):
             status_item = QTableWidgetItem(status)
             status_item.setTextAlignment(Qt.AlignCenter)
             if status == "Passed":
-                status_item.setForeground(QColor("#10B981"))  # Green
+                # status_item.setForeground(QColor("#10B981"))  # Green
+                status_item.setBackground(QColor("#10B981"))  # Green
             else:
-                status_item.setForeground(QColor("#EF4444"))  # Red
+                # status_item.setForeground(QColor("#EF4444"))  # Red
+                status_item.setBackground(QColor("#EF4444"))  # Red
             self.history_table.setItem(row, 4, status_item)
 
     def apply_theme(self, is_light_mode):

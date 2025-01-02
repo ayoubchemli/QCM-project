@@ -384,6 +384,15 @@
                 },
                 "points": 14.29,
                 "date": "2025-01-02 02:00:30"
+            },
+            {
+                "subject": {
+                    "course": "Web Development",
+                    "chapter_id": 1,
+                    "chapter": "CSS Styling"
+                },
+                "points": 78.57,
+                "date": "2025-01-02 05:22:08"
             }
         ]
     }

@@ -90,7 +90,7 @@ class User:
             course = str(score['subject']['course'])
             chapter = str(score['subject']['chapter'])
             points = str(score['points'])
-            status = "Pass" if score['points'] >= 50 else "Fail"
+            status = "Passed" if score['points'] >= 50 else "Failed"
             formatted_scores.append((date, course, chapter, points, status))
         return formatted_scores
     
