@@ -1,9 +1,9 @@
-from data_handler import read_users,write_users,read_subjects
+from .data_handler import read_users,write_users,read_subjects
 import hashlib
-from User import User
-from subject import Subject
-from take_test import takeTest
-from Score import Score
+from .User import User
+from .subject import Subject
+from .take_test import takeTest
+from .Score import Score
 import re
 
 

@@ -1,5 +1,5 @@
-from Score import Score
-from subject import Subject
+from .Score import Score
+from .subject import Subject
 import json
 import csv
 from datetime import datetime

@@ -1,0 +1,65 @@
+{
+    "date": "2025-01-02 00:28:43",
+    "total_questions": 8,
+    "score": 3,
+    "percentage": 37.5,
+    "time_taken": 20,
+    "questions": [
+        {
+            "question": "Which of the following is a symmetric encryption algorithm?",
+            "selected_answer": "RSA",
+            "correct_answer": "AES",
+            "is_correct": false,
+            "explanation": "AES (Advanced Encryption Standard) is a symmetric encryption algorithm, meaning the same key is used for both encryption and decryption."
+        },
+        {
+            "question": "What is the main purpose of a digital signature?",
+            "selected_answer": "To verify the authenticity and integrity of a message",
+            "correct_answer": "To verify the authenticity and integrity of a message",
+            "is_correct": true,
+            "explanation": "A digital signature is used to verify the authenticity and integrity of a message, ensuring it hasn't been tampered with."
+        },
+        {
+            "question": "Which encryption algorithm is based on the use of public and private keys?",
+            "selected_answer": "Blowfish",
+            "correct_answer": "RSA",
+            "is_correct": false,
+            "explanation": "RSA is an asymmetric encryption algorithm that uses a pair of keys: a public key for encryption and a private key for decryption."
+        },
+        {
+            "question": "What is the key characteristic of asymmetric encryption?",
+            "selected_answer": "It is faster than symmetric encryption",
+            "correct_answer": "Different keys are used for encryption and decryption",
+            "is_correct": false,
+            "explanation": "Asymmetric encryption uses different keys for encryption and decryption (public key for encryption, private key for decryption)."
+        },
+        {
+            "question": "Which of the following is an example of a hashing algorithm?",
+            "selected_answer": "MD5",
+            "correct_answer": "MD5",
+            "is_correct": true,
+            "explanation": "MD5 is a cryptographic hash function used to produce a fixed-size output (hash) from an input, typically for data integrity checks."
+        },
+        {
+            "question": "Which protocol is used to secure email communication by encrypting the contents of an email?",
+            "selected_answer": "PGP",
+            "correct_answer": "PGP",
+            "is_correct": true,
+            "explanation": "PGP (Pretty Good Privacy) is used to encrypt email contents, ensuring confidentiality and authenticity."
+        },
+        {
+            "question": "Which of the following is true about a hash function?",
+            "selected_answer": "It can be reversed to obtain the original data.",
+            "correct_answer": "It produces a fixed-size output regardless of the input size.",
+            "is_correct": false,
+            "explanation": "A hash function produces a fixed-size output, regardless of the input size, and is not reversible."
+        },
+        {
+            "question": "Which of the following is a widely used cryptographic protocol for securing websites?",
+            "selected_answer": "RDP",
+            "correct_answer": "TLS/SSL",
+            "is_correct": false,
+            "explanation": "TLS/SSL (Transport Layer Security/Secure Sockets Layer) is used to secure communications between web browsers and servers."
+        }
+    ]
+}

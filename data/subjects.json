@@ -3,7 +3,7 @@
         "title": "Web Development",
         "description": "Learn the foundations of building dynamic and responsive web applications.",
         "chapters": ["HTML Basics", "CSS Styling", "JavaScript Fundamentals", "Backend Development"],
-        "is_new": true
+        "is_new": false
     },
     {
         "title": "Machine Learning",

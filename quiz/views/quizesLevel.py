@@ -7,6 +7,13 @@ from PyQt5.QtCore import Qt, QPropertyAnimation, QRect, QEasingCurve, QSize
 from PyQt5.QtGui import QFont, QColor, QPainter, QPainterPath, QLinearGradient, QIcon, QKeySequence
 from PyQt5.QtWidgets import QLineEdit, QMenu
 
+import quiz.views.MCQPage
+from quiz.AppState import AppState
+from quiz.subject import Subject
+from quiz.User import User
+from quiz.take_test import takeTest
+
+
 
 
 
@@ -105,7 +112,7 @@ class HoverButton(QPushButton):
         self._animation.start()
 
 class CategoryCard(QFrame):
-    def __init__(self, title, description, chapters, questions_count, time_estimate, difficulty, is_new=False):
+    def __init__(self, title, description, chapters, questions_count, time_estimate, difficulty, is_new=False, on_start=None):
         super().__init__()
         self.setMinimumSize(600, 200)
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
@@ -193,6 +200,8 @@ class CategoryCard(QFrame):
         right_section.setAlignment(Qt.AlignCenter)
         
         start_button = HoverButton("Start Quiz")
+        if on_start:
+            start_button.clicked.connect(on_start)
         right_section.addWidget(start_button)
         
         layout.addLayout(right_section, stretch=1)
@@ -281,13 +290,10 @@ class quizesLevel(QMainWindow):
         
     
 
-    def __init__(self):
+    def __init__(self, appstate):
         
         super().__init__()
-        
-        
-        
-        
+        self.appstate = appstate
         
         # Initialize all UI elements first
         self.theme_toggle = ThemeToggleButton(self)
@@ -352,6 +358,7 @@ class quizesLevel(QMainWindow):
         
         # Central widget setup
         central_widget = QWidget()
+        # central_widget.setLayout(QVBoxLayout())
         self.setCentralWidget(central_widget)
         main_layout = QVBoxLayout(central_widget)
         main_layout.setContentsMargins(40, 40, 40, 40)
@@ -389,52 +396,57 @@ class quizesLevel(QMainWindow):
         cards_layout.setContentsMargins(20, 20, 20, 20)
         cards_layout.setSpacing(20)
         cards_layout.setAlignment(Qt.AlignHCenter)
+
+        categories = Subject.get_all_chapters_of_course(appstate.getCourse())
+        print(categories)
+        print(appstate.getCourse())
         
         # Quiz categories
-        categories = [
-            {
-                "title": "Python 1",
-                "description": "Test your knowledge of Python basics including variables, data types, control flow, and functions.",
-                "questions_count": 25,
-                "time_estimate": "30 mins",
-                "difficulty": "Beginner",
-                "is_new": True
-            },
-            {
-                "title": "Python 2",
-                "description": "Challenge yourself with questions about arrays, linked lists, trees, and advanced data structures.",
-                "questions_count": 30,
-                "time_estimate": "45 mins",
-                "difficulty": "Intermediate",
-                "is_new": False
-            },
-            {
-                "title": "Python 3",
-                "description": "Master algorithmic concepts with questions on sorting, searching, and optimization techniques.",
-                "questions_count": 20,
-                "time_estimate": "40 mins",
-                "difficulty": "Advanced",
-                "is_new": True
-            },
-            {
-                "title": "Python 4",
-                "description": "Explore OOP concepts including classes, inheritance, polymorphism, and encapsulation.",
-                "questions_count": 25,
-                "time_estimate": "35 mins",
-                "difficulty": "Intermediate",
-                "is_new": False
-            },
-            {
-                "title": "Python 5",
-                "description": "Test your understanding of SQL, database design, and normalization principles.",
-                "questions_count": 30,
-                "time_estimate": "45 mins",
-                "difficulty": "Intermediate",
-                "is_new": True
-            }
-        ]
+        # categories = [
+        #     {
+        #         "title": "Python 1",
+        #         "description": "Test your knowledge of Python basics including variables, data types, control flow, and functions.",
+        #         "questions_count": 25,
+        #         "time_estimate": "30 mins",
+        #         "difficulty": "Beginner",
+        #         "is_new": True
+        #     },
+        #     {
+        #         "title": "Python 2",
+        #         "description": "Challenge yourself with questions about arrays, linked lists, trees, and advanced data structures.",
+        #         "questions_count": 30,
+        #         "time_estimate": "45 mins",
+        #         "difficulty": "Intermediate",
+        #         "is_new": False
+        #     },
+        #     {
+        #         "title": "Python 3",
+        #         "description": "Master algorithmic concepts with questions on sorting, searching, and optimization techniques.",
+        #         "questions_count": 20,
+        #         "time_estimate": "40 mins",
+        #         "difficulty": "Advanced",
+        #         "is_new": True
+        #     },
+        #     {
+        #         "title": "Python 4",
+        #         "description": "Explore OOP concepts including classes, inheritance, polymorphism, and encapsulation.",
+        #         "questions_count": 25,
+        #         "time_estimate": "35 mins",
+        #         "difficulty": "Intermediate",
+        #         "is_new": False
+        #     },
+        #     {
+        #         "title": "Python 5",
+        #         "description": "Test your understanding of SQL, database design, and normalization principles.",
+        #         "questions_count": 30,
+        #         "time_estimate": "45 mins",
+        #         "difficulty": "Intermediate",
+        #         "is_new": True
+        #     }
+        # ]
         
         for category in categories:
+            chapter_id = int(category["chapter_id"]) 
             card = CategoryCard(
                 category["title"],
                 category["description"],
@@ -442,7 +454,8 @@ class quizesLevel(QMainWindow):
                 category["questions_count"],
                 category["time_estimate"],
                 category["difficulty"],
-                category["is_new"]
+                category["is_new"],
+                on_start=self.create_on_start_handler(chapter_id),
             )
             cards_layout.addWidget(card)
         
@@ -450,31 +463,54 @@ class quizesLevel(QMainWindow):
         scroll_area.setWidget(cards_widget)
         main_layout.addWidget(scroll_area)
         self.apply_theme(False)
+
+    def create_on_start_handler(self, chapter_id):
+        def on_start():
+            self.start_quiz(chapter_id)
+        return on_start
+
+    def start_quiz(self, chapter_id):
+        self.appstate.setChapterID(chapter_id)
+        user = self.appstate.getUser()
+        course = self.appstate.getCourse()
+        chapter_name = Subject.get_all_chapters_of_course(course)[chapter_id]['title']
+        subject = Subject(course, chapter_id, chapter_name)
+        test_instance = takeTest(user, subject)
+        self.appstate.setTestInstance(test_instance)
+        questions = test_instance.get_questions()
+        self.appstate.setQuestions(questions)
+        MCQPage = quiz.views.MCQPage.MCQPage(self.appstate, False)
+        self.parent().addWidget(MCQPage)
+        self.parent().setCurrentWidget(MCQPage)
         
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
-        if self.centralWidget() and self.centralWidget().layout():
+        central_widget = self.centralWidget()
+        if central_widget and self.centralWidget().layout():
             width = self.width()
             height = self.height()
             margin = min(width, height) * 0.1
-            self.centralWidget().layout().setContentsMargins(
-                margin, margin, margin, margin
-            )
+            central_widget.layout().setContentsMargins(margin, margin, margin, margin)
         # Update positions
         self.theme_toggle.move(self.width() - 120, 20)
+
+    
+
+
+    # self.close()
         
         
     
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
+# if __name__ == '__main__':
+#     app = QApplication(sys.argv)
     
-    # Set application font
-    font_db = app.font()
-    font_db.setFamily("Segoe UI")
-    app.setFont(font_db)
+#     # Set application font
+#     font_db = app.font()
+#     font_db.setFamily("Segoe UI")
+#     app.setFont(font_db)
     
-    window = quizesLevel()
-    window.show()
-    sys.exit(app.exec_())
+#     window = quizesLevel()
+#     window.show()
+#     # sys.exit(app.exec_())
