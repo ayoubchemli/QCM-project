@@ -1,5 +1,6 @@
 [
     {
+        "chapter_id": 0,
         "title": "Python Basics",
         "description": "Test your understanding of Python's basic syntax, data types, and control structures.",
         "questions_count": 8,
@@ -98,6 +99,7 @@
         ]
     },
     {
+        "chapter_id": 1,
         "title": "Object-Oriented Programming",
         "description": "Test your knowledge of classes, objects, inheritance, and encapsulation in Python.",
         "questions_count": 8,
@@ -196,6 +198,7 @@
         ]
     },
     {
+        "chapter_id": 2,
         "title": "Libraries and Frameworks",
         "description": "Test your familiarity with popular Python libraries like NumPy, Pandas, and Flask.",
         "questions_count": 8,

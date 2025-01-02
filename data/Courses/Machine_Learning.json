@@ -1,6 +1,7 @@
 [
 
     {
+        "chapter_id": 0,
         "title": "Supervised Learning",
         "description": "Test your knowledge of supervised learning techniques such as classification and regression.",
         "questions_count": 10,
@@ -122,6 +123,7 @@
     },
     
     {
+        "chapter_id": 1,
         "title": "Unsupervised Learning",
         "description": "Test your knowledge of unsupervised learning algorithms, including clustering and dimensionality reduction.",
         "questions_count": 8,
@@ -221,6 +223,7 @@
     },
 
     {
+        "chapter_id": 2,
         "title": "Model Evaluation and Hyperparameter Tuning",
         "description": "Learn about evaluating models and fine-tuning hyperparameters to improve performance.",
         "questions_count": 20,

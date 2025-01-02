@@ -1,6 +1,7 @@
 [
     
         {
+            "chapter_id": 0,
             "title": "HTML Basics",
             "description": "Test your knowledge of HTML structure, tags, and attributes.",
             "questions_count": 12,
@@ -143,6 +144,7 @@
             ]
         },
         {
+            "chapter_id": 1,
             "title": "CSS Styling",
             "description": "Challenge yourself with questions about CSS selectors, properties, and layouts.",
             "questions_count": 14,
@@ -308,6 +310,7 @@
         },
 
         {
+            "chapter_id": 2,
             "title": "JavaScript Fundamentals",
             "description": "Test your knowledge of JavaScript syntax, functions, loops, and events.",
             "questions_count": 8,
@@ -406,7 +409,8 @@
             ]   
          },
 
-            {
+        {
+            "chapter_id": 3,
             "title": "Backend Development",
             "description": "Challenge yourself with questions about server-side programming, databases, and APIs.",
             "questions_count": 8,
