@@ -812,9 +812,10 @@ class ExportResultsPage(QMainWindow):
                     
                     
 class MCQHistoryPage(QMainWindow):
-    def __init__(self, parent=None, is_light_mode=False):
+    def __init__(self, appstate, parent=None, is_light_mode=False):
         super().__init__(parent)
         self.parent = parent
+        self.appstate = appstate
         self.setup_ui()
         self.apply_theme(is_light_mode)
 
@@ -855,10 +856,10 @@ class MCQHistoryPage(QMainWindow):
 
         # Create stat cards
         stat_cards = [
-            ("Total Tests Taken", "42", "📝"),
-            ("Average Score", "78%", "📊"),
-            ("Best Performance", "95%", "🏆"),
-            ("Tests This Month", "8", "📅")
+            ("Total Tests Taken", f"{self.appstate.getUser().count_tests_taken()}", "📝"),
+            ("Average Score", f"{self.appstate.getUser().calculate_average_score()}%", "📊"),
+            ("Best Performance", f"{self.appstate.getUser().get_best_score()}%", "🏆"),
+            ("Tests This Month", f"{self.appstate.getUser().count_tests_this_month()}", "📅")
         ]
 
         for title, value, icon in stat_cards:
@@ -882,7 +883,7 @@ class MCQHistoryPage(QMainWindow):
         self.history_table.setObjectName("historyTable")
         self.history_table.setColumnCount(5)
         self.history_table.setHorizontalHeaderLabels([
-            "Date", "Subject", "Score", "Time Taken", "Status"
+            "Date", "Course", "Chapter", "Score", "Status"
         ])
         
         # Add sample data
@@ -927,23 +928,24 @@ class MCQHistoryPage(QMainWindow):
 
     def add_sample_data(self):
         # Sample test data
-        test_data = [
-            ("2024-12-27", "Algebra", "85%", "45 mins", "Passed"),
-            ("2024-12-25", "Data Structures", "92%", "60 mins", "Passed"),
-            ("2024-12-23", "File Systems", "78%", "30 mins", "Passed"),
-            ("2024-12-20", "Linear Algebra", "65%", "45 mins", "Failed"),
-            ("2024-12-18", "Algorithms", "88%", "50 mins", "Passed"),
-            ("2024-12-15", "Graph Theory", "73%", "40 mins", "Passed"),
-            ("2024-12-12", "Number Theory", "95%", "55 mins", "Passed"),
-            ("2024-12-10", "Binary Trees", "82%", "35 mins", "Passed")
-        ]
+        test_data = self.appstate.getUser().mcq_history()
+        # test_data = [
+        #     ("2024-12-27", "Algebra", "85%", "45 mins", "Passed"),
+        #     ("2024-12-25", "Data Structures", "92%", "60 mins", "Passed"),
+        #     ("2024-12-23", "File Systems", "78%", "30 mins", "Passed"),
+        #     ("2024-12-20", "Linear Algebra", "65%", "45 mins", "Failed"),
+        #     ("2024-12-18", "Algorithms", "88%", "50 mins", "Passed"),
+        #     ("2024-12-15", "Graph Theory", "73%", "40 mins", "Passed"),
+        #     ("2024-12-12", "Number Theory", "95%", "55 mins", "Passed"),
+        #     ("2024-12-10", "Binary Trees", "82%", "35 mins", "Passed")
+        # ]
 
         self.history_table.setRowCount(len(test_data))
-        for row, (date, subject, score, time, status) in enumerate(test_data):
+        for row, (date, course, chapter, score, status) in enumerate(test_data):
             self.history_table.setItem(row, 0, QTableWidgetItem(date))
-            self.history_table.setItem(row, 1, QTableWidgetItem(subject))
-            self.history_table.setItem(row, 2, QTableWidgetItem(score))
-            self.history_table.setItem(row, 3, QTableWidgetItem(time))
+            self.history_table.setItem(row, 1, QTableWidgetItem(course))
+            self.history_table.setItem(row, 2, QTableWidgetItem(chapter))
+            self.history_table.setItem(row, 3, QTableWidgetItem(score))
             
             status_item = QTableWidgetItem(status)
             status_item.setTextAlignment(Qt.AlignCenter)
@@ -2172,7 +2174,7 @@ class MCQHomePage(QMainWindow):
         self.export_results_page = ExportResultsPage(self, self.theme_toggle.isChecked())
         self.export_results_page.showFullScreen()
    def open_mcq_history(self):
-        self.mcq_history_page = MCQHistoryPage(self, self.theme_toggle.isChecked())
+        self.mcq_history_page = MCQHistoryPage(self.appstate, self, self.theme_toggle.isChecked())
         self.mcq_history_page.showFullScreen()
 
    def open_profile(self):

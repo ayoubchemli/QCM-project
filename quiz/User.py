@@ -1,5 +1,6 @@
 from .Score import Score
 from .subject import Subject
+from .data_handler import read_users
 import json
 import csv
 from datetime import datetime
@@ -51,8 +52,47 @@ class User:
             scores=scores
         )
 
-    def view_scores(self):
-        return self.scores
+    def get_scores(self):
+        users = read_users()
+        for user in users:
+            if user['username'] == self.username:
+                return user['scores']
+
+    def count_tests_taken(self):
+        scores = self.get_scores()
+        return len(scores)
+
+    def calculate_average_score(self):
+        scores = self.get_scores()
+        if not scores:
+            return 0
+        total_points = sum(score['points'] for score in scores)
+        return round(total_points / len(scores), 2)
+    
+    def get_best_score(self):
+        scores = self.get_scores()
+        if not scores:
+            return None
+        max1 = max(scores, key=lambda x: x['points'])
+        return max1['points']
+
+    def count_tests_this_month(self):
+        scores = self.get_scores()
+        current_month = datetime.now().month
+        current_year = datetime.now().year
+        return sum(1 for score in scores if datetime.strptime(score['date'], "%Y-%m-%d %H:%M:%S").month == current_month and datetime.strptime(score['date'], "%Y-%m-%d %H:%M:%S").year == current_year)
+        
+    def mcq_history(self):
+        scores = self.get_scores()
+        formatted_scores = []
+        for score in scores:
+            date = str(score['date'])
+            course = str(score['subject']['course'])
+            chapter = str(score['subject']['chapter'])
+            points = str(score['points'])
+            status = "Pass" if score['points'] >= 50 else "Fail"
+            formatted_scores.append((date, course, chapter, points, status))
+        return formatted_scores
     
 
    

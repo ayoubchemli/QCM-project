@@ -1,65 +1,58 @@
 {
-    "date": "2025-01-02 01:24:25",
-    "total_questions": 8,
-    "score": 0,
-    "percentage": 0.0,
-    "time_taken": 6,
+    "date": "2025-01-02 02:00:38",
+    "total_questions": 7,
+    "score": 1,
+    "percentage": 14.285714285714285,
+    "time_taken": 7,
     "questions": [
         {
-            "question": "Which of the following is a symmetric encryption algorithm?",
-            "selected_answer": "RSA",
-            "correct_answer": "AES",
+            "question": "What is the first step in risk management for cybersecurity?",
+            "selected_answer": "Monitor network activity",
+            "correct_answer": "Identify assets and potential threats",
             "is_correct": false,
-            "explanation": "AES (Advanced Encryption Standard) is a symmetric encryption algorithm, meaning the same key is used for both encryption and decryption."
+            "explanation": "The first step in risk management is to identify and catalog all assets and potential threats. This creates a foundation for all subsequent risk management activities, as you need to know what you're protecting and what you're protecting it from before you can implement effective security measures."
         },
         {
-            "question": "What is the main purpose of a digital signature?",
-            "selected_answer": "To encrypt data",
-            "correct_answer": "To verify the authenticity and integrity of a message",
+            "question": "What is the purpose of a risk assessment in cybersecurity?",
+            "selected_answer": "To monitor network traffic",
+            "correct_answer": "To identify vulnerabilities and determine the impact of potential threats",
             "is_correct": false,
-            "explanation": "A digital signature is used to verify the authenticity and integrity of a message, ensuring it hasn't been tampered with."
+            "explanation": "A risk assessment helps organizations understand their security posture by identifying vulnerabilities and evaluating the potential impact of various threats. This analysis helps prioritize security investments and develop appropriate mitigation strategies based on the likelihood and potential impact of different risks."
         },
         {
-            "question": "Which encryption algorithm is based on the use of public and private keys?",
-            "selected_answer": "AES",
-            "correct_answer": "RSA",
+            "question": "What does the term 'Zero-Day' vulnerability refer to?",
+            "selected_answer": "A type of phishing attack",
+            "correct_answer": "A vulnerability that is discovered before the vendor releases a patch",
             "is_correct": false,
-            "explanation": "RSA is an asymmetric encryption algorithm that uses a pair of keys: a public key for encryption and a private key for decryption."
+            "explanation": "A Zero-Day vulnerability is a software security flaw that is known to attackers but unknown to the software vendor or antivirus vendors. Because there's no patch available yet, these vulnerabilities are particularly dangerous as they can be exploited before the vendor has an opportunity to fix them."
         },
         {
-            "question": "What is the key characteristic of asymmetric encryption?",
-            "selected_answer": "The same key is used for both encryption and decryption",
-            "correct_answer": "Different keys are used for encryption and decryption",
-            "is_correct": false,
-            "explanation": "Asymmetric encryption uses different keys for encryption and decryption (public key for encryption, private key for decryption)."
+            "question": "Which of the following is an example of a cybersecurity policy?",
+            "selected_answer": "All of the above",
+            "correct_answer": "All of the above",
+            "is_correct": true,
+            "explanation": "Cybersecurity policies encompass all rules and guidelines that protect an organization's digital assets. This includes password policies, firewall rules, network segmentation, access controls, and other security measures. These policies work together to create a comprehensive security framework."
         },
         {
-            "question": "Which of the following is an example of a hashing algorithm?",
-            "selected_answer": "AES",
-            "correct_answer": "MD5",
+            "question": "What is the purpose of an incident response plan?",
+            "selected_answer": "To manage user access to network resources",
+            "correct_answer": "To outline steps to take when a security breach occurs",
             "is_correct": false,
-            "explanation": "MD5 is a cryptographic hash function used to produce a fixed-size output (hash) from an input, typically for data integrity checks."
+            "explanation": "An incident response plan provides a structured approach to handling security incidents when they occur. It includes detailed procedures for detecting, responding to, and recovering from security breaches, ensuring that organizations can react quickly and effectively to minimize damage."
         },
         {
-            "question": "Which protocol is used to secure email communication by encrypting the contents of an email?",
-            "selected_answer": "SSL",
-            "correct_answer": "PGP",
+            "question": "What is a typical response to a Distributed Denial of Service (DDoS) attack?",
+            "selected_answer": "Monitor network traffic for abnormal behavior",
+            "correct_answer": "Increase bandwidth to handle the attack",
             "is_correct": false,
-            "explanation": "PGP (Pretty Good Privacy) is used to encrypt email contents, ensuring confidentiality and authenticity."
+            "explanation": "Increasing bandwidth is a common initial response to a DDoS attack as it helps absorb the attack traffic. However, a comprehensive DDoS mitigation strategy typically includes traffic filtering, rate limiting, and using DDoS mitigation services that can detect and filter out malicious traffic before it reaches the target servers."
         },
         {
-            "question": "Which of the following is true about a hash function?",
-            "selected_answer": "It can be reversed to obtain the original data.",
-            "correct_answer": "It produces a fixed-size output regardless of the input size.",
+            "question": "Which of the following is a common practice in risk mitigation?",
+            "selected_answer": "Using weak passwords",
+            "correct_answer": "Encrypting sensitive data",
             "is_correct": false,
-            "explanation": "A hash function produces a fixed-size output, regardless of the input size, and is not reversible."
-        },
-        {
-            "question": "Which of the following is a widely used cryptographic protocol for securing websites?",
-            "selected_answer": "SSH",
-            "correct_answer": "TLS/SSL",
-            "is_correct": false,
-            "explanation": "TLS/SSL (Transport Layer Security/Secure Sockets Layer) is used to secure communications between web browsers and servers."
+            "explanation": "Encrypting sensitive data is a fundamental risk mitigation practice that helps protect information even if other security measures fail. It ensures that even if unauthorized access occurs, the data remains unreadable and unusable without the proper decryption keys."
         }
     ]
 }
