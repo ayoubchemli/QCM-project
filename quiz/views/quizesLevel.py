@@ -18,8 +18,8 @@ from quiz.take_test import takeTest
 
 
 class ThemeToggleButton(QPushButton):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent=None):
+        super().__init__(parent)
         self.setCheckable(True)
         self.setCursor(Qt.PointingHandCursor)
         self.setFixedSize(60, 30)
@@ -296,7 +296,7 @@ class quizesLevel(QMainWindow):
         self.appstate = appstate
         
         # Initialize all UI elements first
-        self.theme_toggle = ThemeToggleButton()
+        self.theme_toggle = ThemeToggleButton(self)
         
         # Position the widgets
         self.theme_toggle.move(self.width() - 120, 20)
