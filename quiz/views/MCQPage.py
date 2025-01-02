@@ -251,14 +251,14 @@ class MCQPage(QMainWindow):
         self.timer.stop()
         
         # Create results dialog with fade-in effect
-        results = QDialog(self)
-        results.setWindowTitle("Quiz Results")
-        results.setModal(True)
-        results.setMinimumWidth(600)
+        self.results = QDialog(self)
+        self.results.setWindowTitle("Quiz Results")
+        self.results.setModal(True)
+        self.results.setMinimumWidth(600)
         
         # Apply fade-in effect to results dialog
-        opacity_effect = QGraphicsOpacityEffect(results)
-        results.setGraphicsEffect(opacity_effect)
+        opacity_effect = QGraphicsOpacityEffect(self.results)
+        self.results.setGraphicsEffect(opacity_effect)
         fade_animation = QPropertyAnimation(opacity_effect, b"opacity")
         fade_animation.setDuration(500)
         fade_animation.setStartValue(0.0)
@@ -267,11 +267,15 @@ class MCQPage(QMainWindow):
         # Calculate score
         self.score = 0
         results_data = []
+
+        answers_object = self.answers
+        answers_array = list(answers_object.values())
+        self.appstate.getTestInstance().set_list_of_answers(answers_array)
         
         for q_index in range(len(self.questions)):
             if q_index in self.answers:
                 selected_option = self.answers[q_index]
-                correct_answer = self.questions[q_index]['correct']
+                correct_answer = self.questions[q_index]['correctAnswer']
                 is_correct = selected_option == correct_answer
                 
                 if is_correct:
@@ -285,12 +289,12 @@ class MCQPage(QMainWindow):
                 })
 
         # Create results window
-        results = QDialog(self)
-        results.setWindowTitle("Quiz Results")
-        results.setModal(True)
-        results.setMinimumWidth(600)
+        self.results = QDialog(self)
+        self.results.setWindowTitle("Quiz Results")
+        self.results.setModal(True)
+        self.results.setMinimumWidth(600)
         
-        layout = QVBoxLayout(results)
+        layout = QVBoxLayout(self.results)
         
         # Calculate percentage
         percentage = (self.score / self.total_questions) * 100
@@ -357,10 +361,10 @@ class MCQPage(QMainWindow):
         
         layout.addLayout(button_layout)
         
-        results.show()
+        self.results.show()
         fade_animation.start()
         
-        results.exec_()
+        self.results.exec_()
 
     def export_results(self, results_data):
         # Prepare results data
@@ -385,12 +389,27 @@ class MCQPage(QMainWindow):
             })
 
         # Save to file
-        filename = f"mcq_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        filename = f"{self.appstate.getUser().fullname}_mcqresults_{self.appstate.getCourse().replace(" ", "")}_{datetime.now().strftime('%Y_%m_%d')}.json"
         with open(filename, 'w') as f:
             json.dump(export_data, f, indent=4)
 
-        QMessageBox.information(self, "Export Success", 
-                              f"Results have been exported to {filename}")
+        # QMessageBox.information(self, "Export Success", 
+        #                       f"Results have been exported to {filename}")
+
+        self.results.close()
+
+        msg = QMessageBox()
+        msg.setWindowTitle("Export Success")
+        msg.setText(f"Results have been exported to {filename}")
+        msg.setIcon(QMessageBox.Information)
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.button(QMessageBox.Ok).setText("Return to Home")
+
+        msg.exec_()
+        self.return_to_home()  # This will execute when the button is clicked
+
+    def return_to_home(self):
+        self.parent().setCurrentWidget(self.parent().parent().central_widget)
 
     def apply_theme(self, is_light_mode):
         if is_light_mode:

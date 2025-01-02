@@ -1,20 +1,5 @@
 class AppState():
 
-    def setStacked_widget(self, stacked_widget):
-        self.stacked_widget = stacked_widget
-
-    def setFullname(self, name):
-        self.name = name
-    
-    def setEmail(self, email):
-        self.email = email
-
-    def setUsername(self, username):
-        self.username = username
-    
-    def setPassword(self, password):
-        self.password = password
-
     def setUser(self, user):
         self.user = user
 
@@ -32,6 +17,12 @@ class AppState():
 
     def setAnswers(self, answers):
         self.answers = answers
+
+    def setTestInstance(self, test_instance):
+        self.test_instance = test_instance
+
+    def getTestInstance(self):
+        return self.test_instance
 
     def getStacked_widget(self):
         return self.stacked_widget

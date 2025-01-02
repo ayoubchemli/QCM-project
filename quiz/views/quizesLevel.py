@@ -476,6 +476,7 @@ class quizesLevel(QMainWindow):
         chapter_name = Subject.get_all_chapters_of_course(course)[chapter_id]['title']
         subject = Subject(course, chapter_id, chapter_name)
         test_instance = takeTest(user, subject)
+        self.appstate.setTestInstance(test_instance)
         questions = test_instance.get_questions()
         self.appstate.setQuestions(questions)
         MCQPage = quiz.views.MCQPage.MCQPage(self.appstate, False)
