@@ -395,5 +395,75 @@
                 "date": "2025-01-02 05:22:08"
             }
         ]
+    },
+    {
+        "fullname": "example example",
+        "email": "example@gmail.com",
+        "username": "example",
+        "password": "bdf24963557bae7f47761407269102613be4848b00536ffaad74042beb82ef70",
+        "scores": [
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 2,
+                    "chapter": "Risk Management and Threats"
+                },
+                "points": 42.86,
+                "date": "2025-01-02 08:20:22"
+            },
+            {
+                "subject": {
+                    "course": "Machine Learning",
+                    "chapter_id": 2,
+                    "chapter": "Model Evaluation and Hyperparameter Tuning"
+                },
+                "points": 40.0,
+                "date": "2025-01-02 08:30:44"
+            }
+        ]
+    },
+    {
+        "fullname": "ayoub chemli",
+        "email": "as@sa.sa",
+        "username": "ayoub",
+        "password": "b7a117196622f86876beff4b2c4f8bd0a57b1fd6f9cb6aa22ed2b697bb20fd54",
+        "scores": [
+            {
+                "subject": {
+                    "course": "Web Development",
+                    "chapter_id": 0,
+                    "chapter": "HTML Basics"
+                },
+                "points": 25.0,
+                "date": "2025-01-12 10:31:57"
+            },
+            {
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter_id": 0,
+                    "chapter": "Python Basics"
+                },
+                "points": 50.0,
+                "date": "2025-01-14 19:33:00"
+            },
+            {
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter_id": 0,
+                    "chapter": "Python Basics"
+                },
+                "points": 12.5,
+                "date": "2025-01-14 22:03:46"
+            },
+            {
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter_id": 0,
+                    "chapter": "Python Basics"
+                },
+                "points": 0.0,
+                "date": "2025-01-14 23:08:59"
+            }
+        ]
     }
 ]

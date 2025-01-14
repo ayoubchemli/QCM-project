@@ -2272,21 +2272,26 @@ class MCQHomePage(QMainWindow):
     """)
     return card
 
-    # Add this new method to handle enrollment
+
+        
    def handle_enroll(self, course_title):
-        # TODO : Add your enrollment logic here
-        # For example:
-        print(f"Enrolling in course: {course_title}")
-        self.appstate.setCourse(course_title)
-        self.quizeslevel = quizesLevel(self.appstate)
-        self.stacked_widget.addWidget(self.quizeslevel)
-        self.stacked_widget.setCurrentWidget(self.quizeslevel)
-        # You could:
-        # 1. Open an enrollment confirmation dialog
-        # 2. Make an API call to your backend
-        # 3. Update the database
-        # 4. Show a success message
-        # 5. Navigate to the course content
+    print(f"Enrolling in course: {course_title}")
+    self.appstate.setCourse(course_title)
+    
+    # Pass the current theme state to quizesLevel
+    is_light_mode = self.theme_toggle.isChecked()
+    self.quizeslevel = quizesLevel(self.appstate, is_light_mode)
+    
+    # Add a reference to the theme toggle
+    self.quizeslevel.theme_toggle = self.theme_toggle
+    
+    # Connect the theme toggle to quizesLevel's apply_theme method
+    self.theme_toggle.clicked.connect(
+        lambda: self.quizeslevel.apply_theme(self.theme_toggle.isChecked())
+    )
+    
+    self.stacked_widget.addWidget(self.quizeslevel)
+    self.stacked_widget.setCurrentWidget(self.quizeslevel)
 
    def apply_theme(self, is_light_mode=False):
     theme = self.light_theme if is_light_mode else self.dark_theme
@@ -2402,6 +2407,8 @@ class MCQHomePage(QMainWindow):
    def __init__(self, appstate):
         super().__init__()
         self.appstate = appstate
+
+        
         self.central_widget = QWidget()
         self.stacked_widget = QStackedWidget()
         self.setCentralWidget(self.stacked_widget)
@@ -2465,44 +2472,7 @@ class MCQHomePage(QMainWindow):
 
         courses = Subject.get_all_courses()
 
-        # courses = [
-        #     {
-        #         "title": "File and data structure",
-        #         "description": "Master fundamental data structures and algorithms with hands-on practice.",
-        #         "chapters": ["Basic Data Types", "Arrays & Lists", "Trees & Graphs", "Advanced Algorithms"],
-        #         "is_new": False
-        #     },
-        #     {
-        #         "title": "Algebra",
-        #         "description": "Dive deep into advanced algebraic concepts and their applications.",
-        #         "chapters": ["Linear Algebra", "Abstract Algebra", "Number Theory", "Applications"],
-        #         "is_new": True
-        #     },
-        #     {
-        #         "title": "File and data structure",
-        #         "description": "Master fundamental data structures and algorithms with hands-on practice.",
-        #         "chapters": ["Basic Data Types", "Arrays & Lists", "Trees & Graphs", "Advanced Algorithms"],
-        #         "is_new": False
-        #     },
-        #     {
-        #         "title": "Algebra",
-        #         "description": "Dive deep into advanced algebraic concepts and their applications.",
-        #         "chapters": ["Linear Algebra", "Abstract Algebra", "Number Theory", "Applications"],
-        #         "is_new": True
-        #     },
-        #     {
-        #         "title": "File and data structure",
-        #         "description": "Master fundamental data structures and algorithms with hands-on practice.",
-        #         "chapters": ["Basic Data Types", "Arrays & Lists", "Trees & Graphs", "Advanced Algorithms"],
-        #         "is_new": False
-        #     },
-        #     {
-        #         "title": "Algebra",
-        #         "description": "Dive deep into advanced algebraic concepts and their applications.",
-        #         "chapters": ["Linear Algebra", "Abstract Algebra", "Number Theory", "Applications"],
-        #         "is_new": True
-        #     }
-        # ]
+
         
         for i, course in enumerate(courses):
             card = self.create_course_card(
@@ -2526,7 +2496,6 @@ class MCQHomePage(QMainWindow):
         self.shortcut.activated.connect(self.close)
 
         self.setWindowTitle("Interactive Quiz Platform")
-        self.showFullScreen()
 
    def open_settings(self):
         # Example callback function

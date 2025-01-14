@@ -210,6 +210,51 @@ class AnimatedButton(QPushButton):
                                         rect.width()-10, rect.height()-10))
         self._animation.start()
         super().leaveEvent(event)
+        
+        
+class SuccessMessage(QFrame):
+    def __init__(self, username):
+        super().__init__()
+        self.setup_ui(username)
+        
+    def setup_ui(self, username):
+        # Set frame style
+        self.setStyleSheet("""
+            QFrame {
+                background: rgba(76, 175, 80, 0.1);
+                border: 1px solid #4CAF50;
+                border-radius: 8px;
+                padding: 15px;
+                margin: 10px;
+            }
+        """)
+        
+        # Create layout
+        layout = QHBoxLayout(self)
+        layout.setContentsMargins(15, 10, 15, 10)
+        layout.setSpacing(12)
+        
+        # Create success icon
+        self.icon_label = QLabel("✓")
+        self.icon_label.setStyleSheet("""
+            font-size: 20px;
+            color: #4CAF50;
+            font-weight: bold;
+        """)
+        
+        # Create welcome message
+        message_label = QLabel(f"Welcome back, {username}!")
+        message_label.setStyleSheet("""
+            color: #4CAF50;
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        """)
+        
+        # Add widgets to layout
+        layout.addWidget(self.icon_label)
+        layout.addWidget(message_label)
+        layout.addStretch()
 
 class FancyLineEdit(QLineEdit):
     def __init__(self, parent=None):
@@ -233,6 +278,59 @@ class FancyLineEdit(QLineEdit):
                                         rect.width()-10, rect.height()))
         self._animation.start()
         super().focusOutEvent(event)
+        
+class PageTransitionManager:
+    def __init__(self, login_page, home_page):
+        self.login_page = login_page
+        self.home_page = home_page
+        self.setup_animations()
+        
+    def setup_animations(self):
+        # Fade out animation for login page
+        self.login_fade_out = QPropertyAnimation(self.login_page, b"windowOpacity")
+        self.login_fade_out.setDuration(800)
+        self.login_fade_out.setEasingCurve(QEasingCurve.InOutQuad)
+        self.login_fade_out.setStartValue(1.0)
+        self.login_fade_out.setEndValue(0.0)
+        
+        # Slide up animation for home page
+        self.home_slide_up = QPropertyAnimation(self.home_page, b"geometry")
+        self.home_slide_up.setDuration(1000)
+        self.home_slide_up.setEasingCurve(QEasingCurve.OutExpo)
+        
+        # Fade in animation for home page
+        self.home_fade_in = QPropertyAnimation(self.home_page, b"windowOpacity")
+        self.home_fade_in.setDuration(800)
+        self.home_fade_in.setEasingCurve(QEasingCurve.InOutQuad)
+        self.home_fade_in.setStartValue(0.0)
+        self.home_fade_in.setEndValue(1.0)
+        
+    def start_transition(self):
+        # Set initial state
+        self.home_page.setWindowOpacity(0.0)
+        screen = QApplication.primaryScreen().geometry()
+        
+        # Set initial and final positions for slide animation
+        start_rect = QRect(0, screen.height(), screen.width(), screen.height())
+        end_rect = QRect(0, 0, screen.width(), screen.height())
+        self.home_slide_up.setStartValue(start_rect)
+        self.home_slide_up.setEndValue(end_rect)
+        
+        # Create parallel animation group
+        self.parallel_group = QParallelAnimationGroup()
+        self.parallel_group.addAnimation(self.login_fade_out)
+        self.parallel_group.addAnimation(self.home_slide_up)
+        self.parallel_group.addAnimation(self.home_fade_in)
+        
+        # Connect finished signal
+        self.parallel_group.finished.connect(self.finish_transition)
+        
+        # Show home page and start animations
+        self.home_page.showFullScreen()
+        self.parallel_group.start()
+        
+    def finish_transition(self):
+        self.login_page.close()
 
 class MCQApp(QMainWindow):
     
@@ -911,74 +1009,224 @@ class MCQApp(QMainWindow):
         self.stacked_widget.addWidget(login_page)
         
     def handle_login(self):
+        # Disable login button and show loading state
+        start_button = self.findChild(AnimatedButton, "start_button")
+        if start_button:
+            original_text = start_button.text()
+            start_button.setText("Logging in...")
+            start_button.setEnabled(False)
+
         username = self.username_input.text().strip()
         password = self.password_input.text().strip()
+
+        # Input validation
+        validation_errors = []
         
-        if not username or not password:
-            self.show_login_error("Please enter both username and password")
+        if not username:
+            validation_errors.append("Username is required")
+            self.username_input.setStyleSheet("""
+                QLineEdit {
+                    padding: 15px;
+                    background: rgba(255, 82, 82, 0.2);
+                    border: 2px solid #FF5252;
+                    border-radius: 10px;
+                    color: white;
+                    font-size: 16px;
+                    font-family: 'Poppins';
+                }
+            """)
+        
+        if not password:
+            validation_errors.append("Password is required")
+            self.password_input.setStyleSheet("""
+                QLineEdit {
+                    padding: 15px;
+                    background: rgba(255, 82, 82, 0.2);
+                    border: 2px solid #FF5252;
+                    border-radius: 10px;
+                    color: white;
+                    font-size: 16px;
+                    font-family: 'Poppins';
+                }
+            """)
+
+        if validation_errors:
+            self.show_login_error("\n".join(validation_errors))
+            if start_button:
+                start_button.setText(original_text)
+                start_button.setEnabled(True)
             return
-            
+
         try:
+            # Attempt login
             user = login(username, password)
 
             if isinstance(user, User):
                 self.appstate.setUser(user)
                 self.login_successful(user)
             else:
-                self.show_login_error(user)
-            
-            
-            # self.login_successful({"username": username})
-            
+                error_message = self.get_login_error_message(user)
+                self.show_login_error(error_message)
+                self.handle_failed_login_attempt()
+
         except Exception as e:
-            # self.show_login_error(f"Login failed: {str(e)}")
-            print(e)
+            error_message = self.handle_login_exception(e)
+            self.show_login_error(error_message)
+            if start_button:
+                start_button.setText(original_text)
+                start_button.setEnabled(True)
+
+    def get_login_error_message(self, error):
+        """Convert login error responses to user-friendly messages"""
+        error_messages = {
+            "Invalid credentials": "Incorrect username or password",
+            "Account locked": "Your account has been locked due to too many failed attempts",
+            "Account not verified": "Please verify your email address before logging in",
+            "Account disabled": "Your account has been disabled. Please contact support",
+            "Database error": "We're experiencing technical difficulties. Please try again later"
+        }
+        return error_messages.get(error, "Login failed. Please try again")
+
+    def handle_login_exception(self, exception):
+        """Handle different types of login exceptions"""
+        if "connection" in str(exception).lower():
+            return "Unable to connect to server. Please check your internet connection"
+        elif "timeout" in str(exception).lower():
+            return "Server is taking too long to respond. Please try again"
+        elif "database" in str(exception).lower():
+            return "Database error occurred. Please try again later"
+        else:
+            return f"An unexpected error occurred: {str(exception)}"
+
+    def show_login_error(self, message):
+        """Display error message with improved visual feedback"""
+        # Create error frame if it doesn't exist
+        if not hasattr(self, 'error_frame'):
+            self.error_frame = QFrame()
+            self.error_frame.setStyleSheet("""
+                QFrame {
+                    background: rgba(255, 82, 82, 0.1);
+                    border-left: 4px solid #FF5252;
+                    border-radius: 5px;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                }
+            """)
+            
+            error_layout = QHBoxLayout(self.error_frame)
+            error_layout.setContentsMargins(12, 8, 12, 8)
+            
+            self.error_icon = QLabel("⚠️")
+            self.error_icon.setStyleSheet("font-size: 16px;")
+            
+            self.error_label = QLabel()
+            self.error_label.setStyleSheet("""
+                color: #FF5252;
+                font-size: 14px;
+                font-weight: bold;
+            """)
+            self.error_label.setWordWrap(True)
+            
+            error_layout.addWidget(self.error_icon)
+            error_layout.addWidget(self.error_label, 1)
+            
+            # Find container and add error frame
+            container = self.username_input.parent().parent()
+            layout = container.layout()
+            layout.insertWidget(layout.count()-2, self.error_frame)
+            
+        # Update error message
+        self.error_label.setText(message)
+        self.error_frame.show()
+        
+        # Shake animation for error feedback
+        if not hasattr(self, '_shake_animation_running') or not self._shake_animation_running:
+            self._shake_animation_running = True
+            current_pos = self.error_frame.pos()
+            shake_animation = QPropertyAnimation(self.error_frame, b"pos")
+            shake_animation.setDuration(100)
+            shake_animation.setLoopCount(3)
+            
+            for i in range(shake_animation.loopCount()):
+                shake_animation.setKeyValueAt(i/shake_animation.loopCount(), 
+                    QPoint(current_pos.x() + (10 if i % 2 == 0 else -10), current_pos.y()))
+            shake_animation.setEndValue(current_pos)
+            
+            def finish_shake():
+                self._shake_animation_running = False
+            
+            shake_animation.finished.connect(finish_shake)
+            shake_animation.start()
+
+        # Auto-hide error after 5 seconds
+        QTimer.singleShot(5000, lambda: self.error_frame.hide())
+
+    def handle_failed_login_attempt(self):
+        """Track and handle failed login attempts"""
+        if not hasattr(self, '_failed_attempts'):
+            self._failed_attempts = 0
+        
+        self._failed_attempts += 1
+        
+        if self._failed_attempts >= 5:
+            # Lock login for 5 minutes
+            self.lock_login(60)  # 60 seconds = 1 minutes
+        
+
+    def lock_login(self, duration):
+        """Temporarily lock login functionality"""
+        self.username_input.setEnabled(False)
+        self.password_input.setEnabled(False)
+        start_button = self.findChild(AnimatedButton, "start_button")
+        if start_button:
+            start_button.setEnabled(False)
+        
+        # Create countdown timer
+        if not hasattr(self, '_lock_timer'):
+            self._lock_timer = duration
+            self._countdown = QTimer()
+            self._countdown.timeout.connect(self.update_lock_countdown)
+            self._countdown.start(1000)  # Update every second
+            
+        self.show_login_error(f"Too many failed attempts. Please try again in {duration} seconds")
+
+    def update_lock_countdown(self):
+        """Update the login lock countdown"""
+        self._lock_timer -= 1
+        if self._lock_timer <= 0:
+            # Unlock login
+            self.username_input.setEnabled(True)
+            self.password_input.setEnabled(True)
+            start_button = self.findChild(AnimatedButton, "start_button")
+            if start_button:
+                start_button.setEnabled(True)
+            self._countdown.stop()
+            self.error_frame.hide()
+            self._failed_attempts = 0
+        else:
+            self.show_login_error(f"Too many failed attempts. Please try again in {self._lock_timer} seconds")
+
+    
             
     def login_successful(self, user):
-        """Handle successful login"""
-        # Create success message
-        success_frame = QFrame()
-        success_frame.setStyleSheet("""
-            QFrame {
-                background: rgba(76, 175, 80, 0.1);
-                border: 1px solid #4CAF50;
-                border-radius: 5px;
-                padding: 10px;
-                margin: 10px;
-            }
-        """)
-        
-        success_layout = QHBoxLayout(success_frame)
-        
-        icon_label = QLabel("✓")
-        icon_label.setStyleSheet("""
-            font-size: 16px;
-            color: #4CAF50;
-        """)
-        
-        success_label = QLabel(f"Welcome back, {user.username}!")
-        success_label.setStyleSheet("""
-            color: #4CAF50;
-            font-size: 14px;
-            font-weight: bold;
-        """)
-        
-        success_layout.addWidget(icon_label)
-        success_layout.addWidget(success_label)
-        
-        # Add success message to layout
-        container = self.username_input.parent().parent()
-        layout = container.layout()
-        layout.insertWidget(layout.count()-2, success_frame)
-        
-        # Disable inputs during transition
+        # Disable inputs immediately
         self.username_input.setEnabled(False)
         self.password_input.setEnabled(False)
         
-        # TODO: Navigate to main application after successful login
-        self.MCQHomePage = MCQHomePage(self.appstate)
-        self.MCQHomePage.show()
-        self.close()
+        # Create success message with animation
+        success_message = SuccessMessage(user.username)
+        container = self.username_input.parent().parent()
+        layout = container.layout()
+        layout.insertWidget(layout.count()-2, success_message)
+        
+        # Create and setup home page
+        self.home_page = MCQHomePage(self.appstate)
+        
+        # Create transition manager
+        self.transition_manager = PageTransitionManager(self, self.home_page)
+        
+        # Start transition after showing success message
+        QTimer.singleShot(1200, self.transition_manager.start_transition)
 
         
 

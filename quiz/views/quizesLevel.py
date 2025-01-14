@@ -229,12 +229,96 @@ class quizesLevel(QMainWindow):
             "new_badge": "qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #10B981, stop:1 #059669)"
         }
 
+    
+    
+
+    def __init__(self, appstate, is_light_mode=False):
+        super().__init__()
+        self.appstate = appstate
+        
+        # Show fullscreen after creating UI elements
+        self.showFullScreen()
+        
+        # Setup themes first
+        self.setup_themes()
+        
+        # Central widget setup
+        central_widget = QWidget()
+        self.setCentralWidget(central_widget)
+        main_layout = QVBoxLayout(central_widget)
+        main_layout.setContentsMargins(40, 40, 40, 40)
+        main_layout.setSpacing(30)
+        
+        # Header section with back button
+        header_layout = QHBoxLayout()
+        back_button = HoverButton("← Return to Home")
+        back_button.setFixedWidth(200)
+        back_button.clicked.connect(self.return_to_home)
+        header_layout.addWidget(back_button)
+        header_layout.addStretch()
+        main_layout.addLayout(header_layout)
+        
+        # Welcome section - Create labels before applying theme
+        welcome_layout = QVBoxLayout()
+        
+        self.greeting_label = QLabel("Quiz Categories")
+        self.greeting_label.setFont(QFont("Segoe UI", 40, QFont.Bold))
+        welcome_layout.addWidget(self.greeting_label, alignment=Qt.AlignCenter)
+        
+        self.subtitle_label = QLabel("Choose a category to test your knowledge")
+        self.subtitle_label.setFont(QFont("Segoe UI", 16))
+        welcome_layout.addWidget(self.subtitle_label, alignment=Qt.AlignCenter)
+        
+        main_layout.addLayout(welcome_layout)
+        
+        # Scroll area
+        scroll_area = QScrollArea()
+        scroll_area.setWidgetResizable(True)
+        scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        
+        # Container for cards
+        cards_widget = QWidget()
+        cards_layout = QVBoxLayout(cards_widget)
+        cards_layout.setContentsMargins(20, 20, 20, 20)
+        cards_layout.setSpacing(20)
+        cards_layout.setAlignment(Qt.AlignHCenter)
+
+        categories = Subject.get_all_chapters_of_course(appstate.getCourse())
+        
+        for category in categories:
+            chapter_id = int(category["chapter_id"]) 
+            card = CategoryCard(
+                category["title"],
+                category["description"],
+                [],  # chapters not shown in this design
+                category["questions_count"],
+                category["time_estimate"],
+                category["difficulty"],
+                category["is_new"],
+                on_start=self.create_on_start_handler(chapter_id),
+            )
+            cards_layout.addWidget(card)
+        
+        cards_layout.addStretch()
+        scroll_area.setWidget(cards_widget)
+        main_layout.addWidget(scroll_area)
+        
+        # Add escape shortcut
+        self.shortcut = QShortcut(QKeySequence('Esc'), self)
+        self.shortcut.activated.connect(self.close)
+        
+        # Apply theme after all widgets are created
+        self.apply_theme(is_light_mode)
+        
+        
+    def return_to_home(self):
+        self.close()
+        if self.parent():
+            self.parent().show()
+
     def apply_theme(self, is_light_mode=False):
         theme = self.light_theme if is_light_mode else self.dark_theme
-        
-        # Update theme toggle button
-        self.theme_toggle.update_style(is_light_mode)
-        self.theme_toggle.raise_()  # Add this here to ensure button stays on top
         
         # Update main window style
         self.setStyleSheet(f"""
@@ -262,9 +346,21 @@ class quizesLevel(QMainWindow):
             QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {{
                 height: 0px;
             }}
+            HoverButton {{
+                background: {theme["button_gradient"]};
+                color: white;
+                border: none;
+                border-radius: 22px;
+                font-weight: bold;
+                font-size: 14px;
+                padding: 10px 20px;
+            }}
+            HoverButton:hover {{
+                background: {theme["button_hover"]};
+            }}
         """)
         
-        # Update all category cards
+        # Update category cards
         for card in self.findChildren(CategoryCard):
             card.setStyleSheet(f"""
                 CategoryCard {{
@@ -280,189 +376,14 @@ class quizesLevel(QMainWindow):
             for label in card.findChildren(QLabel):
                 if "margin-top: 5px;" in label.styleSheet() or "font-size: 13px;" in label.styleSheet():
                     label.setStyleSheet(f"color: {theme['text_secondary']}; {label.styleSheet()}")
-            
+        
         # Update welcome section labels
-        self.greeting_label.setStyleSheet(f"""
-            color: {theme["text_primary"]};
-            margin-bottom: 10px;
-        """)
-        self.subtitle_label.setStyleSheet(f"color: {theme['text_secondary']};")
-        
-    
-
-    def __init__(self, appstate):
-        
-        super().__init__()
-        self.appstate = appstate
-        
-        # Initialize all UI elements first
-        self.theme_toggle = ThemeToggleButton(self)
-        
-        # Position the widgets
-        self.theme_toggle.move(self.width() - 120, 20)
-        
-        # Raise widgets to stay on top
-        self.theme_toggle.raise_()
-        
-        # Show fullscreen after creating UI elements
-        self.showFullScreen()
-        
-        # Store labels as class attributes for theme switching
-        self.greeting_label = None
-        self.subtitle_label = None
-        
-        # Setup themes
-        self.setup_themes()
-        
-        # Connect theme toggle after themes are setup
-        self.theme_toggle.clicked.connect(
-            lambda: self.apply_theme(self.theme_toggle.isChecked())
-        )
-        
-        # Initialize the theme toggle button first
-        self.theme_toggle.move(self.width() - 80, 20)
-        
-        # Add escape shortcut
-        self.shortcut = QShortcut(QKeySequence('Esc'), self)
-        self.shortcut.activated.connect(self.close)
-        
-        self.setWindowTitle("Interactive Quiz Platform")
-        
-        self.setStyleSheet("""
-            QMainWindow {
-                background: qlineargradient(x1:0, y1:0, x2:1, y2:1, 
-                                          stop:0 #0F172A, stop:1 #1E293B);
-            }
-            QScrollArea {
-                border: none;
-                background-color: transparent;
-            }
-            QScrollBar:vertical {
-                width: 8px;
-                background: rgba(255, 255, 255, 0.1);
-                border-radius: 4px;
-                margin: 0px;
-            }
-            QScrollBar::handle:vertical {
-                background: #4F46E5;
-                border-radius: 4px;
-                min-height: 40px;
-            }
-            QScrollBar::handle:vertical:hover {
-                background: #6D28D9;
-            }
-            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
-                height: 0px;
-            }
-        """)
-        
-        # Central widget setup
-        central_widget = QWidget()
-        # central_widget.setLayout(QVBoxLayout())
-        self.setCentralWidget(central_widget)
-        main_layout = QVBoxLayout(central_widget)
-        main_layout.setContentsMargins(40, 40, 40, 40)
-        main_layout.setSpacing(30)
-        
-        # Welcome section
-        welcome_layout = QVBoxLayout()
-        
-        greeting_label = QLabel("Quiz Categories")
-        self.greeting_label = QLabel("Quiz Categories")
-        greeting_label.setFont(QFont("Segoe UI", 40, QFont.Bold))
-        greeting_label.setStyleSheet("""
-            color: white;
-            margin-bottom: 10px;
-        """)
-        welcome_layout.addWidget(greeting_label, alignment=Qt.AlignCenter)
-        
-        subtitle_label = QLabel("Choose a category to test your knowledge")
-        self.subtitle_label = QLabel("Choose a category to test your knowledge")
-        subtitle_label.setFont(QFont("Segoe UI", 16))
-        subtitle_label.setStyleSheet("color: #94A3B8;")
-        welcome_layout.addWidget(subtitle_label, alignment=Qt.AlignCenter)
-        
-        main_layout.addLayout(welcome_layout)
-        
-        # Scroll area
-        scroll_area = QScrollArea()
-        scroll_area.setWidgetResizable(True)
-        scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
-        
-        # Container for cards
-        cards_widget = QWidget()
-        cards_layout = QVBoxLayout(cards_widget)
-        cards_layout.setContentsMargins(20, 20, 20, 20)
-        cards_layout.setSpacing(20)
-        cards_layout.setAlignment(Qt.AlignHCenter)
-
-        categories = Subject.get_all_chapters_of_course(appstate.getCourse())
-        print(categories)
-        print(appstate.getCourse())
-        
-        # Quiz categories
-        # categories = [
-        #     {
-        #         "title": "Python 1",
-        #         "description": "Test your knowledge of Python basics including variables, data types, control flow, and functions.",
-        #         "questions_count": 25,
-        #         "time_estimate": "30 mins",
-        #         "difficulty": "Beginner",
-        #         "is_new": True
-        #     },
-        #     {
-        #         "title": "Python 2",
-        #         "description": "Challenge yourself with questions about arrays, linked lists, trees, and advanced data structures.",
-        #         "questions_count": 30,
-        #         "time_estimate": "45 mins",
-        #         "difficulty": "Intermediate",
-        #         "is_new": False
-        #     },
-        #     {
-        #         "title": "Python 3",
-        #         "description": "Master algorithmic concepts with questions on sorting, searching, and optimization techniques.",
-        #         "questions_count": 20,
-        #         "time_estimate": "40 mins",
-        #         "difficulty": "Advanced",
-        #         "is_new": True
-        #     },
-        #     {
-        #         "title": "Python 4",
-        #         "description": "Explore OOP concepts including classes, inheritance, polymorphism, and encapsulation.",
-        #         "questions_count": 25,
-        #         "time_estimate": "35 mins",
-        #         "difficulty": "Intermediate",
-        #         "is_new": False
-        #     },
-        #     {
-        #         "title": "Python 5",
-        #         "description": "Test your understanding of SQL, database design, and normalization principles.",
-        #         "questions_count": 30,
-        #         "time_estimate": "45 mins",
-        #         "difficulty": "Intermediate",
-        #         "is_new": True
-        #     }
-        # ]
-        
-        for category in categories:
-            chapter_id = int(category["chapter_id"]) 
-            card = CategoryCard(
-                category["title"],
-                category["description"],
-                [],  # chapters not shown in this design
-                category["questions_count"],
-                category["time_estimate"],
-                category["difficulty"],
-                category["is_new"],
-                on_start=self.create_on_start_handler(chapter_id),
-            )
-            cards_layout.addWidget(card)
-        
-        cards_layout.addStretch()
-        scroll_area.setWidget(cards_widget)
-        main_layout.addWidget(scroll_area)
-        self.apply_theme(False)
+        if self.greeting_label and self.subtitle_label:
+            self.greeting_label.setStyleSheet(f"""
+                color: {theme["text_primary"]};
+                margin-bottom: 10px;
+            """)
+            self.subtitle_label.setStyleSheet(f"color: {theme['text_secondary']};")
 
     def create_on_start_handler(self, chapter_id):
         def on_start():
@@ -479,7 +400,10 @@ class quizesLevel(QMainWindow):
         self.appstate.setTestInstance(test_instance)
         questions = test_instance.get_questions()
         self.appstate.setQuestions(questions)
-        MCQPage = quiz.views.MCQPage.MCQPage(self.appstate, False)
+        
+        # Pass the current theme state and appstate to MCQPage
+        is_light_mode = self.theme_toggle.isChecked()      
+        MCQPage = quiz.views.MCQPage.MCQPage(self.appstate, is_light_mode)
         self.parent().addWidget(MCQPage)
         self.parent().setCurrentWidget(MCQPage)
         
@@ -493,7 +417,7 @@ class quizesLevel(QMainWindow):
             margin = min(width, height) * 0.1
             central_widget.layout().setContentsMargins(margin, margin, margin, margin)
         # Update positions
-        self.theme_toggle.move(self.width() - 120, 20)
+        #self.theme_toggle.move(self.width() - 120, 20)
 
     
 
@@ -501,16 +425,3 @@ class quizesLevel(QMainWindow):
     # self.close()
         
         
-    
-
-# if __name__ == '__main__':
-#     app = QApplication(sys.argv)
-    
-#     # Set application font
-#     font_db = app.font()
-#     font_db.setFamily("Segoe UI")
-#     app.setFont(font_db)
-    
-#     window = quizesLevel()
-#     window.show()
-#     # sys.exit(app.exec_())

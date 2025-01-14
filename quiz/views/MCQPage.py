@@ -30,34 +30,6 @@ class MCQPage(QMainWindow):
         
     def setup_questions(self):
         self.questions = self.appstate.getQuestions()
-        # Sample questions - in practice, these would be loaded from a database or file
-        # self.questions = [
-        #     {
-        #         "question": "What is the time complexity of binary search?",
-        #         "options": ["O(n)", "O(log n)", "O(n log n)", "O(n²)"],
-        #         "correct": 1,
-        #         "explanation": "Binary search has a time complexity of O(log n) as it divides the search space in half with each iteration."
-        #     },
-        #     {
-        #         "question": "Which data structure uses LIFO?",
-        #         "options": ["Queue", "Stack", "Tree", "Graph"],
-        #         "correct": 1,
-        #         "explanation": "Stack uses Last In First Out (LIFO) principle."
-        #     },
-        #     {
-        #         "question": "What is the time complexity of binary search?",
-        #         "options": ["O(n)", "O(log n)", "O(n log n)", "O(n²)"],
-        #         "correct": 1,
-        #         "explanation": "Binary search has a time complexity of O(log n) as it divides the search space in half with each iteration."
-        #     },
-        #     {
-        #         "question": "Which data structure uses LIFO?",
-        #         "options": ["Queue", "Stack", "Tree", "Graph"],
-        #         "correct": 1,
-        #         "explanation": "Stack uses Last In First Out (LIFO) principle."
-        #     }
-        #     # Add more questions as needed
-        # ]
         self.total_questions = len(self.questions)
 
     def setup_ui(self):
