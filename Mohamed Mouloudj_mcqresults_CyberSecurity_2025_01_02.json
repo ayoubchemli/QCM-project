@@ -1,0 +1,58 @@
+{
+    "date": "2025-01-02 02:00:38",
+    "total_questions": 7,
+    "score": 1,
+    "percentage": 14.285714285714285,
+    "time_taken": 7,
+    "questions": [
+        {
+            "question": "What is the first step in risk management for cybersecurity?",
+            "selected_answer": "Monitor network activity",
+            "correct_answer": "Identify assets and potential threats",
+            "is_correct": false,
+            "explanation": "The first step in risk management is to identify and catalog all assets and potential threats. This creates a foundation for all subsequent risk management activities, as you need to know what you're protecting and what you're protecting it from before you can implement effective security measures."
+        },
+        {
+            "question": "What is the purpose of a risk assessment in cybersecurity?",
+            "selected_answer": "To monitor network traffic",
+            "correct_answer": "To identify vulnerabilities and determine the impact of potential threats",
+            "is_correct": false,
+            "explanation": "A risk assessment helps organizations understand their security posture by identifying vulnerabilities and evaluating the potential impact of various threats. This analysis helps prioritize security investments and develop appropriate mitigation strategies based on the likelihood and potential impact of different risks."
+        },
+        {
+            "question": "What does the term 'Zero-Day' vulnerability refer to?",
+            "selected_answer": "A type of phishing attack",
+            "correct_answer": "A vulnerability that is discovered before the vendor releases a patch",
+            "is_correct": false,
+            "explanation": "A Zero-Day vulnerability is a software security flaw that is known to attackers but unknown to the software vendor or antivirus vendors. Because there's no patch available yet, these vulnerabilities are particularly dangerous as they can be exploited before the vendor has an opportunity to fix them."
+        },
+        {
+            "question": "Which of the following is an example of a cybersecurity policy?",
+            "selected_answer": "All of the above",
+            "correct_answer": "All of the above",
+            "is_correct": true,
+            "explanation": "Cybersecurity policies encompass all rules and guidelines that protect an organization's digital assets. This includes password policies, firewall rules, network segmentation, access controls, and other security measures. These policies work together to create a comprehensive security framework."
+        },
+        {
+            "question": "What is the purpose of an incident response plan?",
+            "selected_answer": "To manage user access to network resources",
+            "correct_answer": "To outline steps to take when a security breach occurs",
+            "is_correct": false,
+            "explanation": "An incident response plan provides a structured approach to handling security incidents when they occur. It includes detailed procedures for detecting, responding to, and recovering from security breaches, ensuring that organizations can react quickly and effectively to minimize damage."
+        },
+        {
+            "question": "What is a typical response to a Distributed Denial of Service (DDoS) attack?",
+            "selected_answer": "Monitor network traffic for abnormal behavior",
+            "correct_answer": "Increase bandwidth to handle the attack",
+            "is_correct": false,
+            "explanation": "Increasing bandwidth is a common initial response to a DDoS attack as it helps absorb the attack traffic. However, a comprehensive DDoS mitigation strategy typically includes traffic filtering, rate limiting, and using DDoS mitigation services that can detect and filter out malicious traffic before it reaches the target servers."
+        },
+        {
+            "question": "Which of the following is a common practice in risk mitigation?",
+            "selected_answer": "Using weak passwords",
+            "correct_answer": "Encrypting sensitive data",
+            "is_correct": false,
+            "explanation": "Encrypting sensitive data is a fundamental risk mitigation practice that helps protect information even if other security measures fail. It ensures that even if unauthorized access occurs, the data remains unreadable and unusable without the proper decryption keys."
+        }
+    ]
+}

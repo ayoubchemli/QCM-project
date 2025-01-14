@@ -7,9 +7,9 @@ import sys
 import os
 
 class MCQPage(QMainWindow):
-    def __init__(self, parent=None, is_light_mode=True):
-        super().__init__(parent)
-        self.parent = parent
+    def __init__(self, appstate, is_light_mode=True):
+        super().__init__()
+        self.appstate = appstate
         self.current_question = 0
         self.score = 0
         self.answers = {}
@@ -29,22 +29,7 @@ class MCQPage(QMainWindow):
 
         
     def setup_questions(self):
-        # Sample questions - in practice, these would be loaded from a database or file
-        self.questions = [
-            {
-                "question": "What is the time complexity of binary search?",
-                "options": ["O(n)", "O(log n)", "O(n log n)", "O(n²)"],
-                "correct": 1,
-                "explanation": "Binary search has a time complexity of O(log n) as it divides the search space in half with each iteration."
-            },
-            {
-                "question": "Which data structure uses LIFO?",
-                "options": ["Queue", "Stack", "Tree", "Graph"],
-                "correct": 1,
-                "explanation": "Stack uses Last In First Out (LIFO) principle."
-            },
-            # Add more questions as needed
-        ]
+        self.questions = self.appstate.getQuestions()
         self.total_questions = len(self.questions)
 
     def setup_ui(self):
@@ -197,7 +182,7 @@ class MCQPage(QMainWindow):
             self.question_label.setText(f"Q{index + 1}. {question['question']}")
             
             # Load options and restore previous answer if exists
-            for i, option in enumerate(question['options']):
+            for i, option in enumerate(question['answers']):
                 self.option_buttons[i].setText(f"{chr(65 + i)}. {option}")
                 self.option_buttons[i].setChecked(False)
             
@@ -238,14 +223,14 @@ class MCQPage(QMainWindow):
         self.timer.stop()
         
         # Create results dialog with fade-in effect
-        results = QDialog(self)
-        results.setWindowTitle("Quiz Results")
-        results.setModal(True)
-        results.setMinimumWidth(600)
+        self.results = QDialog(self)
+        self.results.setWindowTitle("Quiz Results")
+        self.results.setModal(True)
+        self.results.setMinimumWidth(600)
         
         # Apply fade-in effect to results dialog
-        opacity_effect = QGraphicsOpacityEffect(results)
-        results.setGraphicsEffect(opacity_effect)
+        opacity_effect = QGraphicsOpacityEffect(self.results)
+        self.results.setGraphicsEffect(opacity_effect)
         fade_animation = QPropertyAnimation(opacity_effect, b"opacity")
         fade_animation.setDuration(500)
         fade_animation.setStartValue(0.0)
@@ -254,11 +239,15 @@ class MCQPage(QMainWindow):
         # Calculate score
         self.score = 0
         results_data = []
+
+        answers_object = self.answers
+        answers_array = list(answers_object.values())
+        self.appstate.getTestInstance().set_list_of_answers(answers_array)
         
         for q_index in range(len(self.questions)):
             if q_index in self.answers:
                 selected_option = self.answers[q_index]
-                correct_answer = self.questions[q_index]['correct']
+                correct_answer = self.questions[q_index]['correctAnswer']
                 is_correct = selected_option == correct_answer
                 
                 if is_correct:
@@ -272,12 +261,12 @@ class MCQPage(QMainWindow):
                 })
 
         # Create results window
-        results = QDialog(self)
-        results.setWindowTitle("Quiz Results")
-        results.setModal(True)
-        results.setMinimumWidth(600)
+        self.results = QDialog(self)
+        self.results.setWindowTitle("Quiz Results")
+        self.results.setModal(True)
+        self.results.setMinimumWidth(600)
         
-        layout = QVBoxLayout(results)
+        layout = QVBoxLayout(self.results)
         
         # Calculate percentage
         percentage = (self.score / self.total_questions) * 100
@@ -315,8 +304,8 @@ class MCQPage(QMainWindow):
                 status = QLabel("✗ Incorrect")
                 status.setStyleSheet("color: #EF4444; font-weight: bold;")
                 
-                selected = QLabel(f"Your answer: {question['options'][result['selected_option']]}")
-                correct = QLabel(f"Correct answer: {question['options'][result['correct_option']]}")
+                selected = QLabel(f"Your answer: {question['answers'][result['selected_option']]}")
+                correct = QLabel(f"Correct answer: {question['answers'][result['correct_option']]}")
                 explanation = QLabel(f"Explanation: {question['explanation']}")
                 explanation.setWordWrap(True)
                 
@@ -344,10 +333,10 @@ class MCQPage(QMainWindow):
         
         layout.addLayout(button_layout)
         
-        results.show()
+        self.results.show()
         fade_animation.start()
         
-        results.exec_()
+        self.results.exec_()
 
     def export_results(self, results_data):
         # Prepare results data
@@ -365,19 +354,34 @@ class MCQPage(QMainWindow):
             question = self.questions[q_index]
             export_data['questions'].append({
                 'question': question['question'],
-                'selected_answer': question['options'][result['selected_option']],
-                'correct_answer': question['options'][result['correct_option']],
+                'selected_answer': question['answers'][result['selected_option']],
+                'correct_answer': question['answers'][result['correct_option']],
                 'is_correct': result['is_correct'],
                 'explanation': question['explanation']
             })
 
         # Save to file
-        filename = f"mcq_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        filename = f"{self.appstate.getUser().fullname}_mcqresults_{self.appstate.getCourse().replace(" ", "")}_{datetime.now().strftime('%Y_%m_%d')}.json"
         with open(filename, 'w') as f:
             json.dump(export_data, f, indent=4)
 
-        QMessageBox.information(self, "Export Success", 
-                              f"Results have been exported to {filename}")
+        # QMessageBox.information(self, "Export Success", 
+        #                       f"Results have been exported to {filename}")
+
+        self.results.close()
+
+        msg = QMessageBox()
+        msg.setWindowTitle("Export Success")
+        msg.setText(f"Results have been exported to {filename}")
+        msg.setIcon(QMessageBox.Information)
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.button(QMessageBox.Ok).setText("Return to Home")
+
+        msg.exec_()
+        self.return_to_home()  # This will execute when the button is clicked
+
+    def return_to_home(self):
+        self.parent().setCurrentWidget(self.parent().parent().central_widget)
 
     def apply_theme(self, is_light_mode):
         if is_light_mode:
@@ -579,10 +583,10 @@ class MCQPage(QMainWindow):
                 }
             """)
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
     
-    app = QApplication(sys.argv)
-    font = QFont("Segoe UI", 10)
-    app.setFont(font)
-    window = MCQPage(is_light_mode=False)
-    sys.exit(app.exec_())
+#     app = QApplication(sys.argv)
+#     font = QFont("Segoe UI", 10)
+#     app.setFont(font)
+#     window = MCQPage(is_light_mode=False)
+#     sys.exit(app.exec_())

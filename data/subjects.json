@@ -1,0 +1,59 @@
+[
+    {
+        "title": "Web Development",
+        "description": "Learn the foundations of building dynamic and responsive web applications.",
+        "chapters": ["HTML Basics", "CSS Styling", "JavaScript Fundamentals", "Backend Development"],
+        "is_new": false
+    },
+    {
+        "title": "Machine Learning",
+        "description": "Learn the fundamentals and advanced techniques in machine learning, including supervised and unsupervised learning, model evaluation, and more.",
+        "chapters": ["Supervised Learning", "Unsupervised Learning", "Model Evaluation and Hyperparameter Tuning"],
+        "is_new": true
+    },
+    {
+        "title": "Cyber Security",
+        "description": "Learn about the fundamentals of cybersecurity, including network security, cryptography, and risk management.",
+        "chapters": ["Network Security", "Cryptography", "Risk Management and Threats"],
+        "is_new": true
+    },
+    {
+        "title": "Python Programming",
+        "description": "Learn Python from basics to advanced concepts, including data structures, algorithms, and libraries for data science and web development.",
+        "chapters": ["Python Basics", "Object-Oriented Programming", "Libraries and Frameworks"],
+        "is_new": true
+    },
+    {
+        "title": "Database",
+        "description": "Learn the principles of database design, management, and optimization, along with SQL and NoSQL databases.",
+        "chapters": ["SQL Basics", "Database Design", "NoSQL Databases", "Database Optimization"],
+        "is_new": true
+    },
+    [
+    {
+        "title": "Data Structures and Algorithms",
+        "description": "Learn the fundamental data structures and algorithms used in software development, essential for problem-solving and coding interviews.",
+        "chapters": ["Arrays and Linked Lists", "Trees and Graphs", "Sorting and Searching Algorithms", "Dynamic Programming"],
+        "is_new": true
+    },
+    {
+        "title": "Cloud Computing",
+        "description": "Explore cloud platforms and services like AWS, Azure, and Google Cloud, and learn to deploy and manage applications in the cloud.",
+        "chapters": ["Cloud Fundamentals", "Cloud Security", "Serverless Computing", "DevOps Practices"],
+        "is_new": true
+    },
+    {
+        "title": "Mobile App Development with Kotlin and Flutter",
+        "description": "Learn to build mobile applications for Android and iOS using Kotlin for native development and Flutter for cross-platform development.",
+        "chapters": ["Kotlin Basics", "Android Development with Kotlin", "Flutter Basics", "Cross-Platform Development with Flutter"],
+        "is_new": true
+    },
+    {
+        "title": "Compilation and Language Design",
+        "description": "Dive into the principles of compilers and language design, including syntax analysis, parsing, and code generation.",
+        "chapters": ["Lexical Analysis", "Parsing Techniques", "Intermediate Code Generation", "Optimization and Code Generation"],
+        "is_new": true
+    }
+]
+
+]

@@ -1,7 +1,9 @@
-from data_handler import read_users,write_users
+from .data_handler import read_users,write_users,read_subjects
 import hashlib
-from User import User
-from take_test import takeTest
+from .User import User
+from .subject import Subject
+from .take_test import takeTest
+from .Score import Score
 import re
 
 
@@ -13,9 +15,9 @@ def is_valid_email(email):
     return bool(re.match(email_regex, email))
 
 def verify_password_length(password):
-    return bool(len(password)>8)
+    return bool(len(password)>=8)
 
-
+#udpos213
 def register(fullname,email,username,password):
     users = read_users()
 
@@ -36,7 +38,7 @@ def register(fullname,email,username,password):
     write_users(users)
     return new_user
 
-
+#udpos213
 def login(username,password):
     users = read_users()
 
@@ -59,7 +61,7 @@ def main():
         choice = input("Select an option (1/2/3): ")
 
         if choice == "1":
-            fullname = input("Enter your first name: ")
+            fullname = input("Enter your fullname name: ")
             email = input("Enter your email: ")
             username = input("Choose a username: ")
             password = input("Choose a password: ")
@@ -80,12 +82,38 @@ def main():
             if isinstance(result, User):
                 print(f"Welcome back, {result.fullname}!")
 
-                subject = input("Enter the subject for the test: ")
-                # -------------------------------- HANOUNI  🚜🦖🦕🐇---------------------------------------#
-                # on doit verifier ila dekhel khalouta
+                print("\nAvailable courses:")
+                #------- This is for the main
+                Subject.print_all_subjects()
+                # print(Subject.get_all_courses())
+
+                course = input("\nEnter the name of the course for the test: ")
+                find = False
+
+                for cou in Subject.get_all_courses():
+                    if cou['title'] == course:
+                        find = True
+                        break
+
+                if not find:
+                    print("The specified course does not exist. Please try again.")
+                    continue
+
+                print("\nAvailable chapters:")
+
+                Subject.print_all_chapters_of_course(course)
+                Subject.get_all_chapters_of_course(course)
+
+                chapter_id = int(input("\nEnter the chapter ID for the test: "))
+
+                chapter_name = Subject.get_all_chapters_of_course(course)[chapter_id]['title']
+
+                subject = Subject(course, chapter_id, chapter_name)
+
                 test_instance = takeTest(result, subject)
 
                 questions = test_instance.get_questions()
+
                 print("\nStarting the quiz. Please answer the following questions:")
                 answers = []
 
@@ -104,11 +132,7 @@ def main():
                         except ValueError:
                             print("Please enter a valid number.")
 
-                #--------------------------------TODO HANOUNI  🚜🦖🦕🐇---------------------------------------#
                 test_instance.set_list_of_answers(answers)
-                print(test_instance.list_of_answers)
-                print(test_instance.list_of_correct_answers, test_instance.current_test_score, test_instance.get_results_of_test())
-                # --------------------------------TODO HANOUNI  🚜🦖🦕🐇---------------------------------------#
 
                 print("\nQuiz Results:")
                 results = test_instance.get_results_of_test()
@@ -122,6 +146,9 @@ def main():
                 for idx, ans in enumerate(results['correctAnswers'], 1):
                     print(f"  Q{idx}: {questions[idx-1]['answers'][ans]}")
 
+                print(f"\nNumber of Questions: {test_instance.get_number_of_questions()}")
+                print(f"Correct Answers Count: {len([a for a, c in zip(answers, results['correctAnswers']) if a == c])}")
+
             else:
                 print(f"Error: {result}")
 
@@ -134,4 +161,27 @@ def main():
 
 if __name__ == "__main__":
     main()
+    # Subject.print_all_chapters_of_course('Cyber Security')
+    # print(Subject.get_all_chapters_of_course("Cyber Security"))
+    # Subject.print_all_subjects()
+    # Subject.print_all_chapters_of_course('Cyber Security')
+    # subject=Subject('Cyber Security',2)
+    # Subject.display_questions_in_coonsole(subject)
+    # Subject.print_all_subjects()
 
+    # user=login('schakib','123456789')
+    # print(user)
+    # if isinstance(user, User):
+    #     print(user.view_scores())
+    # else:
+    #     print(user)
+
+    # test_instance=takeTest(user,Subject('Cyber Security',2,'Risk Management and Threats'))
+    # score = Score(Subject('Cyber Security',2,'Risk Management and Threats'),98)
+    # user.scores.append(score)
+    # users = read_users()
+    #
+    # for u in users:
+    #     if u['username'] == user.username:
+    #         u['scores'].append(score.to_dict())
+    #         write_users(users)

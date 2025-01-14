@@ -1,0 +1,288 @@
+[
+    {
+      "chapter_id": 0,
+      "title": "Network Security",
+      "description": "Test your knowledge of securing networks, firewalls, and intrusion detection systems.",
+      "questions_count": 8,
+      "time_estimate": "25 mins",
+      "difficulty": "Intermediate",
+      "is_new": true,
+      "questions": [
+        {
+          "question": "What is the purpose of a firewall in network security?",
+          "answers": [
+            "To prevent unauthorized access to a network",
+            "To increase internet speed",
+            "To store network data",
+            "To manage email traffic"
+          ],
+          "correctAnswer": 0,
+          "explanation": "A firewall acts as a barrier between a trusted internal network and untrusted external networks, monitoring and controlling incoming and outgoing network traffic based on predetermined security rules. It's a fundamental security tool that helps protect against unauthorized access, malware, and other cyber threats."
+        },
+        {
+          "question": "Which of the following is a common method used to detect intrusions in a network?",
+          "answers": [
+            "Encryption",
+            "Intrusion Detection System (IDS)",
+            "Load balancing",
+            "Data backup"
+          ],
+          "correctAnswer": 1,
+          "explanation": "An Intrusion Detection System (IDS) is specifically designed to monitor network traffic for suspicious activity and policy violations. It analyzes patterns of traffic and alerts administrators when potential security breaches are detected. Unlike encryption or load balancing, IDS is focused on identifying and reporting security incidents."
+        },
+        {
+          "question": "What is the purpose of a VPN (Virtual Private Network)?",
+          "answers": [
+            "To create a secure connection over a public network",
+            "To increase network bandwidth",
+            "To improve network performance",
+            "To monitor network activity"
+          ],
+          "correctAnswer": 0,
+          "explanation": "A VPN creates an encrypted tunnel between your device and a remote server, allowing secure communication over public networks like the internet. This encryption ensures that sensitive data remains private and protected from interception, making it especially useful when using public Wi-Fi or accessing corporate networks remotely."
+        },
+        {
+          "question": "Which of the following is a type of attack aimed at intercepting communication between two parties?",
+          "answers": [
+            "Man-in-the-middle attack",
+            "Denial of Service (DoS)",
+            "SQL Injection",
+            "Phishing"
+          ],
+          "correctAnswer": 0,
+          "explanation": "A Man-in-the-middle (MITM) attack occurs when an attacker secretly intercepts and possibly alters the communication between two parties who believe they are directly communicating with each other. This can be used to steal sensitive information or manipulate the conversation without either party's knowledge."
+        },
+        {
+          "question": "What does a Denial of Service (DoS) attack do?",
+          "answers": [
+            "Steals sensitive information",
+            "Overloads the system, causing service interruption",
+            "Encrypts data to hold it hostage",
+            "Monitors network traffic"
+          ],
+          "correctAnswer": 1,
+          "explanation": "A Denial of Service attack works by overwhelming a system, network, or service with excessive traffic or requests, making it unavailable to legitimate users. This can be achieved through various methods, such as flooding servers with traffic or exploiting vulnerabilities that cause systems to crash."
+        },
+        {
+          "question": "What does the term 'Phishing' refer to in cybersecurity?",
+          "answers": [
+            "The process of stealing credit card information",
+            "A type of social engineering attack to deceive individuals into giving sensitive information",
+            "An attack that encrypts files and demands a ransom",
+            "An attack that floods a network with excessive traffic"
+          ],
+          "correctAnswer": 1,
+          "explanation": "Phishing is a social engineering attack where attackers masquerade as legitimate entities to trick individuals into revealing sensitive information such as passwords, credit card numbers, or login credentials. These attacks often use fake emails, websites, or messages that appear to be from trusted sources."
+        },
+        {
+          "question": "Which of the following protocols is commonly used to secure communication over the internet?",
+          "answers": [
+            "HTTP",
+            "FTP",
+            "HTTPS",
+            "SMTP"
+          ],
+          "correctAnswer": 2,
+          "explanation": "HTTPS (Hypertext Transfer Protocol Secure) is a secure version of HTTP that encrypts data transmitted between a web browser and a website. It uses SSL/TLS protocols to provide authentication, data integrity, and encryption, making it essential for secure online transactions and data transfer."
+        },
+        {
+          "question": "What is a common technique to prevent unauthorized access to a network?",
+          "answers": [
+            "Password cracking",
+            "Multi-factor authentication",
+            "Keylogging",
+            "DDoS protection"
+          ],
+          "correctAnswer": 1,
+          "explanation": "Multi-factor authentication (MFA) adds additional layers of security beyond just a password by requiring users to provide two or more verification factors to gain access. These factors typically include something you know (password), something you have (phone), and something you are (biometric)."
+        }
+      ]
+    },
+    {
+      "chapter_id": 1,
+      "title": "Cryptography",
+      "description": "Test your knowledge of encryption methods, digital signatures, and cryptographic algorithms.",
+      "questions_count": 8,
+      "time_estimate": "25 mins",
+      "difficulty": "Advanced",
+      "is_new": false,
+      "questions": [
+        {
+          "question": "Which of the following is a symmetric encryption algorithm?",
+          "answers": [
+            "RSA",
+            "AES",
+            "ECC",
+            "DSA"
+          ],
+          "correctAnswer": 1,
+          "explanation": "AES (Advanced Encryption Standard) is a symmetric encryption algorithm that uses the same key for both encryption and decryption. It's widely used due to its security and efficiency, making it the global standard for data encryption. Unlike RSA and ECC, which are asymmetric algorithms, AES processes data more quickly and is ideal for encrypting large amounts of data."
+        },
+        {
+          "question": "What is the main purpose of a digital signature?",
+          "answers": [
+            "To encrypt data",
+            "To verify the authenticity and integrity of a message",
+            "To store passwords securely",
+            "To protect against DoS attacks"
+          ],
+          "correctAnswer": 1,
+          "explanation": "Digital signatures provide authentication, non-repudiation, and integrity verification of digital messages or documents. They use public key cryptography to create a unique mathematical scheme that validates the authenticity of the sender and ensures the message hasn't been altered during transmission."
+        },
+        {
+          "question": "Which encryption algorithm is based on the use of public and private keys?",
+          "answers": [
+            "AES",
+            "RSA",
+            "Blowfish",
+            "Twofish"
+          ],
+          "correctAnswer": 1,
+          "explanation": "RSA (Rivest-Shamir-Adleman) is an asymmetric encryption algorithm that uses a pair of keys: a public key for encryption and a private key for decryption. This system allows secure communication without sharing secret keys and is fundamental to many secure communications protocols on the internet."
+        },
+        {
+          "question": "What is the key characteristic of asymmetric encryption?",
+          "answers": [
+            "The same key is used for both encryption and decryption",
+            "Different keys are used for encryption and decryption",
+            "It does not require any keys",
+            "It is faster than symmetric encryption"
+          ],
+          "correctAnswer": 1,
+          "explanation": "Asymmetric encryption uses two mathematically related keys: a public key for encryption and a private key for decryption. This separation of keys enables secure communication without requiring a pre-shared secret key, making it ideal for initial key exchange and digital signatures, although it is generally slower than symmetric encryption."
+        },
+        {
+          "question": "Which of the following is an example of a hashing algorithm?",
+          "answers": [
+            "AES",
+            "MD5",
+            "RSA",
+            "Blowfish"
+          ],
+          "correctAnswer": 1,
+          "explanation": "MD5 is a cryptographic hash function that produces a fixed-size (128-bit) hash value. While no longer considered cryptographically secure, it demonstrates the key properties of hash functions: it's deterministic, quick to compute, and produces a fixed-size output regardless of input size. Unlike encryption algorithms, hash functions are one-way functions and cannot be reversed."
+        },
+        {
+          "question": "Which protocol is used to secure email communication by encrypting the contents of an email?",
+          "answers": [
+            "SSL",
+            "TLS",
+            "PGP",
+            "SSH"
+          ],
+          "correctAnswer": 2,
+          "explanation": "PGP (Pretty Good Privacy) is specifically designed for securing email communications through encryption and digital signatures. It uses both symmetric and asymmetric encryption to provide confidentiality, authentication, and integrity for email messages. Unlike SSL/TLS which secure the transmission channel, PGP secures the actual message content."
+        },
+        {
+          "question": "Which of the following is true about a hash function?",
+          "answers": [
+            "It can be reversed to obtain the original data.",
+            "It produces a fixed-size output regardless of the input size.",
+            "It encrypts the data for storage.",
+            "It is primarily used to encrypt emails."
+          ],
+          "correctAnswer": 1,
+          "explanation": "A hash function is designed to always produce a fixed-size output (hash value) regardless of the input size. This is a fundamental property of hash functions, along with being deterministic and practically impossible to reverse. This makes them ideal for password storage, file integrity verification, and digital signatures."
+        },
+        {
+          "question": "Which of the following is a widely used cryptographic protocol for securing websites?",
+          "answers": [
+            "SSH",
+            "TLS/SSL",
+            "PPTP",
+            "RDP"
+          ],
+          "correctAnswer": 1,
+          "explanation": "TLS (Transport Layer Security) and its predecessor SSL (Secure Sockets Layer) are cryptographic protocols designed to provide secure communication over computer networks, particularly the internet. They're most commonly used to secure websites (HTTPS), providing encryption, authentication, and integrity protection for data in transit."
+        }
+      ]
+    },
+    {
+      "chapter_id": 2,
+      "title": "Risk Management and Threats",
+      "description": "Learn about identifying and mitigating risks, threat assessment, and cybersecurity policies.",
+      "questions_count": 7,
+      "time_estimate": "20 mins",
+      "difficulty": "Intermediate",
+      "is_new": false,
+      "questions": [
+        {
+          "question": "What is the first step in risk management for cybersecurity?",
+          "answers": [
+            "Identify assets and potential threats",
+            "Encrypt sensitive data",
+            "Implement a firewall",
+            "Monitor network activity"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The first step in risk management is to identify and catalog all assets and potential threats. This creates a foundation for all subsequent risk management activities, as you need to know what you're protecting and what you're protecting it from before you can implement effective security measures."
+        },
+        {
+          "question": "What is the purpose of a risk assessment in cybersecurity?",
+          "answers": [
+            "To define security policies",
+            "To evaluate the effectiveness of a firewall",
+            "To identify vulnerabilities and determine the impact of potential threats",
+            "To monitor network traffic"
+          ],
+          "correctAnswer": 2,
+          "explanation": "A risk assessment helps organizations understand their security posture by identifying vulnerabilities and evaluating the potential impact of various threats. This analysis helps prioritize security investments and develop appropriate mitigation strategies based on the likelihood and potential impact of different risks."
+        },
+        {
+          "question": "What does the term 'Zero-Day' vulnerability refer to?",
+          "answers": [
+            "A vulnerability that is discovered before the vendor releases a patch",
+            "A security flaw caused by human error",
+            "An outdated software version",
+            "A type of phishing attack"
+          ],
+          "correctAnswer": 0,
+          "explanation": "A Zero-Day vulnerability is a software security flaw that is known to attackers but unknown to the software vendor or antivirus vendors. Because there's no patch available yet, these vulnerabilities are particularly dangerous as they can be exploited before the vendor has an opportunity to fix them."
+        },
+        {
+          "question": "Which of the following is an example of a cybersecurity policy?",
+          "answers": [
+            "Password complexity requirements",
+            "Firewall configuration rules",
+            "Network segmentation rules",
+            "All of the above"
+          ],
+          "correctAnswer": 3,
+          "explanation": "Cybersecurity policies encompass all rules and guidelines that protect an organization's digital assets. This includes password policies, firewall rules, network segmentation, access controls, and other security measures. These policies work together to create a comprehensive security framework."
+        },
+        {
+          "question": "What is the purpose of an incident response plan?",
+          "answers": [
+            "To store backup data securely",
+            "To outline steps to take when a security breach occurs",
+            "To prevent phishing attacks",
+            "To manage user access to network resources"
+          ],
+          "correctAnswer": 1,
+          "explanation": "An incident response plan provides a structured approach to handling security incidents when they occur. It includes detailed procedures for detecting, responding to, and recovering from security breaches, ensuring that organizations can react quickly and effectively to minimize damage."
+        },
+        {
+          "question": "What is a typical response to a Distributed Denial of Service (DDoS) attack?",
+          "answers": [
+            "Increase bandwidth to handle the attack",
+            "Install antivirus software",
+            "Use a VPN to secure the connection",
+            "Monitor network traffic for abnormal behavior"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Increasing bandwidth is a common initial response to a DDoS attack as it helps absorb the attack traffic. However, a comprehensive DDoS mitigation strategy typically includes traffic filtering, rate limiting, and using DDoS mitigation services that can detect and filter out malicious traffic before it reaches the target servers."
+        },
+        {
+          "question": "Which of the following is a common practice in risk mitigation?",
+          "answers": [
+            "Encrypting sensitive data",
+            "Disabling firewall",
+            "Ignoring outdated software",
+            "Using weak passwords"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Encrypting sensitive data is a fundamental risk mitigation practice that helps protect information even if other security measures fail. It ensures that even if unauthorized access occurs, the data remains unreadable and unusable without the proper decryption keys."
+        }
+      ]
+    }
+  ]

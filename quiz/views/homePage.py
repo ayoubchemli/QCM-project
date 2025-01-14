@@ -1,9 +1,13 @@
 import sys
+import re
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 
-# TODO : ayoubchemli (💾 Export Results + password field light theme)
+from quiz.views.quizesLevel import quizesLevel
+
+from quiz.subject import Subject
+
 
 class ContactPage(QMainWindow):
     def __init__(self, parent=None, is_light_mode=False):
@@ -31,7 +35,7 @@ class ContactPage(QMainWindow):
         header_layout.setSpacing(10)  # Added spacing control
         
         back_button = HoverButton("← Return to Home")
-        back_button.setFixedWidth(150)  # Reduced width
+        back_button.setFixedWidth(200)  
         back_button.clicked.connect(self.return_to_home)
         
         title = AnimatedLabel("Contact Us")
@@ -422,7 +426,7 @@ class ExportResultsPage(QMainWindow):
         header_layout.setSpacing(15)
         
         back_button = HoverButton("← Return to Home")
-        back_button.setFixedWidth(150)  # Reduced width
+        back_button.setFixedWidth(200)  # Reduced width
         back_button.clicked.connect(self.return_to_home)
         
         title = AnimatedLabel("Export Results")
@@ -808,9 +812,10 @@ class ExportResultsPage(QMainWindow):
                     
                     
 class MCQHistoryPage(QMainWindow):
-    def __init__(self, parent=None, is_light_mode=False):
+    def __init__(self, appstate, parent=None, is_light_mode=False):
         super().__init__(parent)
         self.parent = parent
+        self.appstate = appstate
         self.setup_ui()
         self.apply_theme(is_light_mode)
 
@@ -851,10 +856,10 @@ class MCQHistoryPage(QMainWindow):
 
         # Create stat cards
         stat_cards = [
-            ("Total Tests Taken", "42", "📝"),
-            ("Average Score", "78%", "📊"),
-            ("Best Performance", "95%", "🏆"),
-            ("Tests This Month", "8", "📅")
+            ("Total Tests Taken", f"{self.appstate.getUser().count_tests_taken()}", "📝"),
+            ("Average Score", f"{self.appstate.getUser().calculate_average_score()}%", "📊"),
+            ("Best Performance", f"{self.appstate.getUser().get_best_score()}%", "🏆"),
+            ("Tests This Month", f"{self.appstate.getUser().count_tests_this_month()}", "📅")
         ]
 
         for title, value, icon in stat_cards:
@@ -878,7 +883,7 @@ class MCQHistoryPage(QMainWindow):
         self.history_table.setObjectName("historyTable")
         self.history_table.setColumnCount(5)
         self.history_table.setHorizontalHeaderLabels([
-            "Date", "Subject", "Score", "Time Taken", "Status"
+            "Date", "Course", "Chapter", "Score", "Status"
         ])
         
         # Add sample data
@@ -923,30 +928,33 @@ class MCQHistoryPage(QMainWindow):
 
     def add_sample_data(self):
         # Sample test data
-        test_data = [
-            ("2024-12-27", "Algebra", "85%", "45 mins", "Passed"),
-            ("2024-12-25", "Data Structures", "92%", "60 mins", "Passed"),
-            ("2024-12-23", "File Systems", "78%", "30 mins", "Passed"),
-            ("2024-12-20", "Linear Algebra", "65%", "45 mins", "Failed"),
-            ("2024-12-18", "Algorithms", "88%", "50 mins", "Passed"),
-            ("2024-12-15", "Graph Theory", "73%", "40 mins", "Passed"),
-            ("2024-12-12", "Number Theory", "95%", "55 mins", "Passed"),
-            ("2024-12-10", "Binary Trees", "82%", "35 mins", "Passed")
-        ]
+        test_data = self.appstate.getUser().mcq_history()
+        # test_data = [
+        #     ("2024-12-27", "Algebra", "85%", "45 mins", "Passed"),
+        #     ("2024-12-25", "Data Structures", "92%", "60 mins", "Passed"),
+        #     ("2024-12-23", "File Systems", "78%", "30 mins", "Passed"),
+        #     ("2024-12-20", "Linear Algebra", "65%", "45 mins", "Failed"),
+        #     ("2024-12-18", "Algorithms", "88%", "50 mins", "Passed"),
+        #     ("2024-12-15", "Graph Theory", "73%", "40 mins", "Passed"),
+        #     ("2024-12-12", "Number Theory", "95%", "55 mins", "Passed"),
+        #     ("2024-12-10", "Binary Trees", "82%", "35 mins", "Passed")
+        # ]
 
         self.history_table.setRowCount(len(test_data))
-        for row, (date, subject, score, time, status) in enumerate(test_data):
+        for row, (date, course, chapter, score, status) in enumerate(test_data):
             self.history_table.setItem(row, 0, QTableWidgetItem(date))
-            self.history_table.setItem(row, 1, QTableWidgetItem(subject))
-            self.history_table.setItem(row, 2, QTableWidgetItem(score))
-            self.history_table.setItem(row, 3, QTableWidgetItem(time))
+            self.history_table.setItem(row, 1, QTableWidgetItem(course))
+            self.history_table.setItem(row, 2, QTableWidgetItem(chapter))
+            self.history_table.setItem(row, 3, QTableWidgetItem(score))
             
             status_item = QTableWidgetItem(status)
             status_item.setTextAlignment(Qt.AlignCenter)
             if status == "Passed":
-                status_item.setForeground(QColor("#10B981"))  # Green
+                # status_item.setForeground(QColor("#10B981"))  # Green
+                status_item.setBackground(QColor("#10B981"))  # Green
             else:
-                status_item.setForeground(QColor("#EF4444"))  # Red
+                # status_item.setForeground(QColor("#EF4444"))  # Red
+                status_item.setBackground(QColor("#EF4444"))  # Red
             self.history_table.setItem(row, 4, status_item)
 
     def apply_theme(self, is_light_mode):
@@ -1096,8 +1104,9 @@ class MCQHistoryPage(QMainWindow):
             
             
 class PasswordField(QFrame):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, is_light_mode=False):
         super().__init__(parent)
+        self.is_light_mode = is_light_mode
         self.setup_ui()
         self.setup_connections()
 
@@ -1211,28 +1220,32 @@ class PasswordField(QFrame):
             if req.property("met"):
                 req.setStyleSheet("color: #10B981; font-size: 14px;")  # Green
             else:
-                req.setStyleSheet("color: #6B7280; font-size: 14px;")  # Gray
+                req.setStyleSheet(f"color: {'#64748B' if self.is_light_mode else '#94A3B8'}; font-size: 14px;")
+
         
         # Update strength indicator
         self.strength_bar.setValue(score)
         
         # Update strength label
-        if score < 40:
+        if score <= 20:
             strength_text = "Weak"
             strength_color = "#EF4444"  # Red
-        elif score < 80:
+        elif score <= 60:
             strength_text = "Medium"
             strength_color = "#F59E0B"  # Yellow
-        else:
+        elif score <= 80:
             strength_text = "Strong"
             strength_color = "#10B981"  # Green
+        else:
+            strength_text = "very Strong"
+            strength_color = "#0fa900"  # DARK Green
             
         self.strength_label.setText(strength_text)
         self.strength_label.setStyleSheet(f"color: {strength_color}; font-size: 14px; font-weight: bold;")
         self.strength_bar.setStyleSheet(f"""
             QProgressBar {{
                 border-radius: 4px;
-                background-color: #E2E8F0;
+                background-color: {'#F8FAFC' if self.is_light_mode else '#0F172A'};
             }}
             QProgressBar::chunk {{
                 border-radius: 4px;
@@ -1247,75 +1260,140 @@ class PasswordField(QFrame):
         self.password_input.setText(password)
 
     def apply_styles(self):
-        self.setStyleSheet("""
-            QFrame {
-                background: transparent;
-            }
-            
-            #passwordInput {
-                padding: 12px 15px;
-                border: 2px solid #2D3748;
-                border-radius: 10px;
-                font-size: 16px;
-                background-color: #1E293B;
-                min-width: 300px;
-                color: white;
-            }
-            
-            #passwordInput:focus {
-                border-color: #4F46E5;
-            }
-            
-            #togglePassword {
-                background-color: #1E293B;
-                border: 2px solid #2D3748;
-                border-radius: 10px;
-                padding: 5px;
-                font-size: 20px;
-                margin-left: 10px;
-                color: white;
-            }
-            
-            #togglePassword:hover {
-                background-color: #2D3748;
-                border-color: #4F46E5;
-            }
-            
-            #strengthBar {
-                border-radius: 4px;
-                background-color: #0F172A;
-                min-width: 200px;
-                border: 1px solid #2D3748;
-                height: 8px;
-            }
-            
-            #strengthLabel {
-                font-size: 14px;
-                font-weight: bold;
-                margin-left: 15px;
-                min-width: 100px;
-                color: #E2E8F0;
-            }
-            
-            #requirement {
-                font-size: 14px;
-                padding: 3px 0;
-                color: #94A3B8;
-            }
-            
-            #requirement[met="true"] {
-                color: #4F46E5;
-            }
-        """)
+        if self.is_light_mode:
+            # Light theme styles
+            self.setStyleSheet("""
+                QFrame {
+                    background: transparent;
+                }
+                
+                #passwordInput {
+                    padding: 12px 15px;
+                    border: 2px solid #E2E8F0;
+                    border-radius: 10px;
+                    font-size: 16px;
+                    background-color: white;
+                    min-width: 300px;
+                    color: #1E293B;
+                }
+                
+                #passwordInput:focus {
+                    border-color: #4F46E5;
+                }
+                
+                #togglePassword {
+                    background-color: white;
+                    border: 2px solid #E2E8F0;
+                    border-radius: 10px;
+                    padding: 5px;
+                    font-size: 20px;
+                    margin-left: 10px;
+                    color: #1E293B;
+                }
+                
+                #togglePassword:hover {
+                    background-color: #F8FAFC;
+                    border-color: #4F46E5;
+                }
+                
+                #strengthBar {
+                    border-radius: 4px;
+                    background-color: #F8FAFC;
+                    min-width: 200px;
+                    border: 1px solid #E2E8F0;
+                    height: 8px;
+                }
+                
+                #strengthLabel {
+                    font-size: 14px;
+                    font-weight: bold;
+                    margin-left: 15px;
+                    min-width: 100px;
+                    color: #1E293B;
+                }
+                
+                #requirement {
+                    font-size: 14px;
+                    padding: 3px 0;
+                    color: #64748B;
+                }
+                
+                #requirement[met="true"] {
+                    color: #10B981;
+                }
+            """)
+        else:
+            # Dark theme styles
+            self.setStyleSheet("""
+                QFrame {
+                    background: transparent;
+                }
+                
+                #passwordInput {
+                    padding: 12px 15px;
+                    border: 2px solid #2D3748;
+                    border-radius: 10px;
+                    font-size: 16px;
+                    background-color: #1E293B;
+                    min-width: 300px;
+                    color: white;
+                }
+                
+                #passwordInput:focus {
+                    border-color: #4F46E5;
+                }
+                
+                #togglePassword {
+                    background-color: #1E293B;
+                    border: 2px solid #2D3748;
+                    border-radius: 10px;
+                    padding: 5px;
+                    font-size: 20px;
+                    margin-left: 10px;
+                    color: white;
+                }
+                
+                #togglePassword:hover {
+                    background-color: #2D3748;
+                    border-color: #4F46E5;
+                }
+                
+                #strengthBar {
+                    border-radius: 4px;
+                    background-color: #0F172A;
+                    min-width: 200px;
+                    border: 1px solid #2D3748;
+                    height: 8px;
+                }
+                
+                #strengthLabel {
+                    font-size: 14px;
+                    font-weight: bold;
+                    margin-left: 15px;
+                    min-width: 100px;
+                    color: #E2E8F0;
+                }
+                
+                #requirement {
+                    font-size: 14px;
+                    padding: 3px 0;
+                    color: #94A3B8;
+                }
+                
+                #requirement[met="true"] {
+                    color: #10B981;
+                }
+            """)
+
 
 class ProfilePage(QMainWindow):
     def __init__(self, parent=None, is_light_mode=False):
         super().__init__(parent)
         self.parent = parent
-        self.setup_ui()
+        self.setup_ui(is_light_mode)
         self.apply_theme(is_light_mode)
 
-    def setup_ui(self):
+    def setup_ui(self, theme):
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
         main_layout = QVBoxLayout(central_widget)
@@ -1413,7 +1491,7 @@ class ProfilePage(QMainWindow):
             }
         """)
 
-        self.password_field = PasswordField()
+        self.password_field = PasswordField(is_light_mode=theme)
 
         password_layout.addWidget(password_label)
         password_layout.addWidget(self.password_field)
@@ -1550,8 +1628,119 @@ class ProfilePage(QMainWindow):
         save_button.setText("Saving...")
         save_button.setEnabled(False)
         
-        # Simulate saving delay
-        QTimer.singleShot(1500, lambda: self.show_save_success(save_button, original_text))
+        # Get all the field values
+        profile_data = {
+            'full_name': self.fields['full_name'].text(),
+            'email': self.fields['email'].text(),
+            'username': self.fields['username'].text(),
+            'password': self.password_field.get_password() if self.password_field.get_password() else None
+        }
+        
+        # Validate fields
+        if not self.validate_fields(profile_data):
+            save_button.setText(original_text)
+            save_button.setEnabled(True)
+            return
+        
+        try:
+            # TODO : Here you would typically:
+            # 1. Connect to your database
+            # 2. Update the user's profile
+            # 3. Handle any potential errors
+            
+            #note:
+            
+            # Example database update (replace with your actual database code):
+            # self.db.update_user_profile(user_id, profile_data)
+            
+            # Simulate network delay
+            QTimer.singleShot(1500, lambda: self.show_save_success(save_button, original_text))
+            
+        except Exception as e:
+            # Show error message
+            msg = QMessageBox(self)
+            msg.setWindowTitle("Error")
+            msg.setText(f"Failed to save changes: {str(e)}")
+            msg.setIcon(QMessageBox.Critical)
+            msg.setStyleSheet("""
+                QMessageBox {
+                    background-color: #1E293B;
+                }
+                QMessageBox QLabel {
+                    color: white;
+                    font-size: 14px;
+                    padding: 10px;
+                }
+                QPushButton {
+                    background-color: #EF4444;
+                    color: white;
+                    border: none;
+                    border-radius: 5px;
+                    padding: 8px 16px;
+                    font-weight: bold;
+                }
+                QPushButton:hover {
+                    background-color: #DC2626;
+                }
+            """)
+            msg.exec_()
+            
+            # Reset button state
+            save_button.setText(original_text)
+            save_button.setEnabled(True)
+
+    def validate_fields(self, profile_data):
+        # Validate email format
+        email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        if not re.match(email_regex, profile_data['email']):
+            self.show_error("Invalid email format")
+            return False
+        
+        # Validate required fields
+        if not profile_data['full_name'] or not profile_data['username']:
+            self.show_error("Please fill in all required fields")
+            return False
+        
+        # Validate username format (example: alphanumeric only)
+        if not profile_data['username'].isalnum():
+            self.show_error("Username must contain only letters and numbers")
+            return False
+        
+        # If password is being changed, validate it
+        if profile_data['password']:
+            if len(profile_data['password']) < 8:
+                self.show_error("Password must be at least 8 characters long")
+                return False
+        
+        return True
+
+    def show_error(self, message):
+        msg = QMessageBox(self)
+        msg.setWindowTitle("Error")
+        msg.setText(message)
+        msg.setIcon(QMessageBox.Critical)
+        msg.setStyleSheet("""
+            QMessageBox {
+                background-color: #1E293B;
+            }
+            QMessageBox QLabel {
+                color: white;
+                font-size: 14px;
+                padding: 10px;
+            }
+            QPushButton {
+                background-color: #EF4444;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                padding: 8px 16px;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: #DC2626;
+            }
+        """)
+        msg.exec_()
 
     def show_save_success(self, button, original_text):
         # Create a custom success message box
@@ -1987,7 +2176,7 @@ class MCQHomePage(QMainWindow):
         self.export_results_page = ExportResultsPage(self, self.theme_toggle.isChecked())
         self.export_results_page.showFullScreen()
    def open_mcq_history(self):
-        self.mcq_history_page = MCQHistoryPage(self, self.theme_toggle.isChecked())
+        self.mcq_history_page = MCQHistoryPage(self.appstate, self, self.theme_toggle.isChecked())
         self.mcq_history_page.showFullScreen()
 
    def open_profile(self):
@@ -2064,6 +2253,7 @@ class MCQHomePage(QMainWindow):
 
     layout.addStretch()
     enroll_btn = HoverButton("Enroll Now")
+    enroll_btn.clicked.connect(lambda checked, t=title: self.handle_enroll(t))
     layout.addWidget(enroll_btn)
 
     shadow = QGraphicsDropShadowEffect()
@@ -2081,6 +2271,27 @@ class MCQHomePage(QMainWindow):
         }
     """)
     return card
+
+
+        
+   def handle_enroll(self, course_title):
+    print(f"Enrolling in course: {course_title}")
+    self.appstate.setCourse(course_title)
+    
+    # Pass the current theme state to quizesLevel
+    is_light_mode = self.theme_toggle.isChecked()
+    self.quizeslevel = quizesLevel(self.appstate, is_light_mode)
+    
+    # Add a reference to the theme toggle
+    self.quizeslevel.theme_toggle = self.theme_toggle
+    
+    # Connect the theme toggle to quizesLevel's apply_theme method
+    self.theme_toggle.clicked.connect(
+        lambda: self.quizeslevel.apply_theme(self.theme_toggle.isChecked())
+    )
+    
+    self.stacked_widget.addWidget(self.quizeslevel)
+    self.stacked_widget.setCurrentWidget(self.quizeslevel)
 
    def apply_theme(self, is_light_mode=False):
     theme = self.light_theme if is_light_mode else self.dark_theme
@@ -2193,10 +2404,15 @@ class MCQHomePage(QMainWindow):
         elif label.text().startswith("Glad to see you"):
             label.setStyleSheet(subtitle_style)
 
-   def __init__(self):
+   def __init__(self, appstate):
         super().__init__()
+        self.appstate = appstate
+
+        
         self.central_widget = QWidget()
-        self.setCentralWidget(self.central_widget)
+        self.stacked_widget = QStackedWidget()
+        self.setCentralWidget(self.stacked_widget)
+        self.stacked_widget.addWidget(self.central_widget)
         main_layout = QVBoxLayout(self.central_widget)
         main_layout.setSpacing(40)
         
@@ -2221,7 +2437,7 @@ class MCQHomePage(QMainWindow):
         center_layout = QVBoxLayout(center_content)
         center_layout.setSpacing(20)
 
-        title = QLabel("welcome (name)")
+        title = QLabel(f"welcome {appstate.getUser().fullname}")
         title.setStyleSheet("""
             font-size: 48px;
             color: white;
@@ -2254,44 +2470,9 @@ class MCQHomePage(QMainWindow):
         self.scroll_widget = HorizontalScrollArea()
         main_layout.addWidget(self.scroll_widget)
 
-        courses = [
-            {
-                "title": "File and data structure",
-                "description": "Master fundamental data structures and algorithms with hands-on practice.",
-                "chapters": ["Basic Data Types", "Arrays & Lists", "Trees & Graphs", "Advanced Algorithms"],
-                "is_new": False
-            },
-            {
-                "title": "Algebra",
-                "description": "Dive deep into advanced algebraic concepts and their applications.",
-                "chapters": ["Linear Algebra", "Abstract Algebra", "Number Theory", "Applications"],
-                "is_new": True
-            },
-            {
-                "title": "File and data structure",
-                "description": "Master fundamental data structures and algorithms with hands-on practice.",
-                "chapters": ["Basic Data Types", "Arrays & Lists", "Trees & Graphs", "Advanced Algorithms"],
-                "is_new": False
-            },
-            {
-                "title": "Algebra",
-                "description": "Dive deep into advanced algebraic concepts and their applications.",
-                "chapters": ["Linear Algebra", "Abstract Algebra", "Number Theory", "Applications"],
-                "is_new": True
-            },
-            {
-                "title": "File and data structure",
-                "description": "Master fundamental data structures and algorithms with hands-on practice.",
-                "chapters": ["Basic Data Types", "Arrays & Lists", "Trees & Graphs", "Advanced Algorithms"],
-                "is_new": False
-            },
-            {
-                "title": "Algebra",
-                "description": "Dive deep into advanced algebraic concepts and their applications.",
-                "chapters": ["Linear Algebra", "Abstract Algebra", "Number Theory", "Applications"],
-                "is_new": True
-            }
-        ]
+        courses = Subject.get_all_courses()
+
+
         
         for i, course in enumerate(courses):
             card = self.create_course_card(
@@ -2315,7 +2496,6 @@ class MCQHomePage(QMainWindow):
         self.shortcut.activated.connect(self.close)
 
         self.setWindowTitle("Interactive Quiz Platform")
-        self.showFullScreen()
 
    def open_settings(self):
         # Example callback function

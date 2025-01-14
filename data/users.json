@@ -6,42 +6,96 @@
         "password": "15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225",
         "scores": [
             {
-                "subject": "python",
-                "points": 1620.3078584931138,
-                "date": "2024"
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter": "Cryptography"
+                },
+                "points": 90.1,
+                "date": "2024-12-01 07:39:28"
             },
             {
-                "subject": "python",
-                "points": 372.67080745341616,
-                "date": "2024"
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter": "Python Basics"
+                },
+                "points": 72.67,
+                "date": "2024-12-06 13:35:17"
             },
             {
-                "subject": "python",
-                "points": 85.71428571428571,
-                "date": "2024"
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter": "Object-Oriented Programming"
+                },
+                "points": 85.71,
+                "date": "2024-12-11 16:28:00"
             },
             {
-                "subject": "python",
-                "points": 36.84210526315789,
-                "date": "2024"
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter": "Libraries and Frameworks"
+                },
+                "points": 36.84,
+                "date": "2024-12-13 08:19:36"
             },
             {
-                "subject": "python",
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter": "Advanced Python"
+                },
                 "points": 100.0,
-                "date": "2024"
+                "date": "2024-12-16 02:58:18"
             }
         ]
     },
     {
         "fullname": "chakib chikour hanouni",
-        "email": "schakibhad@gmail.com",
+        "email": "schakibhaddadi@gmail.com",
         "username": "schakib",
         "password": "15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225",
         "scores": [
             {
-                "subject": "python",
-                "points": 36.84210526315789,
-                "date": "2024-12-28 19:07:59"
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter_id": 1,
+                    "chapter": "Python Basics"
+                },
+                "points": 36.84,
+                "date": "2024-12-01 07:39:28"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 0,
+                    "chapter": "Network Security"
+                },
+                "points": 36.84,
+                "date": "2024-12-01 08:39:28"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 1,
+                    "chapter": "Cryptography"
+                },
+                "points": 36.84,
+                "date": "2024-12-01 09:39:28"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter": "Risk Management and Threats"
+                },
+                "points": 98,
+                "date": "2024-12-30 14:41:55"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 2,
+                    "chapter": "Risk Management and Threats"
+                },
+                "points": 98,
+                "date": "2024-12-30 15:46:48"
             }
         ]
     },
@@ -57,6 +111,390 @@
         "email": "Azfdgfrf@gmail.coooooooooooooooooooooooom",
         "username": "az",
         "password": "15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225",
+        "scores": []
+    },
+    {
+        "fullname": "popey",
+        "email": "fafa@gmail.com",
+        "username": "admin",
+        "password": "ac9689e2272427085e35b9d3e3e8bed88cb3434828b43b86fc0596cad4c6e270",
+        "scores": [
+            {
+                "subject": {
+                    "course": "Database",
+                    "chapter_id": 1,
+                    "chapter": "Database Design"
+                },
+                "points": 41.66666666666667,
+                "date": "2024-12-30 15:51:10"
+            }
+        ]
+    },
+    {
+        "fullname": "titi tawata",
+        "email": "gmial.OM@gmail.com",
+        "username": "123456789",
+        "password": "15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225",
+        "scores": [
+            {
+                "subject": {
+                    "course": "Database",
+                    "chapter_id": 1,
+                    "chapter": "Database Design"
+                },
+                "points": 33.33333333333333,
+                "date": "2024-12-30 15:53:50"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 2,
+                    "chapter": "Risk Management and Threats"
+                },
+                "points": 100.0,
+                "date": "2024-12-30 16:02:22"
+            }
+        ]
+    },
+    {
+        "fullname": "adam",
+        "email": "adam@mail.com",
+        "username": "dzdm",
+        "password": "8e787b53ad557d5b8d96eca35b2de1c2eb21fd85336a9e7f21b1ff6ebac28ca3",
+        "scores": [
+            {
+                "subject": {
+                    "course": "Database",
+                    "chapter_id": 0,
+                    "chapter": "SQL Basics"
+                },
+                "points": 50.0,
+                "date": "2024-12-30 20:49:43"
+            },
+            {
+                "subject": {
+                    "course": "Database",
+                    "chapter_id": 0,
+                    "chapter": "SQL Basics"
+                },
+                "points": 50.0,
+                "date": "2024-12-30 20:53:09"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 0,
+                    "chapter": "Network Security"
+                },
+                "points": 0.0,
+                "date": "2024-12-30 20:54:09"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 0,
+                    "chapter": "Network Security"
+                },
+                "points": 37.5,
+                "date": "2024-12-30 20:54:33"
+            }
+        ]
+    },
+    {
+        "fullname": "adam belkadi",
+        "email": "adambelk@gmail.com",
+        "username": "adam",
+        "password": "d3f638ce9a9183eb0e9f98b3798513483f1badf203cc1b812b6a42c4e16ff0b3",
+        "scores": [
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 1,
+                    "chapter": "Cryptography"
+                },
+                "points": 12.5,
+                "date": "2024-12-30 21:19:59"
+            },
+            {
+                "subject": {
+                    "course": "Database",
+                    "chapter_id": 0,
+                    "chapter": "SQL Basics"
+                },
+                "points": 50.0,
+                "date": "2024-12-30 21:36:16"
+            }
+        ]
+    },
+    {
+        "fullname": "Mohamed Mouloudj",
+        "email": "moumou@gmail.com",
+        "username": "medj",
+        "password": "2c01c0c91aeb0ccde624289bcfa838df651e602ccbb16d315c8e21dcea5a77b8",
+        "scores": [
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 2,
+                    "chapter": "Risk Management and Threats"
+                },
+                "points": 57.14,
+                "date": "2025-01-02 00:15:28"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 2,
+                    "chapter": "Risk Management and Threats"
+                },
+                "points": 57.14,
+                "date": "2025-01-02 00:15:28"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 2,
+                    "chapter": "Risk Management and Threats"
+                },
+                "points": 57.14,
+                "date": "2025-01-02 00:15:28"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 2,
+                    "chapter": "Risk Management and Threats"
+                },
+                "points": 57.14,
+                "date": "2025-01-02 00:15:28"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 2,
+                    "chapter": "Risk Management and Threats"
+                },
+                "points": 57.14,
+                "date": "2025-01-02 00:15:28"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 2,
+                    "chapter": "Risk Management and Threats"
+                },
+                "points": 57.14,
+                "date": "2025-01-02 00:15:28"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 2,
+                    "chapter": "Risk Management and Threats"
+                },
+                "points": 57.14,
+                "date": "2025-01-02 00:15:28"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 1,
+                    "chapter": "Cryptography"
+                },
+                "points": 37.5,
+                "date": "2025-01-02 00:18:28"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 0,
+                    "chapter": "Network Security"
+                },
+                "points": 37.5,
+                "date": "2025-01-02 00:41:24"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 0,
+                    "chapter": "Network Security"
+                },
+                "points": 50.0,
+                "date": "2025-01-02 00:43:59"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 0,
+                    "chapter": "Network Security"
+                },
+                "points": 12.5,
+                "date": "2025-01-02 00:46:22"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 1,
+                    "chapter": "Cryptography"
+                },
+                "points": 0.0,
+                "date": "2025-01-02 00:47:44"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 1,
+                    "chapter": "Cryptography"
+                },
+                "points": 12.5,
+                "date": "2025-01-02 01:15:38"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 2,
+                    "chapter": "Risk Management and Threats"
+                },
+                "points": 14.29,
+                "date": "2025-01-02 01:16:43"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 1,
+                    "chapter": "Cryptography"
+                },
+                "points": 0.0,
+                "date": "2025-01-02 01:24:23"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 2,
+                    "chapter": "Risk Management and Threats"
+                },
+                "points": 14.29,
+                "date": "2025-01-02 01:58:27"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 2,
+                    "chapter": "Risk Management and Threats"
+                },
+                "points": 14.29,
+                "date": "2025-01-02 02:00:30"
+            },
+            {
+                "subject": {
+                    "course": "Web Development",
+                    "chapter_id": 1,
+                    "chapter": "CSS Styling"
+                },
+                "points": 78.57,
+                "date": "2025-01-02 05:22:08"
+            }
+        ]
+    },
+    {
+        "fullname": "example example",
+        "email": "example@gmail.com",
+        "username": "example",
+        "password": "bdf24963557bae7f47761407269102613be4848b00536ffaad74042beb82ef70",
+        "scores": [
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 2,
+                    "chapter": "Risk Management and Threats"
+                },
+                "points": 42.86,
+                "date": "2025-01-02 08:20:22"
+            },
+            {
+                "subject": {
+                    "course": "Machine Learning",
+                    "chapter_id": 2,
+                    "chapter": "Model Evaluation and Hyperparameter Tuning"
+                },
+                "points": 40.0,
+                "date": "2025-01-02 08:30:44"
+            }
+        ]
+    },
+    {
+        "fullname": "ayoub chemli",
+        "email": "as@sa.sa",
+        "username": "ayoub",
+        "password": "b7a117196622f86876beff4b2c4f8bd0a57b1fd6f9cb6aa22ed2b697bb20fd54",
+        "scores": [
+            {
+                "subject": {
+                    "course": "Web Development",
+                    "chapter_id": 0,
+                    "chapter": "HTML Basics"
+                },
+                "points": 25.0,
+                "date": "2025-01-12 10:31:57"
+            },
+            {
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter_id": 0,
+                    "chapter": "Python Basics"
+                },
+                "points": 50.0,
+                "date": "2025-01-14 19:33:00"
+            },
+            {
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter_id": 0,
+                    "chapter": "Python Basics"
+                },
+                "points": 12.5,
+                "date": "2025-01-14 22:03:46"
+            },
+            {
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter_id": 0,
+                    "chapter": "Python Basics"
+                },
+                "points": 0.0,
+                "date": "2025-01-14 23:08:59"
+            }
+        ]
+    },
+    {
+        "fullname": "chakib haddadi",
+        "email": "schakibhad@gmail.com",
+        "username": "chakibb",
+        "password": "2285877fbec4bb1ad6466a6d3596f3a369646db03a02d4f74a2616a50d457a0c",
+        "scores": []
+    },
+    {
+        "fullname": "fatiha kerouma",
+        "email": "fatiha@gmail.com",
+        "username": "fati",
+        "password": "d865b65bdb3ba3791fc9549d2e315f3dfbba0128db30316c913795f7d79e8323",
+        "scores": [
+            {
+                "subject": {
+                    "course": "Web Development",
+                    "chapter_id": 0,
+                    "chapter": "HTML Basics"
+                },
+                "points": 50.0,
+                "date": "2025-01-14 23:48:03"
+            }
+        ]
+    },
+    {
+        "fullname": "karim foufou",
+        "email": "fatihatiti@gmail.com",
+        "username": "gmail",
+        "password": "d865b65bdb3ba3791fc9549d2e315f3dfbba0128db30316c913795f7d79e8323",
         "scores": []
     }
 ]
