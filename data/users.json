@@ -393,6 +393,78 @@
                 },
                 "points": 78.57,
                 "date": "2025-01-02 05:22:08"
+            },
+            {
+                "subject": {
+                    "course": "Machine Learning",
+                    "chapter_id": 1,
+                    "chapter": "Unsupervised Learning"
+                },
+                "points": 25.0,
+                "date": "2025-01-02 17:03:31"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 1,
+                    "chapter": "Cryptography"
+                },
+                "points": 0.0,
+                "date": "2025-01-03 00:11:39"
+            },
+            {
+                "subject": {
+                    "course": "Machine Learning",
+                    "chapter_id": 1,
+                    "chapter": "Unsupervised Learning"
+                },
+                "points": 25.0,
+                "date": "2025-01-03 18:33:59"
+            },
+            {
+                "subject": {
+                    "course": "Web Development",
+                    "chapter_id": 0,
+                    "chapter": "HTML Basics"
+                },
+                "points": 25.0,
+                "date": "2025-01-04 16:07:47"
+            },
+            {
+                "subject": {
+                    "course": "Database",
+                    "chapter_id": 0,
+                    "chapter": "SQL Basics"
+                },
+                "points": 100.0,
+                "date": "2025-01-07 15:21:46"
+            },
+            {
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter_id": 0,
+                    "chapter": "Python Basics"
+                },
+                "points": 100.0,
+                "date": "2025-01-07 15:25:19"
+            },
+            {
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter_id": 1,
+                    "chapter": "Object-Oriented Programming"
+                },
+                "points": 87.5,
+                "date": "2025-01-14 20:21:11"
+            },
+            {
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter_id": 2,
+                    "chapter": "Libraries and Frameworks"
+                },
+                "points": 50.0,
+                "date": "2025-01-15 03:33:17"
             }
         ]
     },

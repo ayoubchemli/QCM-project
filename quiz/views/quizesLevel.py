@@ -313,9 +313,7 @@ class quizesLevel(QMainWindow):
         
         
     def return_to_home(self):
-        self.close()
-        if self.parent():
-            self.parent().show()
+        self.parent().setCurrentWidget(self.parent().parent().central_widget)
 
     def apply_theme(self, is_light_mode=False):
         theme = self.light_theme if is_light_mode else self.dark_theme
