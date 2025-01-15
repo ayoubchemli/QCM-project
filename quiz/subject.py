@@ -14,6 +14,14 @@ class Subject:
         questions = chapter['questions']
         return questions
 
+    def get_time_limit(self):
+        all_chapters = Subject.get_all_chapters_of_course(self.course)
+        chapter = all_chapters[self.chapter_id]
+
+        time = int(''.join(filter(str.isdigit, chapter['time_estimate'])))
+
+        return time
+
     def to_dict(self):
         return {
             "course": self.course,

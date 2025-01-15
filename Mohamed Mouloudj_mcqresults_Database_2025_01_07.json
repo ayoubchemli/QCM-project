@@ -1,0 +1,79 @@
+{
+    "date": "2025-01-07 15:21:51",
+    "total_questions": 10,
+    "score": 10,
+    "percentage": 100.0,
+    "time_taken": 102,
+    "questions": [
+        {
+            "question": "Which SQL statement is used to retrieve data from a database?",
+            "selected_answer": "SELECT",
+            "correct_answer": "SELECT",
+            "is_correct": true,
+            "explanation": "The SELECT statement is the fundamental SQL command used to retrieve data from one or more database tables. It allows you to specify exactly which columns you want to retrieve, filter the results using WHERE clauses, and sort or group the data as needed. Unlike INSERT, UPDATE, or DELETE, SELECT doesn't modify the data - it only reads and returns it."
+        },
+        {
+            "question": "Which clause is used to filter records in an SQL query?",
+            "selected_answer": "WHERE",
+            "correct_answer": "WHERE",
+            "is_correct": true,
+            "explanation": "The WHERE clause is used to filter records based on specified conditions before they are included in the query results. It acts as a row-level filter, allowing you to retrieve only the records that match certain criteria. Unlike ORDER BY (which sorts results) or GROUP BY (which groups results), WHERE determines which rows are included in the result set."
+        },
+        {
+            "question": "Which SQL statement is used to insert new records into a table?",
+            "selected_answer": "INSERT INTO",
+            "correct_answer": "INSERT INTO",
+            "is_correct": true,
+            "explanation": "INSERT INTO is the SQL command used to add new records to a table. It can be used to insert a single row or multiple rows at once. The command requires specifying the table name and the values to be inserted, ensuring they match the table's structure and data types. Unlike UPDATE which modifies existing records, INSERT INTO creates new records."
+        },
+        {
+            "question": "What does the SQL 'JOIN' operation do?",
+            "selected_answer": "Combines rows from two or more tables based on a related column",
+            "correct_answer": "Combines rows from two or more tables based on a related column",
+            "is_correct": true,
+            "explanation": "A JOIN operation combines rows from two or more tables based on a related column between them. This is fundamental to relational databases as it allows you to retrieve data from multiple tables in a single query. The common types include INNER JOIN, LEFT JOIN, RIGHT JOIN, and FULL JOIN, each serving different purposes in data retrieval."
+        },
+        {
+            "question": "Which of the following is used to define a primary key in SQL?",
+            "selected_answer": "PRIMARY KEY",
+            "correct_answer": "PRIMARY KEY",
+            "is_correct": true,
+            "explanation": "The PRIMARY KEY constraint uniquely identifies each record in a table. It automatically creates an index, ensures uniqueness, and cannot contain NULL values. While AUTO_INCREMENT generates sequential values and INDEX improves query performance, only PRIMARY KEY establishes the main identifier for table records."
+        },
+        {
+            "question": "Which SQL command is used to remove a table from a database?",
+            "selected_answer": "DROP",
+            "correct_answer": "DROP",
+            "is_correct": true,
+            "explanation": "The DROP command is used to completely remove a table structure and all its data from the database. Unlike DELETE which removes records but keeps the table structure, or TRUNCATE which removes all records but keeps the table structure, DROP completely eliminates the table definition and all its data."
+        },
+        {
+            "question": "What is the purpose of the SQL 'ORDER BY' clause?",
+            "selected_answer": "Sort the results of a query",
+            "correct_answer": "Sort the results of a query",
+            "is_correct": true,
+            "explanation": "ORDER BY is used to sort the result set of a query in either ascending (ASC) or descending (DESC) order. It can sort by one or multiple columns and is typically the last clause in a SELECT statement. Unlike WHERE which filters data or GROUP BY which aggregates data, ORDER BY determines the sequence of the results."
+        },
+        {
+            "question": "Which of the following is used to change the structure of an existing SQL table?",
+            "selected_answer": "ALTER TABLE",
+            "correct_answer": "ALTER TABLE",
+            "is_correct": true,
+            "explanation": "ALTER TABLE is the SQL command used to modify the structure of an existing table. It can be used to add, modify, or delete columns, change data types, add or remove constraints, and more. Unlike UPDATE which modifies data within the table, ALTER TABLE changes the table's structure itself."
+        },
+        {
+            "question": "Which data type is used to store text in SQL?",
+            "selected_answer": "VARCHAR",
+            "correct_answer": "VARCHAR",
+            "is_correct": true,
+            "explanation": "VARCHAR is a variable-length string data type used to store text in SQL databases. It's more space-efficient than CHAR as it only uses as much space as needed for the stored text (up to its defined maximum). Unlike INT (for numbers), DATE (for dates), or BOOLEAN (for true/false), VARCHAR is specifically designed for text storage."
+        },
+        {
+            "question": "Which SQL function is used to count the number of rows in a table?",
+            "selected_answer": "COUNT()",
+            "correct_answer": "COUNT()",
+            "is_correct": true,
+            "explanation": "COUNT() is an aggregate function that returns the number of rows in a table or the number of rows that match a specific condition. Unlike SUM() which adds numeric values, or AVG() which calculates averages, COUNT() is specifically used for counting rows or non-null values in a column."
+        }
+    ]
+}

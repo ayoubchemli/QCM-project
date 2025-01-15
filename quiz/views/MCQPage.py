@@ -42,7 +42,7 @@ class MCQPage(QMainWindow):
         timer_widget = QWidget()
         timer_layout = QHBoxLayout(timer_widget)
         
-        self.time_left = 30 * len(self.questions)
+        self.time_left = self.appstate.getTestInstance().subject.get_time_limit() * 60
         self.timer_label = QLabel(f"Time Left: {self.time_left}s")
         self.timer_label.setObjectName("timerLabel")
         self.timer_label.setAlignment(Qt.AlignCenter)

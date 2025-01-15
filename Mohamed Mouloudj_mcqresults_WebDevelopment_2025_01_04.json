@@ -1,0 +1,93 @@
+{
+    "date": "2025-01-04 16:08:24",
+    "total_questions": 12,
+    "score": 3,
+    "percentage": 25.0,
+    "time_taken": 58,
+    "questions": [
+        {
+            "question": "What is the correct structure of an HTML document?",
+            "selected_answer": "<html><head></head><body></body></html>",
+            "correct_answer": "<html><head></head><body></body></html>",
+            "is_correct": true,
+            "explanation": "The correct HTML structure follows a specific hierarchy: the <html> tag contains two main sections - <head> for metadata and <body> for visible content. These sections must be properly nested and closed. The head section must come before the body section for valid HTML markup."
+        },
+        {
+            "question": "Which of the following tags is used to define an unordered list in HTML?",
+            "selected_answer": "<list>",
+            "correct_answer": "<ul>",
+            "is_correct": false,
+            "explanation": "The <ul> tag (unordered list) is used to create bullet-point lists in HTML. While <li> is used for individual list items, <ol> is for ordered (numbered) lists, and <list> is not a valid HTML tag. The <ul> tag must contain <li> elements as its children."
+        },
+        {
+            "question": "Which CSS property is used to change the background color of an element?",
+            "selected_answer": "background-color",
+            "correct_answer": "background-color",
+            "is_correct": true,
+            "explanation": "The 'background-color' property is specifically used to set an element's background color. While 'background' is also valid and can set multiple background properties at once, 'background-color' is more specific. 'color' affects text color, and 'bg-color' is not a valid CSS property."
+        },
+        {
+            "question": "What is the correct CSS selector to select an element with the class `container`?",
+            "selected_answer": "#container",
+            "correct_answer": ".container",
+            "is_correct": false,
+            "explanation": "The dot (.) prefix is used to select elements by class name in CSS. '#' is used for IDs, not classes. Using just 'container' would look for a <container> element, and '*container' is not valid CSS syntax. The .container selector will match any element that has the class 'container'."
+        },
+        {
+            "question": "Which input type is used to create a password field in an HTML form?",
+            "selected_answer": "<input type=\"text\">",
+            "correct_answer": "<input type=\"password\">",
+            "is_correct": false,
+            "explanation": "The type=\"password\" attribute creates an input field that masks the entered characters (typically with dots or asterisks) for security. This is the standard way to create password fields in HTML forms. Other types like 'text' show characters plainly, and 'password-field' is not a valid input type."
+        },
+        {
+            "question": "Which CSS property is used to align items horizontally in a Flexbox container?",
+            "selected_answer": "justify-items",
+            "correct_answer": "justify-content",
+            "is_correct": false,
+            "explanation": "In Flexbox, 'justify-content' is used for horizontal alignment along the main axis. 'align-items' is for vertical alignment, 'justify-items' is not a valid Flexbox property, and 'align-content' controls space between flex lines when there's wrapping."
+        },
+        {
+            "question": "What attribute is required to specify the image source in the `<img>` tag?",
+            "selected_answer": "href",
+            "correct_answer": "src",
+            "is_correct": false,
+            "explanation": "The 'src' attribute is mandatory for <img> tags as it specifies the path to the image file. 'href' is used for links (<a> tags), 'alt' provides alternative text for accessibility but isn't required, and 'path' is not a valid HTML attribute."
+        },
+        {
+            "question": "What does the CSS `box-sizing` property control?",
+            "selected_answer": "The visibility of an element",
+            "correct_answer": "How padding and border are included in the element's width and height",
+            "is_correct": false,
+            "explanation": "The 'box-sizing' property determines how the total width and height of an element is calculated. With 'border-box', padding and border are included in the element's dimensions, while with 'content-box' (default), they are added to the specified width and height."
+        },
+        {
+            "question": "Which HTML tag is used to define a hyperlink?",
+            "selected_answer": "<a>",
+            "correct_answer": "<a>",
+            "is_correct": true,
+            "explanation": "The <a> (anchor) tag is used to create hyperlinks in HTML. The <link> tag is used in the head section for external resources, <href> is an attribute (not a tag), and <url> is not a valid HTML tag. The <a> tag requires an href attribute to specify the destination URL."
+        },
+        {
+            "question": "Which CSS property is used to position an element relative to its normal position?",
+            "selected_answer": "absolute",
+            "correct_answer": "relative",
+            "is_correct": false,
+            "explanation": "The 'position: relative' property positions an element relative to where it would normally appear in the document flow. Unlike 'absolute' (which removes from flow) or 'fixed' (which positions relative to viewport), 'relative' maintains the element's space in the layout."
+        },
+        {
+            "question": "Which tag is used to define a row in an HTML table?",
+            "selected_answer": "<td>",
+            "correct_answer": "<tr>",
+            "is_correct": false,
+            "explanation": "The <tr> (table row) tag defines a row in an HTML table. <td> is for table data cells, <th> is for header cells, and <table-row> is not a valid HTML tag. Table rows (<tr>) contain cells (<td> or <th>) and help structure table content."
+        },
+        {
+            "question": "Which property is used to define the size of columns in a CSS Grid?",
+            "selected_answer": "grid-column",
+            "correct_answer": "grid-template-columns",
+            "is_correct": false,
+            "explanation": "The 'grid-template-columns' property defines the width and number of columns in a CSS Grid layout. It can accept various units and the 'fr' unit for fractional spaces. 'grid-column' is used for positioning items within the grid, while 'column-size' and 'column-template' are not valid CSS properties."
+        }
+    ]
+}
