@@ -1,6 +1,6 @@
 import json
 import os
-import chardet
+# import chardet
 
 USER_DATA_FILE = os.path.join(os.path.dirname(__file__), "../data/users.json")
 SUBJECTS_DATA_FILE = os.path.join(os.path.dirname(__file__), "../data/subjects.json")

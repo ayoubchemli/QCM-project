@@ -2167,6 +2167,13 @@ class MCQHomePage(QMainWindow):
                 action.triggered.connect(self.open_export_results)
             elif action.text() == "📞 Contact":
                 action.triggered.connect(self.open_contact)
+            elif action.text() == "❌ Sign out":
+                action.triggered.connect(self.sign_out)
+   def sign_out(self):
+        self.close()
+        from quiz.views.loginRegister import MCQApp
+        self.login_page = MCQApp(self.appstate)
+        self.login_page.showFullScreen()
 
    def open_contact(self):
         self.contact_page = ContactPage(self, self.theme_toggle.isChecked())
@@ -2427,9 +2434,6 @@ class MCQHomePage(QMainWindow):
         header_layout.addWidget(self.dropdown_button, alignment=Qt.AlignLeft | Qt.AlignTop)
 
         
-        # Optional: Add custom actions with callbacks
-        self.dropdown_button.add_custom_action("⚙️ Settings", "Open Settings", self.open_settings)
-        
         self.setup_menu_actions()
 
         # Create center content container
@@ -2497,9 +2501,6 @@ class MCQHomePage(QMainWindow):
 
         self.setWindowTitle("Interactive Quiz Platform")
 
-   def open_settings(self):
-        # Example callback function
-        print("Settings opened")
     
    def resizeEvent(self, event):
     super().resizeEvent(event)

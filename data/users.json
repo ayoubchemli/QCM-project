@@ -197,6 +197,15 @@
                 },
                 "points": 37.5,
                 "date": "2024-12-30 20:54:33"
+            },
+            {
+                "subject": {
+                    "course": "Mobile App Dev",
+                    "chapter_id": 0,
+                    "chapter": "Kotlin Basics"
+                },
+                "points": 40.0,
+                "date": "2025-01-16 00:01:16"
             }
         ]
     },
