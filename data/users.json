@@ -513,6 +513,24 @@
                 },
                 "points": 25.0,
                 "date": "2025-01-15 01:08:52"
+            },
+            {
+                "subject": {
+                    "course": "Web Development",
+                    "chapter_id": 1,
+                    "chapter": "CSS Styling"
+                },
+                "points": 7.14,
+                "date": "2025-01-15 01:51:50"
+            },
+            {
+                "subject": {
+                    "course": "Mobile App Dev",
+                    "chapter_id": 0,
+                    "chapter": "Kotlin Basics"
+                },
+                "points": 0.0,
+                "date": "2025-01-15 02:19:50"
             }
         ]
     }

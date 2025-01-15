@@ -46,12 +46,5 @@
         "description": "Learn to build mobile applications for Android and iOS using Kotlin for native development and Flutter for cross-platform development.",
         "chapters": ["Kotlin Basics", "Android Development with Kotlin", "Flutter Basics", "Cross-Platform Development with Flutter"],
         "is_new": true
-    },
-    {
-        "title": "Compilation and Language Design",
-        "description": "Dive into the principles of compilers and language design, including syntax analysis, parsing, and code generation.",
-        "chapters": ["Lexical Analysis", "Parsing Techniques", "Intermediate Code Generation", "Optimization and Code Generation"],
-        "is_new": true
     }
-
 ]

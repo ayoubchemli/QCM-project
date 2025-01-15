@@ -1,1 +1,485 @@
-[]
+[
+  {
+    "chapter_id": 0,
+    "title": "Cloud Fundamentals",
+    "description": "Master the essential concepts of cloud computing, service models, deployment models, and core cloud services.",
+    "questions_count": 15,
+    "time_estimate": "35 mins",
+    "difficulty": "Beginner",
+    "is_new": true,
+    "questions": [
+      {
+        "question": "Which service model provides complete applications to end users?",
+        "answers": [
+          "Software as a Service (SaaS)",
+          "Platform as a Service (PaaS)",
+          "Infrastructure as a Service (IaaS)",
+          "Network as a Service (NaaS)"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Software as a Service (SaaS) provides complete, ready-to-use applications to end users over the internet, requiring no installation or maintenance on the user's part."
+      },
+      {
+        "question": "What defines elastic computing in cloud services?",
+        "answers": [
+          "Fixed resource allocation",
+          "Automatic scaling based on demand",
+          "Manual resource management",
+          "Predetermined capacity limits"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Elastic computing automatically scales resources up or down based on current demand, ensuring optimal resource utilization and cost efficiency."
+      },
+      {
+        "question": "Which cloud service is primarily used for application development and testing?",
+        "answers": [
+          "Infrastructure as a Service",
+          "Software as a Service",
+          "Platform as a Service",
+          "Database as a Service"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Platform as a Service (PaaS) provides a complete development and deployment environment in the cloud, making it ideal for application development and testing."
+      },
+      {
+        "question": "What is the primary advantage of cloud computing over traditional infrastructure?",
+        "answers": [
+          "Complete hardware control",
+          "Higher security guarantees",
+          "Lower initial investment",
+          "Unlimited storage capacity"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Cloud computing eliminates the need for large upfront capital investments in hardware and infrastructure, allowing organizations to start with minimal investment."
+      },
+      {
+        "question": "Which deployment model combines public and private clouds?",
+        "answers": [
+          "Community Cloud",
+          "Multi Cloud",
+          "Hybrid Cloud",
+          "Distributed Cloud"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Hybrid Cloud combines public and private cloud infrastructures, allowing organizations to leverage both environments while maintaining data sovereignty and compliance."
+      },
+      {
+        "question": "What is the main purpose of a Content Delivery Network (CDN)?",
+        "answers": [
+          "Data backup",
+          "Security protection",
+          "Content distribution",
+          "Application development"
+        ],
+        "correctAnswer": 2,
+        "explanation": "A CDN's main purpose is to distribute content to geographically dispersed users through a network of edge servers, reducing latency and improving user experience."
+      },
+      {
+        "question": "Which pricing model is most flexible for varying workloads?",
+        "answers": [
+          "Annual subscription",
+          "Pay-as-you-go",
+          "Reserved instances",
+          "Fixed pricing"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Pay-as-you-go pricing offers the most flexibility as it allows customers to pay only for the resources they actually consume, without long-term commitments."
+      },
+      {
+        "question": "What is the primary function of cloud orchestration?",
+        "answers": [
+          "Resource monitoring",
+          "Automated management",
+          "Security enforcement",
+          "Cost optimization"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Cloud orchestration automates the arrangement, coordination, and management of cloud systems, resources, services, and workflows."
+      },
+      {
+        "question": "What distinguishes containers from virtual machines?",
+        "answers": [
+          "Higher resource usage",
+          "Operating system sharing",
+          "Limited portability",
+          "Fixed capacity"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Containers share the host operating system kernel and are more lightweight than VMs, which each require their own complete operating system."
+      },
+      {
+        "question": "What is the main benefit of serverless computing?",
+        "answers": [
+          "Complete control",
+          "Resource optimization",
+          "No infrastructure management",
+          "Unlimited scaling"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Serverless computing eliminates the need for infrastructure management, allowing developers to focus solely on code while the platform handles all server-related tasks."
+      },
+      {
+        "question": "Which service provides virtual servers in the cloud?",
+        "answers": [
+          "Container service",
+          "Platform service",
+          "Infrastructure service",
+          "Application service"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Infrastructure as a Service (IaaS) provides virtual servers and other infrastructure components like storage and networking in the cloud."
+      },
+      {
+        "question": "What is the purpose of auto-scaling in cloud computing?",
+        "answers": [
+          "Cost reduction",
+          "Performance optimization",
+          "Resource adjustment",
+          "Security enhancement"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Auto-scaling automatically adjusts resources based on demand, ensuring optimal performance during peak times and cost efficiency during low-demand periods."
+      },
+      {
+        "question": "Which feature enables temporary use of public cloud resources?",
+        "answers": [
+          "Cloud migration",
+          "Cloud bursting",
+          "Cloud federation",
+          "Cloud bridging"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Cloud bursting allows temporary use of public cloud resources when private cloud capacity is exceeded, providing cost-effective handling of peak loads."
+      },
+      {
+        "question": "What defines high availability in cloud computing?",
+        "answers": [
+          "Maximum performance",
+          "Continuous operation",
+          "Minimal downtime",
+          "Cost efficiency"
+        ],
+        "correctAnswer": 2,
+        "explanation": "High availability ensures minimal downtime through redundancy and failover capabilities, maintaining service continuity even during component failures."
+      },
+      {
+        "question": "Which service manages load distribution across resources?",
+        "answers": [
+          "Security service",
+          "Load balancer",
+          "Storage service",
+          "Monitoring service"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Load balancers distribute workloads across multiple computing resources to optimize resource utilization and ensure high availability."
+      }
+    ]
+  },
+  {
+    "chapter_id": 1,
+    "title": "Cloud Security",
+    "description": "Learn essential cloud security concepts, best practices, and implementation strategies for securing cloud environments.",
+    "questions_count": 15,
+    "time_estimate": "40 mins",
+    "difficulty": "Intermediate",
+    "is_new": true,
+    "questions": [
+        {
+            "question": "What is the primary purpose of encryption in cloud security?",
+            "answers": [
+                "Speed optimization",
+                "Resource management",
+                "Data protection",
+                "Cost reduction"
+            ],
+            "correctAnswer": 2,
+            "explanation": "Encryption's primary purpose is to protect data by converting it into an unreadable format that can only be accessed with the proper decryption key."
+        },
+        {
+            "question": "Which security feature requires multiple verification methods?",
+            "answers": [
+                "Single sign-on",
+                "Multi-factor authentication",
+                "Password policy",
+                "Access control"
+            ],
+            "correctAnswer": 1,
+            "explanation": "Multi-factor authentication requires two or more verification methods, typically combining something you know, have, and/or are."
+        },
+        {
+            "question": "What defines the principle of least privilege?",
+            "answers": [
+                "Maximum access",
+                "Minimal permissions",
+                "Shared access",
+                "Role-based access"
+            ],
+            "correctAnswer": 1,
+            "explanation": "The principle of least privilege grants users only the minimum permissions necessary to perform their required tasks."
+        },
+        {
+            "question": "Which security measure protects against unauthorized access?",
+            "answers": [
+                "Data backup",
+                "Network monitoring",
+                "Access control",
+                "Performance testing"
+            ],
+            "correctAnswer": 2,
+            "explanation": "Access control protects against unauthorized access by verifying user identities and enforcing access policies."
+        },
+        {
+            "question": "What is the purpose of a Security Group?",
+            "answers": [
+                "User management",
+                "Traffic control",
+                "Data backup",
+                "Resource monitoring"
+            ],
+            "correctAnswer": 1,
+            "explanation": "Security Groups act as virtual firewalls that control inbound and outbound traffic to cloud resources through rule-based filtering."
+        },
+        {
+            "question": "Which feature provides network isolation in the cloud?",
+            "answers": [
+                "Public network",
+                "Virtual private cloud",
+                "Content delivery",
+                "Load balancing"
+            ],
+            "correctAnswer": 1,
+            "explanation": "Virtual Private Cloud (VPC) provides network isolation by creating a private, isolated section of the cloud for your resources."
+        },
+        {
+            "question": "What characterizes a DDoS attack?",
+            "answers": [
+                "Data theft",
+                "System infiltration",
+                "Service disruption",
+                "Code manipulation"
+            ],
+            "correctAnswer": 2,
+            "explanation": "A DDoS attack attempts to disrupt service availability by overwhelming resources with traffic from multiple sources."
+        },
+        {
+            "question": "Which security approach verifies all access attempts?",
+            "answers": [
+                "Permissive security",
+                "Traditional security",
+                "Zero trust security",
+                "Reactive security"
+            ],
+            "correctAnswer": 2,
+            "explanation": "Zero trust security requires verification of every access attempt, regardless of source or location, following 'never trust, always verify'."
+        },
+        {
+            "question": "What is the purpose of security logging?",
+            "answers": [
+                "Performance tracking",
+                "Event recording",
+                "Resource management",
+                "Cost monitoring"
+            ],
+            "correctAnswer": 1,
+            "explanation": "Security logging records security-relevant events for detection, investigation, and response to security incidents."
+        },
+        {
+            "question": "Which tool protects web applications from attacks?",
+            "answers": [
+                "Network monitor",
+                "Web application firewall",
+                "Load balancer",
+                "Traffic analyzer"
+            ],
+            "correctAnswer": 1,
+            "explanation": "A Web Application Firewall (WAF) protects web applications by filtering and monitoring HTTP traffic for common attacks."
+        },
+        {
+            "question": "What is the purpose of penetration testing?",
+            "answers": [
+                "Performance testing",
+                "Security assessment",
+                "Load testing",
+                "Compliance checking"
+            ],
+            "correctAnswer": 1,
+            "explanation": "Penetration testing assesses security by simulating attacks to identify and evaluate vulnerabilities in cloud environments."
+        },
+        {
+            "question": "Which feature manages digital identities and access rights?",
+            "answers": [
+                "Security groups",
+                "Identity management",
+                "Network control",
+                "Resource management"
+            ],
+            "correctAnswer": 1,
+            "explanation": "Identity and Access Management (IAM) manages digital identities and controls their access rights to resources."
+        },
+        {
+            "question": "What is the purpose of data masking?",
+            "answers": [
+                "Data deletion",
+                "Data compression",
+                "Data protection",
+                "Data analysis"
+            ],
+            "correctAnswer": 2,
+            "explanation": "Data masking protects sensitive data by obscuring it while maintaining its format for non-production use."
+        },
+        {
+            "question": "Which security feature monitors cloud configuration?",
+            "answers": [
+                "Network monitoring",
+                "Security posture management",
+                "Performance monitoring",
+                "Resource tracking"
+            ],
+            "correctAnswer": 1,
+            "explanation": "Cloud Security Posture Management (CSPM) monitors and assesses cloud security configuration and compliance."
+        },
+        {
+            "question": "What defines security automation in cloud environments?",
+            "answers": [
+                "Manual response",
+                "Automated response",
+                "Periodic scanning",
+                "Regular updates"
+            ],
+            "correctAnswer": 1,
+            "explanation": "Security automation implements automated responses to security events, improving response time and consistency."
+        }
+    ]
+},{
+    "chapter_id": 2,
+    "title": "Serverless Computing",
+    "description": "Understand serverless architecture, benefits, use cases, and best practices for building serverless applications.",
+    "questions_count": 5,
+    "time_estimate": "3 mins",
+    "difficulty": "Intermediate",
+    "is_new": true,
+    "questions": [
+      {
+        "question": "What is a key characteristic of serverless computing?",
+        "answers": [
+          "Managing server infrastructure",
+          "Fixed resource allocation",
+          "Pay-per-execution model",
+          "Continuous server monitoring"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Serverless computing uses a pay-per-execution model where you only pay for the actual compute time used during function execution."
+      },
+      {
+        "question": "What is a cold start in serverless computing?",
+        "answers": [
+          "Initial server boot process",
+          "First function execution delay",
+          "Application crash recovery",
+          "Database connection reset"
+        ],
+        "correctAnswer": 1,
+        "explanation": "A cold start refers to the additional latency when a function is invoked for the first time or after a period of inactivity."
+      },
+      {
+        "question": "Which is NOT a typical use case for serverless functions?",
+        "answers": [
+          "Real-time stream processing",
+          "Continuous long-running processes",
+          "Image transformation",
+          "Scheduled tasks"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Continuous long-running processes are not ideal for serverless functions due to execution time limits and cost implications."
+      },
+      {
+        "question": "What defines event-driven architecture in serverless?",
+        "answers": [
+          "Continuous polling",
+          "Scheduled execution",
+          "Response to triggers",
+          "Manual activation"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Event-driven architecture in serverless responds to specific triggers or events, executing functions only when needed."
+      },
+      {
+        "question": "Which statement about function timeout is correct?",
+        "answers": [
+          "Functions can run indefinitely",
+          "Timeout limits are fixed",
+          "Timeouts are configurable",
+          "No timeout restrictions"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Serverless platforms allow configurable function timeouts within platform-specific maximum limits."
+      }
+    ]
+  },
+  {
+    "chapter_id": 3,
+    "title": "DevOps Practices",
+    "description": "Learn essential DevOps principles, tools, and practices for efficient software delivery and operations.",
+    "questions_count": 5,
+    "time_estimate": "3 mins",
+    "difficulty": "Advanced",
+    "is_new": true,
+    "questions": [
+      {
+        "question": "What is the primary goal of continuous integration?",
+        "answers": [
+          "Code deployment",
+          "Early defect detection",
+          "Infrastructure management",
+          "Team communication"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Continuous integration aims to detect defects early by automatically building and testing code changes when they're committed."
+      },
+      {
+        "question": "Which practice defines Infrastructure as Code?",
+        "answers": [
+          "Manual server configuration",
+          "GUI-based management",
+          "Version-controlled infrastructure",
+          "Ad-hoc provisioning"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Infrastructure as Code manages and provisions infrastructure through version-controlled code rather than manual processes."
+      },
+      {
+        "question": "What characterizes blue-green deployment?",
+        "answers": [
+          "Single environment updates",
+          "Gradual user migration",
+          "Parallel environments",
+          "Sequential deployment"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Blue-green deployment maintains two identical environments, allowing instant rollback and zero-downtime deployments."
+      },
+      {
+        "question": "Which metric is crucial for DORA measurements?",
+        "answers": [
+          "Code size",
+          "Development cost",
+          "Deployment frequency",
+          "Team size"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Deployment frequency is a key DORA metric that measures how often an organization successfully releases to production."
+      },
+      {
+        "question": "What defines shift-left testing?",
+        "answers": [
+          "End-phase testing",
+          "Early testing integration",
+          "Manual testing focus",
+          "Production testing"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Shift-left testing integrates testing early in the development process rather than waiting until the end phases."
+      }
+    ]
+  }
+]
