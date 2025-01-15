@@ -349,7 +349,6 @@ class MCQApp(QMainWindow):
                 background: rgba(255, 255, 255, 0.15);
                 border-radius: 25px;
                 border: 2px solid rgba(255, 255, 255, 0.2);
-                backdrop-filter: blur(20px);
             }
         """)
         
@@ -861,7 +860,6 @@ class MCQApp(QMainWindow):
                 background-color: rgba(255, 255, 255, 0.1);
                 border-radius: 20px;
                 border: 2px solid rgba(255, 255, 255, 0.1);
-                backdrop-filter: blur(10px);
             }
         """)
         

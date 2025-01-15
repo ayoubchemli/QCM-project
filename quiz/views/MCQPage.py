@@ -345,7 +345,7 @@ class MCQPage(QMainWindow):
             'total_questions': self.total_questions,
             'score': self.score,
             'percentage': (self.score / self.total_questions) * 100,
-            'time_taken': (30 * len(self.questions)) - self.time_left,
+            'time_taken': self.appstate.getTestInstance().subject.get_time_limit() * 60 - self.time_left,
             'questions': []
         }
 
@@ -361,12 +361,20 @@ class MCQPage(QMainWindow):
             })
 
         # Generate default filename
-        default_filename = f"{self.appstate.getUser().fullname}_mcqresults_{self.appstate.getCourse().replace(' ', '')}_{datetime.now().strftime('%Y_%m_%d')}.json"
+        default_filename = f"{self.appstate.getUser().fullname.replace(' ', '')}__{self.appstate.getCourse().replace(' ', '')}_{datetime.now().strftime('%Y_%m_%d')}.json"
+
+        # Determine the "records" folder path in the root of the project
+        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # Path to the current script
+        records_folder = os.path.join(project_root, 'records')
+
+        # Create the "records" folder if it doesn't exist
+        if not os.path.exists(records_folder):
+            os.makedirs(records_folder)
 
         # Open file dialog
         file_dialog = QFileDialog(self)
         file_dialog.setWindowTitle('Save Results')
-        file_dialog.setDirectory(os.path.expanduser('~'))  # Start in user's home directory
+        file_dialog.setDirectory(records_folder)  # Start in user's home directory
         file_dialog.setAcceptMode(QFileDialog.AcceptSave)
         file_dialog.setNameFilter('JSON files (*.json)')
         file_dialog.selectFile(default_filename)
