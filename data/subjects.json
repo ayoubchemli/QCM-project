@@ -28,5 +28,23 @@
         "description": "Learn the principles of database design, management, and optimization, along with SQL and NoSQL databases.",
         "chapters": ["SQL Basics", "Database Design", "NoSQL Databases", "Database Optimization"],
         "is_new": true
+    },
+    {
+        "title": "Data Structures and Algorithms",
+        "description": "Learn the fundamental data structures and algorithms used in software development, essential for problem-solving and coding interviews.",
+        "chapters": ["Arrays and Linked Lists", "Trees and Graphs", "Sorting and Searching Algorithms", "Dynamic Programming"],
+        "is_new": true
+    },
+    {
+        "title": "Cloud Computing",
+        "description": "Explore cloud platforms and services like AWS, Azure, and Google Cloud, and learn to deploy and manage applications in the cloud.",
+        "chapters": ["Cloud Fundamentals", "Cloud Security", "Serverless Computing", "DevOps Practices"],
+        "is_new": true
+    },
+    {
+        "title": "Mobile App Dev",
+        "description": "Learn to build mobile applications for Android and iOS using Kotlin for native development and Flutter for cross-platform development.",
+        "chapters": ["Kotlin Basics", "Android Development with Kotlin", "Flutter Basics", "Cross-Platform Development with Flutter"],
+        "is_new": true
     }
 ]

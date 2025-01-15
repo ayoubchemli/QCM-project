@@ -1,0 +1,37 @@
+{
+    "date": "2025-01-15 01:00:24",
+    "total_questions": 12,
+    "score": 2,
+    "percentage": 16.666666666666664,
+    "time_taken": 360,
+    "questions": [
+        {
+            "question": "What is the correct structure of an HTML document?",
+            "selected_answer": "<html><head></head><body></body></html>",
+            "correct_answer": "<html><head></head><body></body></html>",
+            "is_correct": true,
+            "explanation": "The correct HTML structure follows a specific hierarchy: the <html> tag contains two main sections - <head> for metadata and <body> for visible content. These sections must be properly nested and closed. The head section must come before the body section for valid HTML markup."
+        },
+        {
+            "question": "Which of the following tags is used to define an unordered list in HTML?",
+            "selected_answer": "<list>",
+            "correct_answer": "<ul>",
+            "is_correct": false,
+            "explanation": "The <ul> tag (unordered list) is used to create bullet-point lists in HTML. While <li> is used for individual list items, <ol> is for ordered (numbered) lists, and <list> is not a valid HTML tag. The <ul> tag must contain <li> elements as its children."
+        },
+        {
+            "question": "Which CSS property is used to change the background color of an element?",
+            "selected_answer": "background-color",
+            "correct_answer": "background-color",
+            "is_correct": true,
+            "explanation": "The 'background-color' property is specifically used to set an element's background color. While 'background' is also valid and can set multiple background properties at once, 'background-color' is more specific. 'color' affects text color, and 'bg-color' is not a valid CSS property."
+        },
+        {
+            "question": "What is the correct CSS selector to select an element with the class `container`?",
+            "selected_answer": "#container",
+            "correct_answer": ".container",
+            "is_correct": false,
+            "explanation": "The dot (.) prefix is used to select elements by class name in CSS. '#' is used for IDs, not classes. Using just 'container' would look for a <container> element, and '*container' is not valid CSS syntax. The .container selector will match any element that has the class 'container'."
+        }
+    ]
+}

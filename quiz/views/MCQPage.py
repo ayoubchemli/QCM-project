@@ -360,25 +360,45 @@ class MCQPage(QMainWindow):
                 'explanation': question['explanation']
             })
 
-        # Save to file
-        filename = f"{self.appstate.getUser().fullname}_mcqresults_{self.appstate.getCourse().replace(" ", "")}_{datetime.now().strftime('%Y_%m_%d')}.json"
-        with open(filename, 'w') as f:
-            json.dump(export_data, f, indent=4)
+        # Generate default filename
+        default_filename = f"{self.appstate.getUser().fullname}_mcqresults_{self.appstate.getCourse().replace(' ', '')}_{datetime.now().strftime('%Y_%m_%d')}.json"
 
-        # QMessageBox.information(self, "Export Success", 
-        #                       f"Results have been exported to {filename}")
+        # Open file dialog
+        file_dialog = QFileDialog(self)
+        file_dialog.setWindowTitle('Save Results')
+        file_dialog.setDirectory(os.path.expanduser('~'))  # Start in user's home directory
+        file_dialog.setAcceptMode(QFileDialog.AcceptSave)
+        file_dialog.setNameFilter('JSON files (*.json)')
+        file_dialog.selectFile(default_filename)
+
+        if file_dialog.exec_() == QFileDialog.Accepted:
+            # Get the selected file path
+            selected_path = file_dialog.selectedFiles()[0]
+
+            # Ensure .json extension
+            if not selected_path.endswith('.json'):
+                selected_path += '.json'
+
+            try:
+                # Save to selected location
+                with open(selected_path, 'w') as f:
+                    json.dump(export_data, f, indent=4)
+
+                msg = QMessageBox()
+                msg.setWindowTitle("Export Success")
+                msg.setText(f"Results have been exported to:\n{selected_path}")
+                msg.setIcon(QMessageBox.Information)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.button(QMessageBox.Ok).setText("Return to Home")
+
+                msg.exec_()
+                self.return_to_home()  # Return to home when OK is clicked
+
+            except Exception as e:
+                QMessageBox.critical(self, "Export Error",
+                                     f"An error occurred while saving the file:\n{str(e)}")
 
         self.results.close()
-
-        msg = QMessageBox()
-        msg.setWindowTitle("Export Success")
-        msg.setText(f"Results have been exported to {filename}")
-        msg.setIcon(QMessageBox.Information)
-        msg.setStandardButtons(QMessageBox.Ok)
-        msg.button(QMessageBox.Ok).setText("Return to Home")
-
-        msg.exec_()
-        self.return_to_home()  # This will execute when the button is clicked
 
     def return_to_home(self):
         self.parent().setCurrentWidget(self.parent().parent().central_widget)

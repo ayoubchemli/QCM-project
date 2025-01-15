@@ -1,0 +1,265 @@
+[{
+  "chapter_id": 0,
+  "title": "Kotlin Basics",
+  "description": "Master fundamental concepts of Kotlin programming language including syntax, null safety, and functional programming features.",
+  "questions_count": 5,
+  "time_estimate": "3 mins",
+  "difficulty": "Beginner",
+  "is_new": true,
+  "questions": [
+    {
+      "question": "What is the primary purpose of the '?' operator in Kotlin?",
+      "answers": [
+        "String concatenation",
+        "Null safety operator",
+        "Mathematical operation",
+        "Type conversion"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The '?' operator in Kotlin is used for null safety, indicating that a variable can hold null values and must be handled safely."
+    },
+    {
+      "question": "Which Kotlin feature allows functions to be treated as values?",
+      "answers": [
+        "Object orientation",
+        "First-class functions",
+        "Data classes",
+        "Extension functions"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Kotlin supports first-class functions, allowing functions to be stored in variables, passed as arguments, and returned from other functions."
+    },
+    {
+      "question": "What is the purpose of data classes in Kotlin?",
+      "answers": [
+        "Database management",
+        "UI design",
+        "Hold data with automatically generated utility methods",
+        "Network operations"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Data classes in Kotlin automatically generate useful methods like equals(), hashCode(), toString(), and copy() for classes primarily used to hold data."
+    },
+    {
+      "question": "How does Kotlin handle type inference?",
+      "answers": [
+        "No type inference support",
+        "Manual type declaration only",
+        "Automatic type inference based on context",
+        "Runtime type determination"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Kotlin provides automatic type inference, allowing the compiler to determine variable types based on their initialization and usage context."
+    },
+    {
+      "question": "What is a coroutine in Kotlin?",
+      "answers": [
+        "UI component",
+        "Database table",
+        "Lightweight thread for async operations",
+        "Network protocol"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Coroutines are lightweight threads in Kotlin used for asynchronous programming, making it easier to handle concurrent operations."
+    }
+  ]
+},
+{
+  "chapter_id": 1,
+  "title": "Android Development with Kotlin",
+  "description": "Learn to build native Android applications using Kotlin, covering UI development, lifecycle management, and Android SDK integration.",
+  "questions_count": 5,
+  "time_estimate": "3 mins",
+  "difficulty": "Intermediate",
+  "is_new": true,
+  "questions": [
+    {
+      "question": "What is the purpose of the Activity lifecycle in Android?",
+      "answers": [
+        "Database management",
+        "UI state management",
+        "File operations",
+        "Network calls"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The Activity lifecycle manages the state and behavior of UI components as users navigate through, to, and away from activities."
+    },
+    {
+      "question": "Which component is used for background tasks in modern Android development?",
+      "answers": [
+        "WorkManager",
+        "WorkManager",
+        "Thread",
+        "Handler"
+      ],
+      "correctAnswer": 0,
+      "explanation": "WorkManager is the recommended solution for persistent background work in modern Android development, providing a flexible and efficient way to schedule deferrable tasks."
+    },
+    {
+      "question": "What is the role of ViewModel in Android architecture?",
+      "answers": [
+        "Database access",
+        "Network communication",
+        "UI data management across configuration changes",
+        "File storage"
+      ],
+      "correctAnswer": 2,
+      "explanation": "ViewModel manages UI-related data in a lifecycle-conscious way, surviving configuration changes like screen rotations."
+    },
+    {
+      "question": "Which layout is recommended for complex UI hierarchies?",
+      "answers": [
+        "LinearLayout",
+        "FrameLayout",
+        "RelativeLayout",
+        "ConstraintLayout"
+      ],
+      "correctAnswer": 3,
+      "explanation": "ConstraintLayout is recommended for complex UI hierarchies as it can create large layouts without nested views, improving performance."
+    },
+    {
+      "question": "What is the purpose of Jetpack Compose?",
+      "answers": [
+        "Database management",
+        "Network operations",
+        "Modern UI toolkit for native UI",
+        "File storage solution"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Jetpack Compose is Android's modern toolkit for building native UI using a declarative programming model."
+    }
+  ]
+},
+{
+  "chapter_id": 2,
+  "title": "Flutter Basics",
+  "description": "Understand Flutter framework fundamentals, Dart programming language, and widget-based UI development.",
+  "questions_count": 5,
+  "time_estimate": "3 mins",
+  "difficulty": "Beginner",
+  "is_new": true,
+  "questions": [
+    {
+      "question": "What is a Widget in Flutter?",
+      "answers": [
+        "Database table",
+        "Network request",
+        "UI building block",
+        "Storage unit"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Widgets are the basic building blocks of Flutter UI, where everything from a button to the app itself is a widget."
+    },
+    {
+      "question": "What distinguishes StatelessWidget from StatefulWidget?",
+      "answers": [
+        "Performance difference",
+        "Visual appearance",
+        "Network capability",
+        "Ability to maintain state"
+      ],
+      "correctAnswer": 3,
+      "explanation": "StatefulWidget can maintain state that might change during the lifetime of the widget, while StatelessWidget is immutable."
+    },
+    {
+      "question": "What is the purpose of the pubspec.yaml file?",
+      "answers": [
+        "Store user data",
+        "Manage app dependencies",
+        "Handle network calls",
+        "Define UI layouts"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The pubspec.yaml file is used to specify app metadata and manage dependencies for Flutter projects."
+    },
+    {
+      "question": "Which widget is used for laying out widgets vertically?",
+      "answers": [
+        "Row",
+        "Column",
+        "Stack",
+        "Container"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The Column widget in Flutter is used to arrange child widgets in a vertical sequence."
+    },
+    {
+      "question": "What is hot reload in Flutter?",
+      "answers": [
+        "App restart feature",
+        "Real-time UI updates without restart",
+        "Database refresh",
+        "Network reconnection"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Hot reload allows developers to see the effects of code changes in real-time without restarting the app, improving development efficiency."
+    }
+  ]
+},
+{
+  "chapter_id": 3,
+  "title": "Cross-Platform Development with Flutter",
+  "description": "Learn advanced Flutter concepts for building cross-platform applications, including platform-specific features and responsive design.",
+  "questions_count": 5,
+  "time_estimate": "3 mins",
+  "difficulty": "Advanced",
+  "is_new": true,
+  "questions": [
+    {
+      "question": "How does Flutter achieve cross-platform consistency?",
+      "answers": [
+        "Using platform-specific code",
+        "Custom rendering engine",
+        "Native UI components",
+        "Web technologies"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Flutter uses its own rendering engine (Skia) to draw UI components, ensuring consistent appearance across platforms."
+    },
+    {
+      "question": "What is the purpose of Platform Channels?",
+      "answers": [
+        "UI styling",
+        "Data storage",
+        "Native code communication",
+        "State management"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Platform Channels enable Flutter applications to communicate with platform-specific native code for accessing device features."
+    },
+    {
+      "question": "How does Flutter handle responsive design?",
+      "answers": [
+        "Fixed layouts only",
+        "Web-based responsive design",
+        "LayoutBuilder and MediaQuery",
+        "Manual scaling"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Flutter uses LayoutBuilder and MediaQuery to create responsive layouts that adapt to different screen sizes and orientations."
+    },
+    {
+      "question": "What is the purpose of Flutter's BuildContext?",
+      "answers": [
+        "Database context",
+        "Network context",
+        "Widget tree location information",
+        "File system access"
+      ],
+      "correctAnswer": 2,
+      "explanation": "BuildContext provides location information in the widget tree and is used for accessing widget ancestors and theme data."
+    },
+    {
+      "question": "Which feature enables platform-specific UI adaptation?",
+      "answers": [
+        "Universal UI",
+        "Adaptive widgets",
+        "Fixed layouts",
+        "Web components"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Adaptive widgets in Flutter automatically adjust their appearance and behavior based on the platform (iOS or Android) they're running on."
+    }
+  ]
+}
+]

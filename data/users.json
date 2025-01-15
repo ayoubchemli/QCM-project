@@ -537,5 +537,73 @@
                 "date": "2025-01-14 23:08:59"
             }
         ]
+    },
+    {
+        "fullname": "chakib haddadi",
+        "email": "schakibhad@gmail.com",
+        "username": "chakibb",
+        "password": "2285877fbec4bb1ad6466a6d3596f3a369646db03a02d4f74a2616a50d457a0c",
+        "scores": []
+    },
+    {
+        "fullname": "fatiha kerouma",
+        "email": "fatiha@gmail.com",
+        "username": "fati",
+        "password": "d865b65bdb3ba3791fc9549d2e315f3dfbba0128db30316c913795f7d79e8323",
+        "scores": [
+            {
+                "subject": {
+                    "course": "Web Development",
+                    "chapter_id": 0,
+                    "chapter": "HTML Basics"
+                },
+                "points": 50.0,
+                "date": "2025-01-14 23:48:03"
+            }
+        ]
+    },
+    {
+        "fullname": "karim foufou",
+        "email": "fatihatiti@gmail.com",
+        "username": "gmail",
+        "password": "d865b65bdb3ba3791fc9549d2e315f3dfbba0128db30316c913795f7d79e8323",
+        "scores": [
+            {
+                "subject": {
+                    "course": "Web Development",
+                    "chapter_id": 0,
+                    "chapter": "HTML Basics"
+                },
+                "points": 16.67,
+                "date": "2025-01-15 00:59:58"
+            },
+            {
+                "subject": {
+                    "course": "Web Development",
+                    "chapter_id": 0,
+                    "chapter": "HTML Basics"
+                },
+                "points": 25.0,
+                "date": "2025-01-15 01:08:52"
+            },
+            {
+                "subject": {
+                    "course": "Web Development",
+                    "chapter_id": 1,
+                    "chapter": "CSS Styling"
+                },
+                "points": 7.14,
+                "date": "2025-01-15 01:51:50"
+            },
+            {
+                "subject": {
+                    "course": "Mobile App Dev",
+                    "chapter_id": 0,
+                    "chapter": "Kotlin Basics"
+                },
+                "points": 0.0,
+                "date": "2025-01-15 02:19:50"
+            }
+        ]
     }
 ]
