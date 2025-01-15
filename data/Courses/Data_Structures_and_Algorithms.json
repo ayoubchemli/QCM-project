@@ -1,698 +1,590 @@
 [
-  {
-    "chapter_id": 0,
-    "title": "Arrays and Linked Lists",
-    "description": "Master fundamental linear data structures, implementation techniques, and common operations with arrays and linked lists.",
-    "questions_count": 15,
-    "time_estimate": "35 mins",
-    "difficulty": "Beginner",
-    "is_new": true,
-    "questions": [
-        {
-            "question": "What is the time complexity of accessing an element at a given index in an array?",
-            "answers": [
-                "O(1)",
-                "O(n)",
-                "O(log n)",
-                "O(n²)"
-            ],
-            "correctAnswer": 0,
-            "explanation": "Array access by index is O(1) because arrays store elements in contiguous memory locations. The memory address of any element can be calculated directly using its index, making access constant time regardless of array size."
-        },
-        {
-            "question": "In a singly linked list, what is stored in each node?",
-            "answers": [
-                "Only the data",
-                "Data and a pointer to the previous node",
-                "Data and a pointer to the next node",
-                "Two pointers to both previous and next nodes"
-            ],
-            "correctAnswer": 2,
-            "explanation": "Each node in a singly linked list contains two components: the data element and a pointer/reference to the next node in the sequence. The last node's pointer typically points to null, indicating the end of the list."
-        },
-        {
-            "question": "What is the space complexity of an array with n elements?",
-            "answers": [
-                "O(1)",
-                "O(n)",
-                "O(log n)",
-                "O(n²)"
-            ],
-            "correctAnswer": 1,
-            "explanation": "The space complexity of an array is O(n) where n is the number of elements. Arrays require contiguous memory allocation, and the space needed grows linearly with the number of elements stored."
-        },
-        {
-            "question": "What is the main advantage of a linked list over an array?",
-            "answers": [
-                "Faster element access",
-                "Less memory usage",
-                "Dynamic size and efficient insertion/deletion",
-                "Better cache performance"
-            ],
-            "correctAnswer": 2,
-            "explanation": "Linked lists excel at dynamic size management and efficient insertion/deletion operations, especially at the beginning or middle of the list. Unlike arrays, they don't require contiguous memory and can grow or shrink easily without reallocation."
-        },
-        {
-            "question": "What is the time complexity of inserting an element at the beginning of a linked list?",
-            "answers": [
-                "O(1)",
-                "O(n)",
-                "O(log n)",
-                "O(n²)"
-            ],
-            "correctAnswer": 0,
-            "explanation": "Inserting at the beginning of a linked list is O(1) because it only requires updating the head pointer and the new node's next pointer. No other nodes need to be shifted or modified, making it a constant-time operation."
-        },
-        {
-            "question": "What is the difference between a static array and a dynamic array?",
-            "answers": [
-                "Static arrays are slower than dynamic arrays",
-                "Static arrays have fixed size while dynamic arrays can grow",
-                "Static arrays use less memory",
-                "Dynamic arrays provide faster access"
-            ],
-            "correctAnswer": 1,
-            "explanation": "The key difference is that static arrays have a fixed size determined at creation, while dynamic arrays (like ArrayList or Vector) can grow or shrink as needed. Dynamic arrays achieve this by automatically reallocating memory when they reach capacity."
-        },
-        {
-            "question": "In a doubly linked list, what happens when you delete a node from the middle?",
-            "answers": [
-                "Only update the previous node's pointer",
-                "Only update the next node's pointer",
-                "Update both previous and next nodes' pointers",
-                "Reallocate the entire list"
-            ],
-            "correctAnswer": 2,
-            "explanation": "When deleting a node from the middle of a doubly linked list, you must update both the previous node's next pointer and the next node's previous pointer to maintain the list's integrity. This ensures proper linkage between the remaining nodes."
-        },
-        {
-            "question": "What is the time complexity of searching for an element in an unsorted linked list?",
-            "answers": [
-                "O(1)",
-                "O(n)",
-                "O(log n)",
-                "O(n²)"
-            ],
-            "correctAnswer": 1,
-            "explanation": "Searching in an unsorted linked list requires O(n) time because you must traverse the list sequentially from the beginning until finding the target element. Unlike arrays, linked lists don't support random access, requiring linear search."
-        },
-        {
-            "question": "What is the primary disadvantage of using a linked list?",
-            "answers": [
-                "Random access is not efficient",
-                "Uses more memory than arrays",
-                "Cannot store different data types",
-                "Limited size"
-            ],
-            "correctAnswer": 0,
-            "explanation": "The main disadvantage of linked lists is that they don't support efficient random access. To access an element at a specific position, you must traverse from the beginning, resulting in O(n) time complexity, unlike arrays' O(1) access."
-        },
-        {
-            "question": "What happens when a dynamic array reaches its capacity?",
-            "answers": [
-                "It stops accepting new elements",
-                "It creates a new array with double the size and copies elements",
-                "It links to another array",
-                "It converts to a linked list"
-            ],
-            "correctAnswer": 1,
-            "explanation": "When a dynamic array reaches its capacity, it typically creates a new array with double the size, copies all existing elements to the new array, and then deallocates the old array. This process is called resizing or reallocation."
-        },
-        {
-            "question": "What is the space complexity comparison between arrays and linked lists?",
-            "answers": [
-                "Arrays always use less space",
-                "Linked lists always use less space",
-                "They use the same amount of space",
-                "Linked lists use extra space for node pointers"
-            ],
-            "correctAnswer": 3,
-            "explanation": "Linked lists require extra space for storing node pointers (references to next/previous nodes) in addition to the data. While arrays need contiguous memory, they don't have this overhead, making them more space-efficient for storing just the data."
-        },
-        {
-            "question": "What is the time complexity of inserting an element at the end of a linked list without a tail pointer?",
-            "answers": [
-                "O(1)",
-                "O(n)",
-                "O(log n)",
-                "O(n²)"
-            ],
-            "correctAnswer": 1,
-            "explanation": "Without a tail pointer, inserting at the end of a linked list requires traversing the entire list to reach the last node, resulting in O(n) time complexity. This can be optimized to O(1) by maintaining a tail pointer."
-        },
-        {
-            "question": "Which data structure is better for implementing a stack?",
-            "answers": [
-                "Array",
-                "Linked List",
-                "Both are equally suitable",
-                "Neither"
-            ],
-            "correctAnswer": 2,
-            "explanation": "Both arrays and linked lists are suitable for implementing a stack. Arrays offer better cache locality and memory efficiency, while linked lists offer better memory utilization for dynamic size changes. The choice depends on specific requirements like size constraints and frequency of operations."
-        },
-        {
-            "question": "What is the time complexity of reversing a singly linked list?",
-            "answers": [
-                "O(1)",
-                "O(n)",
-                "O(log n)",
-                "O(n²)"
-            ],
-            "correctAnswer": 1,
-            "explanation": "Reversing a singly linked list takes O(n) time as you need to traverse the entire list once and update each node's next pointer to point to its previous node. This requires tracking three pointers: current, previous, and next."
-        },
-        {
-            "question": "What is the advantage of using a circular linked list?",
-            "answers": [
-                "Faster search operations",
-                "Less memory usage",
-                "Continuous traversal without reaching end",
-                "Better sorting capabilities"
-            ],
-            "correctAnswer": 2,
-            "explanation": "Circular linked lists allow continuous traversal as the last node points back to the first node, making them useful for applications requiring cyclic access to elements, such as round-robin scheduling or circular buffers."
-        }
-    ]
-},
-  {
-    "chapter_id": 1,
-    "title": "Trees and Graphs",
-    "description": "Explore hierarchical and network data structures, including binary trees, BSTs, and fundamental graph algorithms.",
-    "questions_count": 15,
-    "time_estimate": "40 mins",
-    "difficulty": "Intermediate",
-    "is_new": true,
-    "questions": [
-        {
-            "question": "What is the maximum number of children a node can have in a binary tree?",
-            "answers": [
-                "1",
-                "2",
-                "3",
-                "Unlimited"
-            ],
-            "correctAnswer": 1,
-            "explanation": "In a binary tree, each node can have at most 2 children (left and right child). This is the defining characteristic of binary trees, distinguishing them from general trees where nodes can have any number of children."
-        },
-        {
-            "question": "What is the main property that distinguishes a Binary Search Tree (BST) from a regular binary tree?",
-            "answers": [
-                "It must be balanced",
-                "It must have all leaves at the same level",
-                "Left subtree values < node value < right subtree values",
-                "It can only store numbers"
-            ],
-            "correctAnswer": 2,
-            "explanation": "A Binary Search Tree maintains the ordering property where all values in the left subtree of a node are less than the node's value, and all values in the right subtree are greater. This property enables efficient searching, insertion, and deletion operations."
-        },
-        {
-            "question": "Which traversal method visits the root node before its children in a tree?",
-            "answers": [
-                "Inorder",
-                "Preorder",
-                "Postorder",
-                "Level-order"
-            ],
-            "correctAnswer": 1,
-            "explanation": "Preorder traversal follows the pattern: Root -> Left -> Right, visiting the root node before traversing its subtrees. This is useful for creating a copy of the tree or getting a prefix expression from an expression tree."
-        },
-        {
-            "question": "What algorithm is best suited for finding the shortest path in an unweighted graph?",
-            "answers": [
-                "Depth-First Search (DFS)",
-                "Breadth-First Search (BFS)",
-                "Dijkstra's Algorithm",
-                "Floyd-Warshall Algorithm"
-            ],
-            "correctAnswer": 1,
-            "explanation": "BFS is ideal for finding the shortest path in unweighted graphs because it explores all vertices at the current depth before moving to vertices at the next level. This ensures the first path found to a vertex is the shortest in terms of number of edges."
-        },
-        {
-            "question": "What is the time complexity of inserting a node into a balanced Binary Search Tree?",
-            "answers": [
-                "O(1)",
-                "O(log n)",
-                "O(n)",
-                "O(n²)"
-            ],
-            "correctAnswer": 1,
-            "explanation": "In a balanced BST, insertion takes O(log n) time because you only need to traverse one path from root to leaf, and the height of a balanced tree is logarithmic in the number of nodes. This efficiency is why BSTs are popular for maintaining sorted data."
-        },
-        {
-            "question": "What is a cycle in a graph?",
-            "answers": [
-                "A path where all vertices are unique",
-                "A path that starts and ends at the same vertex",
-                "A path that visits every vertex exactly once",
-                "A path that contains no edges"
-            ],
-            "correctAnswer": 1,
-            "explanation": "A cycle is a path in a graph that starts and ends at the same vertex, with at least one edge. Detecting cycles is important in many applications, such as finding deadlocks in systems or determining if a graph is acyclic."
-        },
-        {
-            "question": "What is the height of a complete binary tree with n nodes?",
-            "answers": [
-                "log₂(n)",
-                "⌊log₂(n)⌋",
-                "⌈log₂(n+1)⌉",
-                "n/2"
-            ],
-            "correctAnswer": 2,
-            "explanation": "The height of a complete binary tree with n nodes is ⌈log₂(n+1)⌉. This formula comes from the relationship between the number of nodes and height in a complete binary tree, where each level except possibly the last is completely filled."
-        },
-        {
-            "question": "What is an adjacency list representation of a graph?",
-            "answers": [
-                "A 2D matrix showing connections between vertices",
-                "A list of all edges in the graph",
-                "A collection of lists where each list describes the neighbors of a vertex",
-                "A binary tree representation of the graph"
-            ],
-            "correctAnswer": 2,
-            "explanation": "An adjacency list represents a graph as a collection of lists where each vertex has a list of its adjacent vertices. This representation is memory efficient for sparse graphs and makes it easy to find all neighbors of a vertex."
-        },
-        {
-            "question": "What is the time complexity of checking if a binary tree is balanced?",
-            "answers": [
-                "O(1)",
-                "O(log n)",
-                "O(n)",
-                "O(n²)"
-            ],
-            "correctAnswer": 2,
-            "explanation": "Checking if a binary tree is balanced requires visiting each node once to compare the heights of its left and right subtrees. This results in O(n) time complexity as we need to examine all n nodes in the tree."
-        },
-        {
-            "question": "What is a strongly connected component in a directed graph?",
-            "answers": [
-                "A subgraph where all vertices have the same degree",
-                "A subgraph where every vertex is reachable from every other vertex",
-                "A subgraph with no cycles",
-                "A subgraph with exactly one cycle"
-            ],
-            "correctAnswer": 1,
-            "explanation": "A strongly connected component is a maximal subgraph where every vertex is reachable from every other vertex through directed paths. Finding these components is important in analyzing the structure of directed graphs and in many applications like web page ranking."
-        },
-        {
-            "question": "What makes a binary tree 'complete'?",
-            "answers": [
-                "All levels are fully filled except possibly the last level, which is filled from left to right",
-                "All leaves are at the same level",
-                "Every node has exactly two children",
-                "The tree is perfectly balanced"
-            ],
-            "correctAnswer": 0,
-            "explanation": "A complete binary tree has all levels fully filled except possibly the last level, and in the last level, nodes are filled from left to right. This property makes complete binary trees efficient for array-based implementations, like heaps."
-        },
-        {
-            "question": "Which graph traversal algorithm uses a stack internally?",
-            "answers": [
-                "Breadth-First Search",
-                "Depth-First Search",
-                "Dijkstra's Algorithm",
-                "Prim's Algorithm"
-            ],
-            "correctAnswer": 1,
-            "explanation": "Depth-First Search (DFS) uses a stack (either explicitly or through recursion) to keep track of vertices to visit. This allows it to explore as far as possible along each branch before backtracking, making it useful for tasks like finding cycles or topological sorting."
-        },
-        {
-            "question": "What is the minimum number of edges in a connected graph with n vertices?",
-            "answers": [
-                "n",
-                "n-1",
-                "n+1",
-                "n²"
-            ],
-            "correctAnswer": 1,
-            "explanation": "A connected graph with n vertices must have at least n-1 edges. This forms a tree structure known as a spanning tree. Any fewer edges would result in a disconnected graph, while more edges would create cycles."
-        },
-        {
-            "question": "What is an AVL tree?",
-            "answers": [
-                "A binary tree where all nodes have the same height",
-                "A self-balancing binary search tree where heights of left and right subtrees differ by at most one",
-                "A binary tree where each node has exactly two children",
-                "A binary search tree with minimum height"
-            ],
-            "correctAnswer": 1,
-            "explanation": "An AVL tree is a self-balancing binary search tree where the heights of the left and right subtrees of any node differ by at most one. This balance condition ensures O(log n) time complexity for operations like insertion, deletion, and search."
-        },
-        {
-            "question": "What is a bipartite graph?",
-            "answers": [
-                "A graph with exactly two connected components",
-                "A graph where vertices can be divided into two sets with no edges within the same set",
-                "A graph with two cycles",
-                "A graph with exactly two edges per vertex"
-            ],
-            "correctAnswer": 1,
-            "explanation": "A bipartite graph is one whose vertices can be divided into two independent sets where no two vertices within the same set share an edge. This property is useful in many applications, such as matching problems and scheduling tasks."
-        }
-    ]
-},
-  {
-    "chapter_id": 2,
-    "title": "Sorting and Searching Algorithms",
-    "description": "Learn essential sorting techniques and searching algorithms, analyzing their complexities and implementation strategies.",
-    "questions_count": 15,
-    "time_estimate": "35 mins",
-    "difficulty": "Intermediate",
-    "is_new": true,
-    "questions": [
-        {
-            "question": "What is the time complexity of Bubble Sort in the best case?",
-            "answers": [
-                "O(n²)",
-                "O(n log n)",
-                "O(n)",
-                "O(1)"
-            ],
-            "correctAnswer": 2,
-            "explanation": "In the best case (when the array is already sorted), Bubble Sort has O(n) time complexity because it will make just one pass through the array with no swaps, detecting that the array is sorted."
-        },
-        {
-            "question": "Which sorting algorithm is typically used by programming languages for their built-in sort functions?",
-            "answers": [
-                "Bubble Sort",
-                "Quick Sort",
-                "Insertion Sort",
-                "Selection Sort"
-            ],
-            "correctAnswer": 1,
-            "explanation": "Quick Sort is commonly used in programming language implementations due to its excellent average-case performance of O(n log n) and good space efficiency. Many languages use a hybrid approach combining Quick Sort with other algorithms like Insertion Sort for small subarrays."
-        },
-        {
-            "question": "What is the space complexity of Merge Sort?",
-            "answers": [
-                "O(1)",
-                "O(n)",
-                "O(log n)",
-                "O(n log n)"
-            ],
-            "correctAnswer": 1,
-            "explanation": "Merge Sort requires O(n) extra space because it needs a temporary array to merge the sorted subarrays. This is one of the main drawbacks of Merge Sort compared to in-place sorting algorithms like Quick Sort."
-        },
-        {
-            "question": "When is Binary Search NOT applicable?",
-            "answers": [
-                "When the array is too large",
-                "When the array is not sorted",
-                "When the array contains duplicates",
-                "When the array has odd length"
-            ],
-            "correctAnswer": 1,
-            "explanation": "Binary Search requires the array to be sorted as its algorithm depends on being able to eliminate half of the remaining elements based on a comparison. If the array is not sorted, the binary search algorithm will not work correctly."
-        },
-        {
-            "question": "What is the time complexity of Quick Sort in the worst case?",
-            "answers": [
-                "O(n)",
-                "O(n log n)",
-                "O(n²)",
-                "O(2ⁿ)"
-            ],
-            "correctAnswer": 2,
-            "explanation": "Quick Sort's worst-case time complexity is O(n²) when the pivot selection consistently results in the most unbalanced partition possible, such as when the array is already sorted and the first or last element is always chosen as the pivot."
-        },
-        {
-            "question": "What is the advantage of using Counting Sort?",
-            "answers": [
-                "It works well with floating-point numbers",
-                "It has O(n log n) complexity",
-                "It can sort strings efficiently",
-                "It has O(n) complexity for a known range of integers"
-            ],
-            "correctAnswer": 3,
-            "explanation": "Counting Sort achieves O(n) time complexity when sorting integers within a known range by counting occurrences of each number. This makes it very efficient for sorting integers with a limited range, outperforming comparison-based sorting algorithms."
-        },
-        {
-            "question": "What is the key idea behind Heap Sort?",
-            "answers": [
-                "Using recursion to sort subarrays",
-                "Maintaining a heap data structure",
-                "Comparing adjacent elements",
-                "Dividing the array into sorted and unsorted portions"
-            ],
-            "correctAnswer": 1,
-            "explanation": "Heap Sort works by first building a max-heap from the array and then repeatedly extracting the maximum element from the heap and placing it at the end of the array. The heap property ensures efficient access to the maximum element."
-        },
-        {
-            "question": "Which search algorithm is most efficient for searching in a sorted array?",
-            "answers": [
-                "Linear Search",
-                "Binary Search",
-                "Jump Search",
-                "Interpolation Search"
-            ],
-            "correctAnswer": 1,
-            "explanation": "Binary Search is most efficient for searching in a sorted array with O(log n) time complexity. It repeatedly divides the search interval in half, making it much faster than linear search for large datasets."
-        },
-        {
-            "question": "What is the stable sorting algorithm among the following?",
-            "answers": [
-                "Quick Sort",
-                "Heap Sort",
-                "Merge Sort",
-                "Selection Sort"
-            ],
-            "correctAnswer": 2,
-            "explanation": "Merge Sort is a stable sorting algorithm because it preserves the relative order of equal elements in the sorted output. This property is important when sorting objects with multiple attributes or when maintaining the original order matters."
-        },
-        {
-            "question": "What is the time complexity of Linear Search in an unsorted array?",
-            "answers": [
-                "O(1)",
-                "O(n)",
-                "O(log n)",
-                "O(n²)"
-            ],
-            "correctAnswer": 1,
-            "explanation": "Linear Search has O(n) time complexity as it may need to examine every element in the array to find the target element. While simple to implement, it's not efficient for large datasets compared to more advanced search algorithms."
-        },
-        {
-            "question": "What is the primary advantage of Insertion Sort?",
-            "answers": [
-                "Best for large datasets",
-                "Good for nearly sorted arrays",
-                "Consistent performance",
-                "Low memory usage"
-            ],
-            "correctAnswer": 1,
-            "explanation": "Insertion Sort performs well on nearly sorted arrays and small datasets. It has O(n) time complexity in the best case (nearly sorted array) and is often used as part of hybrid sorting algorithms for small subarrays."
-        },
-        {
-            "question": "Which sorting algorithm has the best worst-case time complexity?",
-            "answers": [
-                "Quick Sort",
-                "Merge Sort",
-                "Bubble Sort",
-                "Selection Sort"
-            ],
-            "correctAnswer": 1,
-            "explanation": "Merge Sort has the best worst-case time complexity of O(n log n) among these options. Unlike Quick Sort, which can degrade to O(n²), Merge Sort maintains its O(n log n) performance regardless of the input array's initial order."
-        },
-        {
-            "question": "What is the space complexity of Quick Sort?",
-            "answers": [
-                "O(1)",
-                "O(n)",
-                "O(log n)",
-                "O(n log n)"
-            ],
-            "correctAnswer": 2,
-            "explanation": "Quick Sort's space complexity is O(log n) on average due to the recursive call stack. In the worst case (unbalanced partitions), it can become O(n), but this is rare with good pivot selection strategies."
-        },
-        {
-            "question": "When is Radix Sort most effective?",
-            "answers": [
-                "Sorting strings of different lengths",
-                "Sorting floating-point numbers",
-                "Sorting integers with fixed number of digits",
-                "Sorting linked lists"
-            ],
-            "correctAnswer": 2,
-            "explanation": "Radix Sort is most effective when sorting integers with a fixed number of digits because it can sort them in linear time O(d*n), where d is the number of digits. It works by sorting numbers digit by digit, from least to most significant."
-        },
-        {
-            "question": "What is the key difference between Binary Search and Fibonacci Search?",
-            "answers": [
-                "Time complexity",
-                "Space complexity",
-                "Division strategy",
-                "Input requirements"
-            ],
-            "correctAnswer": 2,
-            "explanation": "The key difference is in their division strategy. While Binary Search divides the array into two equal halves, Fibonacci Search divides it according to Fibonacci numbers, which can be more efficient when accessing sequential storage devices."
-        }
-    ]
-},
-{
-    "chapter_id": 3,
-    "title": "Dynamic Programming",
-    "description": "Master the art of solving complex problems by breaking them down into simpler subproblems and utilizing memoization techniques.",
-    "questions_count": 14,
-    "time_estimate": "30 mins",
-    "difficulty": "Advanced",
-    "is_new": true,
-    "questions": [
-        {
-            "question": "What are the two key attributes that a problem must have for dynamic programming to be applicable?",
-            "answers": [
-                "Sorting and searching",
-                "Overlapping subproblems and optimal substructure",
-                "Recursion and iteration",
-                "Greedy choice and backtracking"
-            ],
-            "correctAnswer": 1,
-            "explanation": "Dynamic Programming requires overlapping subproblems (same subproblems encountered multiple times) and optimal substructure (optimal solution built from optimal solutions of subproblems) to be effective."
-        },
-        {
-            "question": "What is memoization in dynamic programming?",
-            "answers": [
-                "A sorting technique",
-                "Storing results of expensive function calls",
-                "A way to optimize space complexity",
-                "A recursive algorithm"
-            ],
-            "correctAnswer": 1,
-            "explanation": "Memoization is the technique of storing the results of expensive function calls and returning the cached result when the same inputs occur again, avoiding redundant calculations in dynamic programming solutions."
-        },
-        {
-            "question": "Which approach generally uses less space: top-down or bottom-up dynamic programming?",
-            "answers": [
-                "Top-down",
-                "Bottom-up",
-                "Both use the same space",
-                "Depends on the problem"
-            ],
-            "correctAnswer": 1,
-            "explanation": "Bottom-up dynamic programming typically uses less space because it doesn't require the overhead of recursive call stack space. It builds solutions iteratively from smaller subproblems to larger ones."
-        },
-        {
-            "question": "What is the time complexity of the dynamic programming solution for the Fibonacci sequence?",
-            "answers": [
-                "O(2ⁿ)",
-                "O(n)",
-                "O(log n)",
-                "O(n²)"
-            ],
-            "correctAnswer": 1,
-            "explanation": "The dynamic programming solution for Fibonacci has O(n) time complexity because it calculates each Fibonacci number exactly once and stores it in an array, avoiding the exponential complexity of naive recursion."
-        },
-        {
-            "question": "Which problem is NOT typically solved using dynamic programming?",
-            "answers": [
-                "Longest Common Subsequence",
-                "Finding shortest path in an unweighted graph",
-                "0/1 Knapsack",
-                "Matrix Chain Multiplication"
-            ],
-            "correctAnswer": 1,
-            "explanation": "Finding the shortest path in an unweighted graph is typically solved using BFS rather than dynamic programming because it doesn't exhibit the overlapping subproblems property in a way that would make DP advantageous."
-        },
-        {
-            "question": "What is the space complexity of the optimized dynamic programming solution for calculating binomial coefficients?",
-            "answers": [
-                "O(1)",
-                "O(n)",
-                "O(n²)",
-                "O(2ⁿ)"
-            ],
-            "correctAnswer": 1,
-            "explanation": "The optimized DP solution for binomial coefficients uses O(n) space by maintaining only the previous row of Pascal's triangle, instead of storing the entire triangle which would require O(n²) space."
-        },
-        {
-            "question": "In the context of dynamic programming, what is state space?",
-            "answers": [
-                "The memory used by the program",
-                "The set of all possible parameters that define a subproblem",
-                "The recursion depth",
-                "The final solution space"
-            ],
-            "correctAnswer": 1,
-            "explanation": "State space in DP refers to the set of all possible parameters that uniquely define a subproblem. Understanding and properly defining the state space is crucial for developing efficient DP solutions."
-        },
-        {
-            "question": "What is the primary advantage of using tabulation (bottom-up) over memoization (top-down)?",
-            "answers": [
-                "Better time complexity",
-                "Easier to implement",
-                "Avoids stack overflow and has better space complexity",
-                "More readable code"
-            ],
-            "correctAnswer": 2,
-            "explanation": "Tabulation (bottom-up) avoids recursive stack overflow issues and typically has better space complexity since it doesn't need additional space for recursive calls. It also often has better cache performance due to sequential access patterns."
-        },
-        {
-            "question": "What is the time complexity of the dynamic programming solution for the Longest Common Subsequence problem?",
-            "answers": [
-                "O(n)",
-                "O(n log n)",
-                "O(n²)",
-                "O(2ⁿ)"
-            ],
-            "correctAnswer": 2,
-            "explanation": "The DP solution for Longest Common Subsequence has O(n²) time complexity where n is the length of the strings, as it needs to fill a table comparing each character of one string with each character of the other string."
-        },
-        {
-            "question": "Which of these is NOT a characteristic of dynamic programming problems?",
-            "answers": [
-                "Can be solved using recursion",
-                "Has optimal substructure",
-                "Requires sorting as preprocessing",
-                "Has overlapping subproblems"
-            ],
-            "correctAnswer": 2,
-            "explanation": "Requiring sorting as preprocessing is not a characteristic of dynamic programming problems. DP problems are characterized by optimal substructure and overlapping subproblems, and can typically be solved using recursion with memoization."
-        },
-        {
-            "question": "What is the relationship between dynamic programming and greedy algorithms?",
-            "answers": [
-                "They are the same thing",
-                "DP considers all possibilities while greedy makes local optimal choices",
-                "Greedy is always faster than DP",
-                "DP is always more space-efficient"
-            ],
-            "correctAnswer": 1,
-            "explanation": "Dynamic programming considers all possible solutions to find the global optimum by solving and storing results of subproblems, while greedy algorithms make locally optimal choices at each step without reconsidering previous choices."
-        },
-        {
-            "question": "Which of these problems can be solved using dynamic programming?",
-            "answers": [
-                "Finding prime numbers",
-                "Sorting an array",
-                "Matrix chain multiplication",
-                "Finding connected components in a graph"
-            ],
-            "correctAnswer": 2,
-            "explanation": "Matrix chain multiplication is a classic dynamic programming problem because it has overlapping subproblems and optimal substructure. The solution involves finding the most efficient way to multiply a sequence of matrices."
-        },
-        {
-            "question": "What is the purpose of the base case in dynamic programming?",
-            "answers": [
-                "To improve space complexity",
-                "To provide initial values for the smallest subproblems",
-                "To optimize time complexity",
-                "To handle error cases"
-            ],
-            "correctAnswer": 1,
-            "explanation": "Base cases in dynamic programming provide solutions for the smallest possible subproblems, from which larger problems can be solved. They are essential for both recursive (top-down) and iterative (bottom-up) approaches."
-        },
-      {
-        "question": "What is the time complexity of the dynamic programming solution for the Rod Cutting problem?",
-        "answers": [
-          "O(n)",
-          "O(n²)",
-          "O(2ⁿ)",
-          "O(n log n)"
-        ],
-        "correctAnswer": 1,
-        "explanation": "The dynamic programming solution for the Rod Cutting problem has O(n²) time complexity, where n is the length of the rod. This comes from considering all possible cutting points for each length from 1 to n."
-      }
-
-
-
-]
-}
+    {
+        "chapter_id": 0,
+        "title": "Arrays and Linked Lists",
+        "description": "Master fundamental linear data structures, implementation techniques, and common operations with arrays and linked lists.",
+        "questions_count": 15,
+        "time_estimate": "35 mins",
+        "difficulty": "Beginner",
+        "is_new": false,
+        "questions": [
+            {
+                "question": "What is the time complexity of accessing an element at a given index in an array?",
+                "answers": ["O(1)", "O(n)", "O(log n)", "O(n²)"],
+                "correctAnswer": 0,
+                "explanation": "Array access by index is O(1) because arrays store elements in contiguous memory locations. The memory address of any element can be calculated directly using its index, making access constant time regardless of array size."
+            },
+            {
+                "question": "In a singly linked list, what is stored in each node?",
+                "answers": [
+                    "Only the data",
+                    "Data and a pointer to the previous node",
+                    "Data and a pointer to the next node",
+                    "Two pointers to both previous and next nodes"
+                ],
+                "correctAnswer": 2,
+                "explanation": "Each node in a singly linked list contains two components: the data element and a pointer/reference to the next node in the sequence. The last node's pointer typically points to null, indicating the end of the list."
+            },
+            {
+                "question": "What is the space complexity of an array with n elements?",
+                "answers": ["O(1)", "O(n)", "O(log n)", "O(n²)"],
+                "correctAnswer": 1,
+                "explanation": "The space complexity of an array is O(n) where n is the number of elements. Arrays require contiguous memory allocation, and the space needed grows linearly with the number of elements stored."
+            },
+            {
+                "question": "What is the main advantage of a linked list over an array?",
+                "answers": [
+                    "Faster element access",
+                    "Less memory usage",
+                    "Dynamic size and efficient insertion/deletion",
+                    "Better cache performance"
+                ],
+                "correctAnswer": 2,
+                "explanation": "Linked lists excel at dynamic size management and efficient insertion/deletion operations, especially at the beginning or middle of the list. Unlike arrays, they don't require contiguous memory and can grow or shrink easily without reallocation."
+            },
+            {
+                "question": "What is the time complexity of inserting an element at the beginning of a linked list?",
+                "answers": ["O(1)", "O(n)", "O(log n)", "O(n²)"],
+                "correctAnswer": 0,
+                "explanation": "Inserting at the beginning of a linked list is O(1) because it only requires updating the head pointer and the new node's next pointer. No other nodes need to be shifted or modified, making it a constant-time operation."
+            },
+            {
+                "question": "What is the difference between a static array and a dynamic array?",
+                "answers": [
+                    "Static arrays are slower than dynamic arrays",
+                    "Static arrays have fixed size while dynamic arrays can grow",
+                    "Static arrays use less memory",
+                    "Dynamic arrays provide faster access"
+                ],
+                "correctAnswer": 1,
+                "explanation": "The key difference is that static arrays have a fixed size determined at creation, while dynamic arrays (like ArrayList or Vector) can grow or shrink as needed. Dynamic arrays achieve this by automatically reallocating memory when they reach capacity."
+            },
+            {
+                "question": "In a doubly linked list, what happens when you delete a node from the middle?",
+                "answers": [
+                    "Only update the previous node's pointer",
+                    "Only update the next node's pointer",
+                    "Update both previous and next nodes' pointers",
+                    "Reallocate the entire list"
+                ],
+                "correctAnswer": 2,
+                "explanation": "When deleting a node from the middle of a doubly linked list, you must update both the previous node's next pointer and the next node's previous pointer to maintain the list's integrity. This ensures proper linkage between the remaining nodes."
+            },
+            {
+                "question": "What is the time complexity of searching for an element in an unsorted linked list?",
+                "answers": ["O(1)", "O(n)", "O(log n)", "O(n²)"],
+                "correctAnswer": 1,
+                "explanation": "Searching in an unsorted linked list requires O(n) time because you must traverse the list sequentially from the beginning until finding the target element. Unlike arrays, linked lists don't support random access, requiring linear search."
+            },
+            {
+                "question": "What is the primary disadvantage of using a linked list?",
+                "answers": [
+                    "Random access is not efficient",
+                    "Uses more memory than arrays",
+                    "Cannot store different data types",
+                    "Limited size"
+                ],
+                "correctAnswer": 0,
+                "explanation": "The main disadvantage of linked lists is that they don't support efficient random access. To access an element at a specific position, you must traverse from the beginning, resulting in O(n) time complexity, unlike arrays' O(1) access."
+            },
+            {
+                "question": "What happens when a dynamic array reaches its capacity?",
+                "answers": [
+                    "It stops accepting new elements",
+                    "It creates a new array with double the size and copies elements",
+                    "It links to another array",
+                    "It converts to a linked list"
+                ],
+                "correctAnswer": 1,
+                "explanation": "When a dynamic array reaches its capacity, it typically creates a new array with double the size, copies all existing elements to the new array, and then deallocates the old array. This process is called resizing or reallocation."
+            },
+            {
+                "question": "What is the space complexity comparison between arrays and linked lists?",
+                "answers": [
+                    "Arrays always use less space",
+                    "Linked lists always use less space",
+                    "They use the same amount of space",
+                    "Linked lists use extra space for node pointers"
+                ],
+                "correctAnswer": 3,
+                "explanation": "Linked lists require extra space for storing node pointers (references to next/previous nodes) in addition to the data. While arrays need contiguous memory, they don't have this overhead, making them more space-efficient for storing just the data."
+            },
+            {
+                "question": "What is the time complexity of inserting an element at the end of a linked list without a tail pointer?",
+                "answers": ["O(1)", "O(n)", "O(log n)", "O(n²)"],
+                "correctAnswer": 1,
+                "explanation": "Without a tail pointer, inserting at the end of a linked list requires traversing the entire list to reach the last node, resulting in O(n) time complexity. This can be optimized to O(1) by maintaining a tail pointer."
+            },
+            {
+                "question": "Which data structure is better for implementing a stack?",
+                "answers": [
+                    "Array",
+                    "Linked List",
+                    "Both are equally suitable",
+                    "Neither"
+                ],
+                "correctAnswer": 2,
+                "explanation": "Both arrays and linked lists are suitable for implementing a stack. Arrays offer better cache locality and memory efficiency, while linked lists offer better memory utilization for dynamic size changes. The choice depends on specific requirements like size constraints and frequency of operations."
+            },
+            {
+                "question": "What is the time complexity of reversing a singly linked list?",
+                "answers": ["O(1)", "O(n)", "O(log n)", "O(n²)"],
+                "correctAnswer": 1,
+                "explanation": "Reversing a singly linked list takes O(n) time as you need to traverse the entire list once and update each node's next pointer to point to its previous node. This requires tracking three pointers: current, previous, and next."
+            },
+            {
+                "question": "What is the advantage of using a circular linked list?",
+                "answers": [
+                    "Faster search operations",
+                    "Less memory usage",
+                    "Continuous traversal without reaching end",
+                    "Better sorting capabilities"
+                ],
+                "correctAnswer": 2,
+                "explanation": "Circular linked lists allow continuous traversal as the last node points back to the first node, making them useful for applications requiring cyclic access to elements, such as round-robin scheduling or circular buffers."
+            }
+        ]
+    },
+    {
+        "chapter_id": 1,
+        "title": "Trees and Graphs",
+        "description": "Explore hierarchical and network data structures, including binary trees, BSTs, and fundamental graph algorithms.",
+        "questions_count": 15,
+        "time_estimate": "40 mins",
+        "difficulty": "Intermediate",
+        "is_new": true,
+        "questions": [
+            {
+                "question": "What is the maximum number of children a node can have in a binary tree?",
+                "answers": ["1", "2", "3", "Unlimited"],
+                "correctAnswer": 1,
+                "explanation": "In a binary tree, each node can have at most 2 children (left and right child). This is the defining characteristic of binary trees, distinguishing them from general trees where nodes can have any number of children."
+            },
+            {
+                "question": "What is the main property that distinguishes a Binary Search Tree (BST) from a regular binary tree?",
+                "answers": [
+                    "It must be balanced",
+                    "It must have all leaves at the same level",
+                    "Left subtree values < node value < right subtree values",
+                    "It can only store numbers"
+                ],
+                "correctAnswer": 2,
+                "explanation": "A Binary Search Tree maintains the ordering property where all values in the left subtree of a node are less than the node's value, and all values in the right subtree are greater. This property enables efficient searching, insertion, and deletion operations."
+            },
+            {
+                "question": "Which traversal method visits the root node before its children in a tree?",
+                "answers": ["Inorder", "Preorder", "Postorder", "Level-order"],
+                "correctAnswer": 1,
+                "explanation": "Preorder traversal follows the pattern: Root -> Left -> Right, visiting the root node before traversing its subtrees. This is useful for creating a copy of the tree or getting a prefix expression from an expression tree."
+            },
+            {
+                "question": "What algorithm is best suited for finding the shortest path in an unweighted graph?",
+                "answers": [
+                    "Depth-First Search (DFS)",
+                    "Breadth-First Search (BFS)",
+                    "Dijkstra's Algorithm",
+                    "Floyd-Warshall Algorithm"
+                ],
+                "correctAnswer": 1,
+                "explanation": "BFS is ideal for finding the shortest path in unweighted graphs because it explores all vertices at the current depth before moving to vertices at the next level. This ensures the first path found to a vertex is the shortest in terms of number of edges."
+            },
+            {
+                "question": "What is the time complexity of inserting a node into a balanced Binary Search Tree?",
+                "answers": ["O(1)", "O(log n)", "O(n)", "O(n²)"],
+                "correctAnswer": 1,
+                "explanation": "In a balanced BST, insertion takes O(log n) time because you only need to traverse one path from root to leaf, and the height of a balanced tree is logarithmic in the number of nodes. This efficiency is why BSTs are popular for maintaining sorted data."
+            },
+            {
+                "question": "What is a cycle in a graph?",
+                "answers": [
+                    "A path where all vertices are unique",
+                    "A path that starts and ends at the same vertex",
+                    "A path that visits every vertex exactly once",
+                    "A path that contains no edges"
+                ],
+                "correctAnswer": 1,
+                "explanation": "A cycle is a path in a graph that starts and ends at the same vertex, with at least one edge. Detecting cycles is important in many applications, such as finding deadlocks in systems or determining if a graph is acyclic."
+            },
+            {
+                "question": "What is the height of a complete binary tree with n nodes?",
+                "answers": ["log₂(n)", "⌊log₂(n)⌋", "⌈log₂(n+1)⌉", "n/2"],
+                "correctAnswer": 2,
+                "explanation": "The height of a complete binary tree with n nodes is ⌈log₂(n+1)⌉. This formula comes from the relationship between the number of nodes and height in a complete binary tree, where each level except possibly the last is completely filled."
+            },
+            {
+                "question": "What is an adjacency list representation of a graph?",
+                "answers": [
+                    "A 2D matrix showing connections between vertices",
+                    "A list of all edges in the graph",
+                    "A collection of lists where each list describes the neighbors of a vertex",
+                    "A binary tree representation of the graph"
+                ],
+                "correctAnswer": 2,
+                "explanation": "An adjacency list represents a graph as a collection of lists where each vertex has a list of its adjacent vertices. This representation is memory efficient for sparse graphs and makes it easy to find all neighbors of a vertex."
+            },
+            {
+                "question": "What is the time complexity of checking if a binary tree is balanced?",
+                "answers": ["O(1)", "O(log n)", "O(n)", "O(n²)"],
+                "correctAnswer": 2,
+                "explanation": "Checking if a binary tree is balanced requires visiting each node once to compare the heights of its left and right subtrees. This results in O(n) time complexity as we need to examine all n nodes in the tree."
+            },
+            {
+                "question": "What is a strongly connected component in a directed graph?",
+                "answers": [
+                    "A subgraph where all vertices have the same degree",
+                    "A subgraph where every vertex is reachable from every other vertex",
+                    "A subgraph with no cycles",
+                    "A subgraph with exactly one cycle"
+                ],
+                "correctAnswer": 1,
+                "explanation": "A strongly connected component is a maximal subgraph where every vertex is reachable from every other vertex through directed paths. Finding these components is important in analyzing the structure of directed graphs and in many applications like web page ranking."
+            },
+            {
+                "question": "What makes a binary tree 'complete'?",
+                "answers": [
+                    "All levels are fully filled except possibly the last level, which is filled from left to right",
+                    "All leaves are at the same level",
+                    "Every node has exactly two children",
+                    "The tree is perfectly balanced"
+                ],
+                "correctAnswer": 0,
+                "explanation": "A complete binary tree has all levels fully filled except possibly the last level, and in the last level, nodes are filled from left to right. This property makes complete binary trees efficient for array-based implementations, like heaps."
+            },
+            {
+                "question": "Which graph traversal algorithm uses a stack internally?",
+                "answers": [
+                    "Breadth-First Search",
+                    "Depth-First Search",
+                    "Dijkstra's Algorithm",
+                    "Prim's Algorithm"
+                ],
+                "correctAnswer": 1,
+                "explanation": "Depth-First Search (DFS) uses a stack (either explicitly or through recursion) to keep track of vertices to visit. This allows it to explore as far as possible along each branch before backtracking, making it useful for tasks like finding cycles or topological sorting."
+            },
+            {
+                "question": "What is the minimum number of edges in a connected graph with n vertices?",
+                "answers": ["n", "n-1", "n+1", "n²"],
+                "correctAnswer": 1,
+                "explanation": "A connected graph with n vertices must have at least n-1 edges. This forms a tree structure known as a spanning tree. Any fewer edges would result in a disconnected graph, while more edges would create cycles."
+            },
+            {
+                "question": "What is an AVL tree?",
+                "answers": [
+                    "A binary tree where all nodes have the same height",
+                    "A self-balancing binary search tree where heights of left and right subtrees differ by at most one",
+                    "A binary tree where each node has exactly two children",
+                    "A binary search tree with minimum height"
+                ],
+                "correctAnswer": 1,
+                "explanation": "An AVL tree is a self-balancing binary search tree where the heights of the left and right subtrees of any node differ by at most one. This balance condition ensures O(log n) time complexity for operations like insertion, deletion, and search."
+            },
+            {
+                "question": "What is a bipartite graph?",
+                "answers": [
+                    "A graph with exactly two connected components",
+                    "A graph where vertices can be divided into two sets with no edges within the same set",
+                    "A graph with two cycles",
+                    "A graph with exactly two edges per vertex"
+                ],
+                "correctAnswer": 1,
+                "explanation": "A bipartite graph is one whose vertices can be divided into two independent sets where no two vertices within the same set share an edge. This property is useful in many applications, such as matching problems and scheduling tasks."
+            }
+        ]
+    },
+    {
+        "chapter_id": 2,
+        "title": "Sorting and Searching Algorithms",
+        "description": "Learn essential sorting techniques and searching algorithms, analyzing their complexities and implementation strategies.",
+        "questions_count": 15,
+        "time_estimate": "35 mins",
+        "difficulty": "Intermediate",
+        "is_new": true,
+        "questions": [
+            {
+                "question": "What is the time complexity of Bubble Sort in the best case?",
+                "answers": ["O(n²)", "O(n log n)", "O(n)", "O(1)"],
+                "correctAnswer": 2,
+                "explanation": "In the best case (when the array is already sorted), Bubble Sort has O(n) time complexity because it will make just one pass through the array with no swaps, detecting that the array is sorted."
+            },
+            {
+                "question": "Which sorting algorithm is typically used by programming languages for their built-in sort functions?",
+                "answers": [
+                    "Bubble Sort",
+                    "Quick Sort",
+                    "Insertion Sort",
+                    "Selection Sort"
+                ],
+                "correctAnswer": 1,
+                "explanation": "Quick Sort is commonly used in programming language implementations due to its excellent average-case performance of O(n log n) and good space efficiency. Many languages use a hybrid approach combining Quick Sort with other algorithms like Insertion Sort for small subarrays."
+            },
+            {
+                "question": "What is the space complexity of Merge Sort?",
+                "answers": ["O(1)", "O(n)", "O(log n)", "O(n log n)"],
+                "correctAnswer": 1,
+                "explanation": "Merge Sort requires O(n) extra space because it needs a temporary array to merge the sorted subarrays. This is one of the main drawbacks of Merge Sort compared to in-place sorting algorithms like Quick Sort."
+            },
+            {
+                "question": "When is Binary Search NOT applicable?",
+                "answers": [
+                    "When the array is too large",
+                    "When the array is not sorted",
+                    "When the array contains duplicates",
+                    "When the array has odd length"
+                ],
+                "correctAnswer": 1,
+                "explanation": "Binary Search requires the array to be sorted as its algorithm depends on being able to eliminate half of the remaining elements based on a comparison. If the array is not sorted, the binary search algorithm will not work correctly."
+            },
+            {
+                "question": "What is the time complexity of Quick Sort in the worst case?",
+                "answers": ["O(n)", "O(n log n)", "O(n²)", "O(2ⁿ)"],
+                "correctAnswer": 2,
+                "explanation": "Quick Sort's worst-case time complexity is O(n²) when the pivot selection consistently results in the most unbalanced partition possible, such as when the array is already sorted and the first or last element is always chosen as the pivot."
+            },
+            {
+                "question": "What is the advantage of using Counting Sort?",
+                "answers": [
+                    "It works well with floating-point numbers",
+                    "It has O(n log n) complexity",
+                    "It can sort strings efficiently",
+                    "It has O(n) complexity for a known range of integers"
+                ],
+                "correctAnswer": 3,
+                "explanation": "Counting Sort achieves O(n) time complexity when sorting integers within a known range by counting occurrences of each number. This makes it very efficient for sorting integers with a limited range, outperforming comparison-based sorting algorithms."
+            },
+            {
+                "question": "What is the key idea behind Heap Sort?",
+                "answers": [
+                    "Using recursion to sort subarrays",
+                    "Maintaining a heap data structure",
+                    "Comparing adjacent elements",
+                    "Dividing the array into sorted and unsorted portions"
+                ],
+                "correctAnswer": 1,
+                "explanation": "Heap Sort works by first building a max-heap from the array and then repeatedly extracting the maximum element from the heap and placing it at the end of the array. The heap property ensures efficient access to the maximum element."
+            },
+            {
+                "question": "Which search algorithm is most efficient for searching in a sorted array?",
+                "answers": [
+                    "Linear Search",
+                    "Binary Search",
+                    "Jump Search",
+                    "Interpolation Search"
+                ],
+                "correctAnswer": 1,
+                "explanation": "Binary Search is most efficient for searching in a sorted array with O(log n) time complexity. It repeatedly divides the search interval in half, making it much faster than linear search for large datasets."
+            },
+            {
+                "question": "What is the stable sorting algorithm among the following?",
+                "answers": [
+                    "Quick Sort",
+                    "Heap Sort",
+                    "Merge Sort",
+                    "Selection Sort"
+                ],
+                "correctAnswer": 2,
+                "explanation": "Merge Sort is a stable sorting algorithm because it preserves the relative order of equal elements in the sorted output. This property is important when sorting objects with multiple attributes or when maintaining the original order matters."
+            },
+            {
+                "question": "What is the time complexity of Linear Search in an unsorted array?",
+                "answers": ["O(1)", "O(n)", "O(log n)", "O(n²)"],
+                "correctAnswer": 1,
+                "explanation": "Linear Search has O(n) time complexity as it may need to examine every element in the array to find the target element. While simple to implement, it's not efficient for large datasets compared to more advanced search algorithms."
+            },
+            {
+                "question": "What is the primary advantage of Insertion Sort?",
+                "answers": [
+                    "Best for large datasets",
+                    "Good for nearly sorted arrays",
+                    "Consistent performance",
+                    "Low memory usage"
+                ],
+                "correctAnswer": 1,
+                "explanation": "Insertion Sort performs well on nearly sorted arrays and small datasets. It has O(n) time complexity in the best case (nearly sorted array) and is often used as part of hybrid sorting algorithms for small subarrays."
+            },
+            {
+                "question": "Which sorting algorithm has the best worst-case time complexity?",
+                "answers": [
+                    "Quick Sort",
+                    "Merge Sort",
+                    "Bubble Sort",
+                    "Selection Sort"
+                ],
+                "correctAnswer": 1,
+                "explanation": "Merge Sort has the best worst-case time complexity of O(n log n) among these options. Unlike Quick Sort, which can degrade to O(n²), Merge Sort maintains its O(n log n) performance regardless of the input array's initial order."
+            },
+            {
+                "question": "What is the space complexity of Quick Sort?",
+                "answers": ["O(1)", "O(n)", "O(log n)", "O(n log n)"],
+                "correctAnswer": 2,
+                "explanation": "Quick Sort's space complexity is O(log n) on average due to the recursive call stack. In the worst case (unbalanced partitions), it can become O(n), but this is rare with good pivot selection strategies."
+            },
+            {
+                "question": "When is Radix Sort most effective?",
+                "answers": [
+                    "Sorting strings of different lengths",
+                    "Sorting floating-point numbers",
+                    "Sorting integers with fixed number of digits",
+                    "Sorting linked lists"
+                ],
+                "correctAnswer": 2,
+                "explanation": "Radix Sort is most effective when sorting integers with a fixed number of digits because it can sort them in linear time O(d*n), where d is the number of digits. It works by sorting numbers digit by digit, from least to most significant."
+            },
+            {
+                "question": "What is the key difference between Binary Search and Fibonacci Search?",
+                "answers": [
+                    "Time complexity",
+                    "Space complexity",
+                    "Division strategy",
+                    "Input requirements"
+                ],
+                "correctAnswer": 2,
+                "explanation": "The key difference is in their division strategy. While Binary Search divides the array into two equal halves, Fibonacci Search divides it according to Fibonacci numbers, which can be more efficient when accessing sequential storage devices."
+            }
+        ]
+    },
+    {
+        "chapter_id": 3,
+        "title": "Dynamic Programming",
+        "description": "Master the art of solving complex problems by breaking them down into simpler subproblems and utilizing memoization techniques.",
+        "questions_count": 14,
+        "time_estimate": "30 mins",
+        "difficulty": "Advanced",
+        "is_new": true,
+        "questions": [
+            {
+                "question": "What are the two key attributes that a problem must have for dynamic programming to be applicable?",
+                "answers": [
+                    "Sorting and searching",
+                    "Overlapping subproblems and optimal substructure",
+                    "Recursion and iteration",
+                    "Greedy choice and backtracking"
+                ],
+                "correctAnswer": 1,
+                "explanation": "Dynamic Programming requires overlapping subproblems (same subproblems encountered multiple times) and optimal substructure (optimal solution built from optimal solutions of subproblems) to be effective."
+            },
+            {
+                "question": "What is memoization in dynamic programming?",
+                "answers": [
+                    "A sorting technique",
+                    "Storing results of expensive function calls",
+                    "A way to optimize space complexity",
+                    "A recursive algorithm"
+                ],
+                "correctAnswer": 1,
+                "explanation": "Memoization is the technique of storing the results of expensive function calls and returning the cached result when the same inputs occur again, avoiding redundant calculations in dynamic programming solutions."
+            },
+            {
+                "question": "Which approach generally uses less space: top-down or bottom-up dynamic programming?",
+                "answers": [
+                    "Top-down",
+                    "Bottom-up",
+                    "Both use the same space",
+                    "Depends on the problem"
+                ],
+                "correctAnswer": 1,
+                "explanation": "Bottom-up dynamic programming typically uses less space because it doesn't require the overhead of recursive call stack space. It builds solutions iteratively from smaller subproblems to larger ones."
+            },
+            {
+                "question": "What is the time complexity of the dynamic programming solution for the Fibonacci sequence?",
+                "answers": ["O(2ⁿ)", "O(n)", "O(log n)", "O(n²)"],
+                "correctAnswer": 1,
+                "explanation": "The dynamic programming solution for Fibonacci has O(n) time complexity because it calculates each Fibonacci number exactly once and stores it in an array, avoiding the exponential complexity of naive recursion."
+            },
+            {
+                "question": "Which problem is NOT typically solved using dynamic programming?",
+                "answers": [
+                    "Longest Common Subsequence",
+                    "Finding shortest path in an unweighted graph",
+                    "0/1 Knapsack",
+                    "Matrix Chain Multiplication"
+                ],
+                "correctAnswer": 1,
+                "explanation": "Finding the shortest path in an unweighted graph is typically solved using BFS rather than dynamic programming because it doesn't exhibit the overlapping subproblems property in a way that would make DP advantageous."
+            },
+            {
+                "question": "What is the space complexity of the optimized dynamic programming solution for calculating binomial coefficients?",
+                "answers": ["O(1)", "O(n)", "O(n²)", "O(2ⁿ)"],
+                "correctAnswer": 1,
+                "explanation": "The optimized DP solution for binomial coefficients uses O(n) space by maintaining only the previous row of Pascal's triangle, instead of storing the entire triangle which would require O(n²) space."
+            },
+            {
+                "question": "In the context of dynamic programming, what is state space?",
+                "answers": [
+                    "The memory used by the program",
+                    "The set of all possible parameters that define a subproblem",
+                    "The recursion depth",
+                    "The final solution space"
+                ],
+                "correctAnswer": 1,
+                "explanation": "State space in DP refers to the set of all possible parameters that uniquely define a subproblem. Understanding and properly defining the state space is crucial for developing efficient DP solutions."
+            },
+            {
+                "question": "What is the primary advantage of using tabulation (bottom-up) over memoization (top-down)?",
+                "answers": [
+                    "Better time complexity",
+                    "Easier to implement",
+                    "Avoids stack overflow and has better space complexity",
+                    "More readable code"
+                ],
+                "correctAnswer": 2,
+                "explanation": "Tabulation (bottom-up) avoids recursive stack overflow issues and typically has better space complexity since it doesn't need additional space for recursive calls. It also often has better cache performance due to sequential access patterns."
+            },
+            {
+                "question": "What is the time complexity of the dynamic programming solution for the Longest Common Subsequence problem?",
+                "answers": ["O(n)", "O(n log n)", "O(n²)", "O(2ⁿ)"],
+                "correctAnswer": 2,
+                "explanation": "The DP solution for Longest Common Subsequence has O(n²) time complexity where n is the length of the strings, as it needs to fill a table comparing each character of one string with each character of the other string."
+            },
+            {
+                "question": "Which of these is NOT a characteristic of dynamic programming problems?",
+                "answers": [
+                    "Can be solved using recursion",
+                    "Has optimal substructure",
+                    "Requires sorting as preprocessing",
+                    "Has overlapping subproblems"
+                ],
+                "correctAnswer": 2,
+                "explanation": "Requiring sorting as preprocessing is not a characteristic of dynamic programming problems. DP problems are characterized by optimal substructure and overlapping subproblems, and can typically be solved using recursion with memoization."
+            },
+            {
+                "question": "What is the relationship between dynamic programming and greedy algorithms?",
+                "answers": [
+                    "They are the same thing",
+                    "DP considers all possibilities while greedy makes local optimal choices",
+                    "Greedy is always faster than DP",
+                    "DP is always more space-efficient"
+                ],
+                "correctAnswer": 1,
+                "explanation": "Dynamic programming considers all possible solutions to find the global optimum by solving and storing results of subproblems, while greedy algorithms make locally optimal choices at each step without reconsidering previous choices."
+            },
+            {
+                "question": "Which of these problems can be solved using dynamic programming?",
+                "answers": [
+                    "Finding prime numbers",
+                    "Sorting an array",
+                    "Matrix chain multiplication",
+                    "Finding connected components in a graph"
+                ],
+                "correctAnswer": 2,
+                "explanation": "Matrix chain multiplication is a classic dynamic programming problem because it has overlapping subproblems and optimal substructure. The solution involves finding the most efficient way to multiply a sequence of matrices."
+            },
+            {
+                "question": "What is the purpose of the base case in dynamic programming?",
+                "answers": [
+                    "To improve space complexity",
+                    "To provide initial values for the smallest subproblems",
+                    "To optimize time complexity",
+                    "To handle error cases"
+                ],
+                "correctAnswer": 1,
+                "explanation": "Base cases in dynamic programming provide solutions for the smallest possible subproblems, from which larger problems can be solved. They are essential for both recursive (top-down) and iterative (bottom-up) approaches."
+            },
+            {
+                "question": "What is the time complexity of the dynamic programming solution for the Rod Cutting problem?",
+                "answers": ["O(n)", "O(n²)", "O(2ⁿ)", "O(n log n)"],
+                "correctAnswer": 1,
+                "explanation": "The dynamic programming solution for the Rod Cutting problem has O(n²) time complexity, where n is the length of the rod. This comes from considering all possible cutting points for each length from 1 to n."
+            }
+        ]
+    }
 ]

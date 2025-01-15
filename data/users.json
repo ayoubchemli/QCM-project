@@ -483,6 +483,24 @@
                 },
                 "points": 40.0,
                 "date": "2025-01-15 19:59:03"
+            },
+            {
+                "subject": {
+                    "course": "Mobile App Dev",
+                    "chapter_id": 0,
+                    "chapter": "Kotlin Basics"
+                },
+                "points": 40.0,
+                "date": "2025-01-15 23:25:39"
+            },
+            {
+                "subject": {
+                    "course": "Data Structures and Algorithms",
+                    "chapter_id": 0,
+                    "chapter": "Arrays and Linked Lists"
+                },
+                "points": 33.33,
+                "date": "2025-01-15 23:37:53"
             }
         ]
     },

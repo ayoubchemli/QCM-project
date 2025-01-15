@@ -17,8 +17,8 @@ def main():
     appstate = AppState()
     
     # Enable high DPI scaling
-    app.setAttribute(Qt.AA_EnableHighDpiScaling)
-    app.setAttribute(Qt.AA_UseHighDpiPixmaps)
+    # app.setAttribute(Qt.AA_EnableHighDpiScaling)
+    # app.setAttribute(Qt.AA_UseHighDpiPixmaps)
     
     # Enable smooth animations
     app.setAttribute(Qt.AA_UseStyleSheetPropagationInWidgetStyles)
