@@ -495,6 +495,25 @@
         "email": "fatihatiti@gmail.com",
         "username": "gmail",
         "password": "d865b65bdb3ba3791fc9549d2e315f3dfbba0128db30316c913795f7d79e8323",
-        "scores": []
+        "scores": [
+            {
+                "subject": {
+                    "course": "Web Development",
+                    "chapter_id": 0,
+                    "chapter": "HTML Basics"
+                },
+                "points": 16.67,
+                "date": "2025-01-15 00:59:58"
+            },
+            {
+                "subject": {
+                    "course": "Web Development",
+                    "chapter_id": 0,
+                    "chapter": "HTML Basics"
+                },
+                "points": 25.0,
+                "date": "2025-01-15 01:08:52"
+            }
+        ]
     }
 ]
