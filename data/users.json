@@ -679,6 +679,168 @@
                 },
                 "points": 25.0,
                 "date": "2025-01-17 16:36:23"
+            },
+            {
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter_id": 0,
+                    "chapter": "Python Basics"
+                },
+                "points": 0.0,
+                "date": "2025-01-17 17:49:09"
+            },
+            {
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter_id": 0,
+                    "chapter": "Python Basics"
+                },
+                "points": 0.0,
+                "date": "2025-01-17 18:49:33"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 1,
+                    "chapter": "Cryptography"
+                },
+                "points": 12.5,
+                "date": "2025-01-17 18:49:52"
+            },
+            {
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter_id": 0,
+                    "chapter": "Python Basics"
+                },
+                "points": 25.0,
+                "date": "2025-01-17 18:51:32"
+            },
+            {
+                "subject": {
+                    "course": "Database",
+                    "chapter_id": 2,
+                    "chapter": "NoSQL Databases"
+                },
+                "points": 0.0,
+                "date": "2025-01-17 18:51:57"
+            },
+            {
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter_id": 0,
+                    "chapter": "Python Basics"
+                },
+                "points": 12.5,
+                "date": "2025-01-17 18:53:48"
+            },
+            {
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter_id": 0,
+                    "chapter": "Python Basics"
+                },
+                "points": 0.0,
+                "date": "2025-01-17 18:54:46"
+            },
+            {
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter_id": 0,
+                    "chapter": "Python Basics"
+                },
+                "points": 25.0,
+                "date": "2025-01-17 18:57:11"
+            },
+            {
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter_id": 0,
+                    "chapter": "Python Basics"
+                },
+                "points": 25.0,
+                "date": "2025-01-17 18:57:42"
+            },
+            {
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter_id": 0,
+                    "chapter": "Python Basics"
+                },
+                "points": 25.0,
+                "date": "2025-01-17 18:58:37"
+            },
+            {
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter_id": 2,
+                    "chapter": "Libraries and Frameworks"
+                },
+                "points": 0.0,
+                "date": "2025-01-17 18:59:38"
+            },
+            {
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter_id": 2,
+                    "chapter": "Libraries and Frameworks"
+                },
+                "points": 0.0,
+                "date": "2025-01-17 18:59:49"
+            },
+            {
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter_id": 2,
+                    "chapter": "Libraries and Frameworks"
+                },
+                "points": 12.5,
+                "date": "2025-01-17 19:06:55"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 0,
+                    "chapter": "Network Security"
+                },
+                "points": 12.5,
+                "date": "2025-01-17 19:09:26"
+            },
+            {
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter_id": 0,
+                    "chapter": "Python Basics"
+                },
+                "points": 0.0,
+                "date": "2025-01-17 19:09:41"
+            },
+            {
+                "subject": {
+                    "course": "Machine Learning",
+                    "chapter_id": 0,
+                    "chapter": "Supervised Learning"
+                },
+                "points": 20.0,
+                "date": "2025-01-17 19:10:27"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 1,
+                    "chapter": "Cryptography"
+                },
+                "points": 0.0,
+                "date": "2025-01-17 19:21:08"
+            },
+            {
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter_id": 1,
+                    "chapter": "Object-Oriented Programming"
+                },
+                "points": 0.0,
+                "date": "2025-01-17 19:21:37"
             }
         ]
     },

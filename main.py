@@ -16,11 +16,6 @@ def main():
     app = QApplication(sys.argv)
     appstate = AppState()
     
-    # Enable high DPI scaling
-    # app.setAttribute(Qt.AA_EnableHighDpiScaling)
-    # app.setAttribute(Qt.AA_UseHighDpiPixmaps)
-    
-    # Enable smooth animations
     app.setAttribute(Qt.AA_UseStyleSheetPropagationInWidgetStyles)
     
     font_db = app.font()

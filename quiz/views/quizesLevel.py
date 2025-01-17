@@ -402,6 +402,10 @@ class quizesLevel(QMainWindow):
         # Pass the current theme state and appstate to MCQPage
         is_light_mode = self.theme_toggle.isChecked()      
         MCQPage = quiz.views.MCQPage.MCQPage(self.appstate, is_light_mode)
+        
+        
+        self.theme_toggle.clicked.connect(lambda: (MCQPage.apply_theme(self.theme_toggle.isChecked())))
+        
         self.parent().addWidget(MCQPage)
         self.parent().setCurrentWidget(MCQPage)
         
