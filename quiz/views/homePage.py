@@ -529,31 +529,26 @@ class ExportResultsPage(QMainWindow):
         format_layout.addLayout(format_buttons_layout)
         options_layout.addWidget(format_group)
 
-        # Data Selection with better organization
+        # Data Selection with refresh button
         data_group = QFrame()
         data_group.setObjectName("optionGroup")
         data_layout = QVBoxLayout(data_group)
         data_layout.setSpacing(10)
         
-        data_title = QLabel("Select Data to Export")
-        data_title.setObjectName("optionTitle")
-        data_layout.addWidget(data_title)
-
-        data_grid = QGridLayout()
-        data_grid.setSpacing(8)  # Reduced spacing
-        data_options = [
-            ("Test Scores", True), ("Date & Time", True),
-            ("Subject Details", True), ("Time Taken", True),
-            ("Correct Answers", True), ("Wrong Answers", True),
-            ("Performance Analysis", False), ("Detailed Responses", False)
-        ]
+        # refresh button
+        data_group = QFrame()
+        data_group.setObjectName("optionGroup")
+        data_layout = QVBoxLayout(data_group)
+        data_layout.setSpacing(10)
         
-        for i, (option, checked) in enumerate(data_options):
-            checkbox = QCheckBox(option)
-            checkbox.setChecked(checked)
-            data_grid.addWidget(checkbox, i//2, i%2)
+        # Create centered refresh button
+        refresh_btn = QPushButton("🔄 Refresh Preview")
+        refresh_btn.setObjectName("refreshButton")
+        refresh_btn.setCursor(Qt.PointingHandCursor)
+        refresh_btn.setFixedSize(300, 50)  # Make button bigger
         
-        data_layout.addLayout(data_grid)
+        # Add button to layout with center alignment
+        data_layout.addWidget(refresh_btn, alignment=Qt.AlignCenter)
         options_layout.addWidget(data_group)
 
         # Right side - Preview Section
@@ -566,11 +561,6 @@ class ExportResultsPage(QMainWindow):
         preview_title = QLabel("Preview")
         preview_title.setObjectName("previewTitle")
         preview_header.addWidget(preview_title)
-        
-        refresh_btn = QPushButton("🔄 Refresh Preview")
-        refresh_btn.setObjectName("refreshButton")
-        refresh_btn.setCursor(Qt.PointingHandCursor)
-        preview_header.addWidget(refresh_btn, alignment=Qt.AlignRight)
         
         preview_layout.addLayout(preview_header)
         
@@ -717,6 +707,18 @@ class ExportResultsPage(QMainWindow):
                     width: 18px;
                     height: 18px;
                 }
+                #exportButton {
+                    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                        stop:0 #4F46E5, stop:1 #7C3AED);
+                    color: white;
+                    border: none;
+                    border-radius: 25px;
+                    font-weight: bold;
+                }
+                #exportButton:hover {
+                    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                        stop:0 #4338CA, stop:1 #6D28D9);
+                }
                 #refreshButton {
                     background-color: #F1F5F9;
                     border: none;
@@ -726,6 +728,57 @@ class ExportResultsPage(QMainWindow):
                 }
                 #refreshButton:hover {
                     background-color: #E2E8F0;
+                }
+                
+                #optionsContainer {
+                    background-color: #F8FAFC;
+                    border-radius: 15px;
+                    border: 1px solid #E2E8F0;
+                }
+                #optionGroup {
+                    background-color: white;
+                    border-radius: 10px;
+                    border: 1px solid #E2E8F0;
+                    padding: 20px;
+                }
+                #optionTitle {
+                    color: #1E293B;
+                    font-size: 18px;
+                    font-weight: bold;
+                    margin-bottom: 15px;
+                }
+                #dateRangeButton, #formatButton {
+                    background-color: white;
+                    border: 2px solid #E2E8F0;
+                    border-radius: 8px;
+                    padding: 10px 20px;
+                    color: #4A5568;
+                }
+                #dateRangeButton:checked, #formatButton:checked {
+                    background-color: #4F46E5;
+                    color: white;
+                    border-color: #4F46E5;
+                }
+                QCheckBox {
+                    color: #4A5568;
+                    font-size: 14px;
+                    padding: 5px;
+                }
+                QCheckBox::indicator {
+                    width: 18px;
+                    height: 18px;
+                }
+                #refreshButton {
+                    background-color: #4F46E5;
+                    border: none;
+                    border-radius: 8px;
+                    padding: 8px 15px;
+                    color: white;
+                    font-size: 16px;
+                    font-weight: bold;
+                }
+                #refreshButton:hover {
+                    background-color: #4338CA;
                 }
                 #exportButton {
                     background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
@@ -739,6 +792,48 @@ class ExportResultsPage(QMainWindow):
                     background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
                         stop:0 #4338CA, stop:1 #6D28D9);
                 }
+                /* New styles for consistent text colors */
+                QLabel {
+                    color: #1E293B;
+                }
+                #previewTitle {
+                    color: #1E293B;
+                    font-size: 18px;
+                    font-weight: bold;
+                }
+                QTableWidget {
+                    color: #1E293B;
+                    background-color: white;
+                    border: 1px solid #E2E8F0;
+                }
+                QTableWidget::item {
+                    color: #1E293B;
+                }
+                QTableWidget QHeaderView::section {
+                    background-color: #F1F5F9;
+                    color: #1E293B;
+                    border: 1px solid #E2E8F0;
+                }
+                QDateEdit {
+                    color: #1E293B;
+                    background-color: white;
+                    border: 1px solid #E2E8F0;
+                    border-radius: 4px;
+                    padding: 4px;
+                }
+                QDateEdit::drop-down {
+                    border: none;
+                }
+                QDateEdit::down-arrow {
+                    image: none;
+                    border-left: 4px solid transparent;
+                    border-right: 4px solid transparent;
+                    border-top: 6px solid #4A5568;
+                    width: 0;
+                    height: 0;
+                    margin-right: 6px;
+                }
+                
             """)
         else:
             self.setStyleSheet("""
@@ -781,6 +876,18 @@ class ExportResultsPage(QMainWindow):
                     width: 18px;
                     height: 18px;
                 }
+                #exportButton {
+                    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                        stop:0 #4F46E5, stop:1 #7C3AED);
+                    color: white;
+                    border: none;
+                    border-radius: 25px;
+                    font-weight: bold;
+                }
+                #exportButton:hover {
+                    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                        stop:0 #4338CA, stop:1 #6D28D9);
+                }                
                 #refreshButton {
                     background-color: #2D3748;
                     border: none;
@@ -790,6 +897,56 @@ class ExportResultsPage(QMainWindow):
                 }
                 #refreshButton:hover {
                     background-color: #374151;
+                }
+                #optionsContainer {
+                    background-color: #0F172A;
+                    border-radius: 15px;
+                    border: 1px solid #2D3748;
+                }
+                #optionGroup {
+                    background-color: #1E293B;
+                    border-radius: 10px;
+                    border: 1px solid #2D3748;
+                    padding: 20px;
+                }
+                #optionTitle {
+                    color: white;
+                    font-size: 18px;
+                    font-weight: bold;
+                    margin-bottom: 15px;
+                }
+                #dateRangeButton, #formatButton {
+                    background-color: #1E293B;
+                    border: 2px solid #2D3748;
+                    border-radius: 8px;
+                    padding: 10px 20px;
+                    color: #E2E8F0;
+                }
+                #dateRangeButton:checked, #formatButton:checked {
+                    background-color: #4F46E5;
+                    color: white;
+                    border-color: #4F46E5;
+                }
+                QCheckBox {
+                    color: #E2E8F0;
+                    font-size: 14px;
+                    padding: 5px;
+                }
+                QCheckBox::indicator {
+                    width: 18px;
+                    height: 18px;
+                }
+                #refreshButton {
+                    background-color: #4F46E5;
+                    border: none;
+                    border-radius: 8px;
+                    padding: 8px 15px;
+                    color: white;
+                    font-size: 16px;
+                    font-weight: bold;
+                }
+                #refreshButton:hover {
+                    background-color: #4338CA;
                 }
                 #exportButton {
                     background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
@@ -802,6 +959,51 @@ class ExportResultsPage(QMainWindow):
                 #exportButton:hover {
                     background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
                         stop:0 #4338CA, stop:1 #6D28D9);
+                }
+                QLabel {
+                    color: #E2E8F0;
+                }
+                #previewTitle {
+                    color: white;
+                    font-size: 18px;
+                    font-weight: bold;
+                }
+                QTableWidget {
+                    color: #E2E8F0;
+                    background-color: #1E293B;
+                    border: 1px solid #2D3748;
+                }
+                QTableWidget::item {
+                    color: #E2E8F0;
+                }
+                QTableWidget QHeaderView::section {
+                    background-color: #0F172A;  /* Darker background for headers */
+                    color: #E2E8F0;
+                    border: 1px solid #4A5568;
+                }
+                QTableWidget QHeaderView::section:vertical {
+                    background-color: #0F172A;
+                    color: #E2E8F0;
+                    border: 1px solid #4A5568;
+                }
+                QDateEdit {
+                    color: #E2E8F0;
+                    background-color: #1E293B;
+                    border: 1px solid #2D3748;
+                    border-radius: 4px;
+                    padding: 4px;
+                }
+                QDateEdit::drop-down {
+                    border: none;
+                }
+                QDateEdit::down-arrow {
+                    image: none;
+                    border-left: 4px solid transparent;
+                    border-right: 4px solid transparent;
+                    border-top: 6px solid #E2E8F0;
+                    width: 0;
+                    height: 0;
+                    margin-right: 6px;
                 }
             """)
 

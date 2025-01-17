@@ -226,28 +226,20 @@ class MCQPage(QMainWindow):
         self.results = QDialog(self)
         self.results.setWindowTitle("Quiz Results")
         self.results.setModal(True)
-        self.results.setMinimumWidth(600)
+        self.results.setMinimumWidth(800)  # Increased width for better presentation
+        self.results.setMinimumHeight(700)  # Set minimum height
         
         # Override closeEvent for the results dialog
         def closeEvent(event):
             self.return_to_home()
             event.accept()
         
-        # Add the closeEvent method to the dialog
         self.results.closeEvent = closeEvent
         
-        # Apply fade-in effect to results dialog
-        opacity_effect = QGraphicsOpacityEffect(self.results)
-        self.results.setGraphicsEffect(opacity_effect)
-        fade_animation = QPropertyAnimation(opacity_effect, b"opacity")
-        fade_animation.setDuration(500)
-        fade_animation.setStartValue(0.0)
-        fade_animation.setEndValue(1.0)
-        
-        # Calculate score
+        # Calculate score and prepare results data
         self.score = 0
         results_data = []
-
+        
         answers_object = self.answers
         answers_array = list(answers_object.values())
         self.appstate.getTestInstance().set_list_of_answers(answers_array)
@@ -267,88 +259,261 @@ class MCQPage(QMainWindow):
                     'correct_option': correct_answer,
                     'is_correct': is_correct
                 })
-
-        # Create results window
-        self.results = QDialog(self)
-        self.results.setWindowTitle("Quiz Results")
-        self.results.setModal(True)
-        self.results.setMinimumWidth(600)
         
+        # Setup main layout
         layout = QVBoxLayout(self.results)
+        layout.setSpacing(20)
+        layout.setContentsMargins(30, 30, 30, 30)
         
         # Calculate percentage
         percentage = (self.score / self.total_questions) * 100
         
-        # Results summary
+        # Results summary with enhanced styling
         summary = QLabel(f"Final Score: {self.score}/{self.total_questions} ({percentage:.1f}%)")
-        summary.setStyleSheet("font-size: 24px; font-weight: bold; margin: 20px;")
+        summary.setProperty("class", "summary")  # This will use the special summary styling
         summary.setAlignment(Qt.AlignCenter)
         layout.addWidget(summary)
         
         # Detailed results in a scroll area
         scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        scroll.setObjectName("resultsScroll")
+        
         scroll_content = QWidget()
         scroll_layout = QVBoxLayout(scroll_content)
+        scroll_layout.setSpacing(15)
+        scroll_layout.setContentsMargins(15, 15, 15, 15)
         
         for result in results_data:
             q_index = result['question_index']
             question = self.questions[q_index]
             
-            # Question frame
+            # Question frame with enhanced styling
             q_frame = QFrame()
             q_frame.setObjectName("resultCard")
             q_layout = QVBoxLayout(q_frame)
+            q_layout.setSpacing(12)
+            
+            # Question header with number
+            q_header = QLabel(f"Question {q_index + 1}")
+            q_header.setStyleSheet("font-weight: bold; font-size: 16px;")
+            q_layout.addWidget(q_header)
             
             # Question text
-            q_text = QLabel(f"Q{q_index + 1}: {question['question']}")
+            q_text = QLabel(question['question'])
             q_text.setWordWrap(True)
             q_layout.addWidget(q_text)
             
             # Answer details
             if result['is_correct']:
                 status = QLabel("✓ Correct")
-                status.setStyleSheet("color: #22C55E; font-weight: bold;")
+                status.setStyleSheet("color: #22C55E; font-weight: bold; font-size: 15px;")
+                q_layout.addWidget(status)
             else:
                 status = QLabel("✗ Incorrect")
-                status.setStyleSheet("color: #EF4444; font-weight: bold;")
+                status.setStyleSheet("color: #EF4444; font-weight: bold; font-size: 15px;")
+                q_layout.addWidget(status)
+                
+                # Add spacing before details
+                q_layout.addSpacing(8)
                 
                 selected = QLabel(f"Your answer: {question['answers'][result['selected_option']]}")
+                selected.setStyleSheet("font-size: 14px;")
                 correct = QLabel(f"Correct answer: {question['answers'][result['correct_option']]}")
-                explanation = QLabel(f"Explanation: {question['explanation']}")
+                correct.setStyleSheet("font-size: 14px;")
+                
+                explanation = QLabel(question['explanation'])
                 explanation.setWordWrap(True)
+                explanation.setStyleSheet("font-size: 14px; padding: 10px; background-color: rgba(0, 0, 0, 0.05); border-radius: 6px;")
                 
                 q_layout.addWidget(selected)
                 q_layout.addWidget(correct)
                 q_layout.addWidget(explanation)
             
-            q_layout.addWidget(status)
             scroll_layout.addWidget(q_frame)
         
         scroll_content.setLayout(scroll_layout)
         scroll.setWidget(scroll_content)
-        scroll.setWidgetResizable(True)
         layout.addWidget(scroll)
         
-        # Export button
+        # Export button with enhanced styling
         export_button = QPushButton("Export Results")
         export_button.clicked.connect(lambda: self.export_results(results_data))
         export_button.setFixedWidth(200)
+        export_button.setCursor(Qt.PointingHandCursor)
         
         button_layout = QHBoxLayout()
         button_layout.addStretch()
         button_layout.addWidget(export_button)
         button_layout.addStretch()
-        
         layout.addLayout(button_layout)
         
-        # Override closeEvent for the results dialog again since we recreated the dialog
-        self.results.closeEvent = closeEvent
+        # Apply fade-in effect
+        opacity_effect = QGraphicsOpacityEffect(self.results)
+        self.results.setGraphicsEffect(opacity_effect)
+        fade_animation = QPropertyAnimation(opacity_effect, b"opacity")
+        fade_animation.setDuration(500)
+        fade_animation.setStartValue(0.0)
+        fade_animation.setEndValue(1.0)
+        
+        # Apply the theme-specific styling
+        is_light_mode = self.palette().color(QPalette.Window).lightness() > 128
+        if is_light_mode:
+            self.results.setStyleSheet("""
+                QDialog {
+                    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, 
+                        stop:0 #F8FAFC, stop:1 #F1F5F9);
+                    border-radius: 12px;
+                    min-height: 700px;
+                }
+                QScrollArea {
+                    background-color: transparent;
+                    border: none;
+                    margin: 20px;
+                }
+                QScrollArea > QWidget > QWidget {
+                    background-color: transparent;
+                }
+                QScrollBar:vertical {
+                    border: none;
+                    background-color: #F1F5F9;
+                    width: 8px;
+                    border-radius: 4px;
+                    margin: 0;
+                }
+                QScrollBar::handle:vertical {
+                    background-color: #CBD5E1;
+                    border-radius: 4px;
+                    min-height: 30px;
+                }
+                QScrollBar::handle:vertical:hover {
+                    background-color: #94A3B8;
+                }
+                QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical,
+                QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+                    background: none;
+                    border: none;
+                }
+                #resultCard {
+                    background-color: white;
+                    border: 1px solid #E2E8F0;
+                    border-radius: 16px;
+                    padding: 24px;
+                    margin: 12px;
+                }
+                #resultCard:hover {
+                    border-color: #CBD5E1;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+                }
+                QLabel {
+                    color: #1E293B;
+                }
+                QLabel[class="summary"] {
+                    color: #0F172A;
+                    font-size: 28px;
+                    font-weight: bold;
+                    padding: 24px;
+                    background: qlineargradient(x1:0, y1:0, x2:1, y2:0, 
+                        stop:0 #F8FAFC, stop:1 #EEF2FF);
+                    border-radius: 12px;
+                    margin: 12px;
+                }
+                QPushButton {
+                    background: qlineargradient(x1:0, y1:0, x2:1, y2:0, 
+                        stop:0 #4F46E5, stop:1 #6366F1);
+                    color: white;
+                    border: none;
+                    border-radius: 10px;
+                    padding: 14px 28px;
+                    font-size: 16px;
+                    font-weight: bold;
+                }
+                QPushButton:hover {
+                    background: qlineargradient(x1:0, y1:0, x2:1, y2:0, 
+                        stop:0 #4338CA, stop:1 #4F46E5);
+                }
+            """)
+        else:
+            self.results.setStyleSheet("""
+                QDialog {
+                    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, 
+                        stop:0 #0F172A, stop:1 #1E293B);
+                    border-radius: 12px;
+                    min-height: 700px;
+                }
+                QScrollArea {
+                    background-color: transparent;
+                    border: none;
+                    margin: 20px;
+                }
+                QScrollArea > QWidget > QWidget {
+                    background-color: transparent;
+                }
+                QScrollBar:vertical {
+                    border: none;
+                    background-color: #1E293B;
+                    width: 8px;
+                    border-radius: 4px;
+                    margin: 0;
+                }
+                QScrollBar::handle:vertical {
+                    background-color: #475569;
+                    border-radius: 4px;
+                    min-height: 30px;
+                }
+                QScrollBar::handle:vertical:hover {
+                    background-color: #64748B;
+                }
+                QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical,
+                QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+                    background: none;
+                    border: none;
+                }
+                #resultCard {
+                    background-color: #1E293B;
+                    border: 1px solid #334155;
+                    border-radius: 16px;
+                    padding: 24px;
+                    margin: 12px;
+                }
+                #resultCard:hover {
+                    border-color: #475569;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+                }
+                QLabel {
+                    color: #E2E8F0;
+                }
+                QLabel[class="summary"] {
+                    color: white;
+                    font-size: 28px;
+                    font-weight: bold;
+                    padding: 24px;
+                    background: qlineargradient(x1:0, y1:0, x2:1, y2:0, 
+                        stop:0 #1E293B, stop:1 #312E81);
+                    border-radius: 12px;
+                    margin: 12px;
+                }
+                QPushButton {
+                    background: qlineargradient(x1:0, y1:0, x2:1, y2:0, 
+                        stop:0 #6366F1, stop:1 #818CF8);
+                    color: white;
+                    border: none;
+                    border-radius: 10px;
+                    padding: 14px 28px;
+                    font-size: 16px;
+                    font-weight: bold;
+                }
+                QPushButton:hover {
+                    background: qlineargradient(x1:0, y1:0, x2:1, y2:0, 
+                        stop:0 #4F46E5, stop:1 #6366F1);
+                }
+            """)
         
         self.results.show()
         fade_animation.start()
-        
         self.results.exec_()
-
+    
+    
     def export_results(self, results_data):
         # Prepare results data
         export_data = {
