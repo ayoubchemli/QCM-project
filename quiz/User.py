@@ -4,6 +4,7 @@ from .data_handler import read_users
 import json
 import csv
 from datetime import datetime
+import hashlib
 
 
 class User:
@@ -93,6 +94,31 @@ class User:
             status = "Passed" if score['points'] >= 50 else "Failed"
             formatted_scores.append((date, course, chapter, points, status))
         return formatted_scores
+
+    def change_password(self, old_password, new_password):
+        old_hashed_password = hash_password(old_password)
+        new_hashed_password = hash_password(new_password)
+        users = read_users()
+        for user in users:
+            if user['username'] == self.username:
+                if user['password'] == old_hashed_password:
+                    user['password'] = new_hashed_password
+                else:
+                    return False
+                break
+        with open('users.json', 'w') as file:
+            json.dump(users, file, indent=4)
+        return True
+
+    def change_email(self, new_email):
+        users = read_users()
+        for user in users:
+            if user['username'] == self.username:
+                user['email'] = new_email
+                break
+        with open('users.json', 'w') as file:
+            json.dump(users, file, indent=4)
+        return True
     
 
    

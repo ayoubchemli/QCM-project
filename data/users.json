@@ -510,6 +510,24 @@
                 },
                 "points": 33.33,
                 "date": "2025-01-15 23:37:53"
+            },
+            {
+                "subject": {
+                    "course": "Database",
+                    "chapter_id": 2,
+                    "chapter": "NoSQL Databases"
+                },
+                "points": 8.33,
+                "date": "2025-01-16 10:18:28"
+            },
+            {
+                "subject": {
+                    "course": "Machine Learning",
+                    "chapter_id": 1,
+                    "chapter": "Unsupervised Learning"
+                },
+                "points": 37.5,
+                "date": "2025-01-16 10:46:17"
             }
         ]
     },
