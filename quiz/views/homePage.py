@@ -969,22 +969,25 @@ class ExportResultsPage(QMainWindow):
                     font-weight: bold;
                 }
                 QTableWidget {
-                    color: #E2E8F0;
                     background-color: #1E293B;
-                    border: 1px solid #2D3748;
+                    border: none;
+                    border-radius: 10px;
+                    gridline-color: #2D3748;
                 }
                 QTableWidget::item {
+                    padding: 12px;
                     color: #E2E8F0;
                 }
-                QTableWidget QHeaderView::section {
-                    background-color: #0F172A;  /* Darker background for headers */
-                    color: #E2E8F0;
-                    border: 1px solid #4A5568;
-                }
-                QTableWidget QHeaderView::section:vertical {
+                QHeaderView::section {
                     background-color: #0F172A;
-                    color: #E2E8F0;
-                    border: 1px solid #4A5568;
+                    color: #94A3B8;
+                    padding: 12px;
+                    border: none;
+                    font-weight: bold;
+                }
+                QTableWidget::item:selected {
+                    background-color: #312E81;
+                    color: white;
                 }
                 QDateEdit {
                     color: #E2E8F0;

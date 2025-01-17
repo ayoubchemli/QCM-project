@@ -6,10 +6,61 @@ from datetime import datetime
 import sys
 import os
 
+
+class ThemeToggleButton(QPushButton):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setCheckable(True)
+        self.setCursor(Qt.PointingHandCursor)
+        self.setFixedSize(60, 30)
+        
+        # Create icons for light/dark mode
+        self.light_icon = "🌞"
+        self.dark_icon = "🌙"
+        self.setText(self.dark_icon)
+        
+        # Initial style
+        self.update_style(False)
+        
+    def update_style(self, is_light_mode=False):
+        self.setChecked(is_light_mode)  # Synchronize button state with theme
+        self.setText(self.light_icon if is_light_mode else self.dark_icon)
+        
+        if is_light_mode:
+            self.setStyleSheet("""
+                QPushButton {
+                    background-color: #E2E8F0;
+                    border: 2px solid #4F46E5;
+                    border-radius: 15px;
+                    color: black;
+                    font-size: 16px;
+                }
+                QPushButton:checked {
+                    background-color: #1E293B;
+                    border: 2px solid #4F46E5;
+                    color: white;
+                }
+            """)
+        else:
+            self.setStyleSheet("""
+                QPushButton {
+                    background-color: #1E293B;
+                    border: 2px solid #4F46E5;
+                    border-radius: 15px;
+                    color: white;
+                    font-size: 16px;
+                }
+                QPushButton:checked {
+                    background-color: #E2E8F0;
+                    border: 2px solid #4F46E5;
+                    color: black;
+                }
+            """)
 class MCQPage(QMainWindow):
     def __init__(self, appstate, is_light_mode=True):
         super().__init__()
         self.appstate = appstate
+        self.is_light_mode = is_light_mode  
         self.current_question = 0
         self.score = 0
         self.answers = {}
