@@ -228,6 +228,14 @@ class MCQPage(QMainWindow):
         self.results.setModal(True)
         self.results.setMinimumWidth(600)
         
+        # Override closeEvent for the results dialog
+        def closeEvent(event):
+            self.return_to_home()
+            event.accept()
+        
+        # Add the closeEvent method to the dialog
+        self.results.closeEvent = closeEvent
+        
         # Apply fade-in effect to results dialog
         opacity_effect = QGraphicsOpacityEffect(self.results)
         self.results.setGraphicsEffect(opacity_effect)
@@ -332,6 +340,9 @@ class MCQPage(QMainWindow):
         button_layout.addStretch()
         
         layout.addLayout(button_layout)
+        
+        # Override closeEvent for the results dialog again since we recreated the dialog
+        self.results.closeEvent = closeEvent
         
         self.results.show()
         fade_animation.start()
