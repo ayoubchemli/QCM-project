@@ -3,6 +3,8 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 import re
+import json
+import os
 
 from quiz.login_register import login, register
 from quiz.User import User
@@ -637,6 +639,10 @@ class MCQApp(QMainWindow):
     def validate_registration_form(self):
         self.clear_error_messages()
         errors = []
+        
+        # Get the absolute path to users.json
+        current_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+        users_file_path = os.path.join(current_dir, 'data', 'users.json')
 
         # Validate full name (minimum 2 words, alphabetic)
         fullname = self.fullname_input.text().strip()
@@ -649,9 +655,22 @@ class MCQApp(QMainWindow):
             errors.append("Please enter a valid email address")
             
         # Validate username (minimum 4 chars, alphanumeric)
+        username = self.reg_username_input.text().strip()
         if not self.reg_username_input.validate():
             errors.append("Username must be at least 4 characters long and contain only letters and numbers")
-            
+        else:
+            # Check if username already exists
+            try:
+                with open(users_file_path, 'r') as file:
+                    users = json.loads(file.read())
+                    username = self.reg_username_input.text().strip()
+                    if any(user['username'].lower() == username.lower() for user in users):
+                        errors.append("Username is already taken")
+                        self.reg_username_input.update_validation_style(False)
+            except FileNotFoundError:
+                errors.append("Error: Unable to validate username. Please try again later.")
+                print(f"Could not find users.json at: {users_file_path}")
+                    
         # Validate password
         if not self.reg_password_input.validate():
             errors.append("Password must be at least 8 characters and contain uppercase, lowercase, number, and special character")
