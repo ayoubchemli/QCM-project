@@ -5,8 +5,8 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 
 from quiz.views.quizesLevel import quizesLevel
-
 from quiz.subject import Subject
+
 
 
 class ContactPage(QMainWindow):
@@ -1387,8 +1387,9 @@ class PasswordField(QFrame):
 
 
 class ProfilePage(QMainWindow):
-    def __init__(self, parent=None, is_light_mode=False):
+    def __init__(self, appstate, parent=None, is_light_mode=False):
         super().__init__(parent)
+        self.appstate = appstate
         self.parent = parent
         self.setup_ui(is_light_mode)
         self.apply_theme(is_light_mode)
@@ -1642,6 +1643,12 @@ class ProfilePage(QMainWindow):
             if not re.match(email_regex, email):
                 self.show_error("Invalid email format")
                 return False
+            print(self.appstate.getUser().email)
+            self.appstate.getUser().change_email(email)
+            print(self.appstate.getUser().email)
+            print("Email changed")
+            
+            
         
         # Check if user wants to change password
         if old_password or new_password or confirm_password:
@@ -1671,6 +1678,11 @@ class ProfilePage(QMainWindow):
             if not valid:
                 self.show_error("Password must be at least 8 characters and contain any of : uppercase, lowercase, number, and special character")
                 return False
+            password_changed = self.appstate.getUser().change_password(old_password, new_password)
+            if not password_changed:
+                self.show_error("Failed to change password. Please check your current password")
+                return False
+            
             
         
         # Ensure at least one change is being made
@@ -2190,7 +2202,7 @@ class MCQHomePage(QMainWindow):
         self.mcq_history_page.showFullScreen()
 
    def open_profile(self):
-        self.profile_page = ProfilePage(self, self.theme_toggle.isChecked())
+        self.profile_page = ProfilePage(self.appstate, self, self.theme_toggle.isChecked())
         self.profile_page.showFullScreen()
         
    def setup_themes(self):
