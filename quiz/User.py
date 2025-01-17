@@ -1,10 +1,13 @@
 from .Score import Score
 from .subject import Subject
-from .data_handler import read_users
+from .data_handler import read_users, write_users
 import json
 import csv
 from datetime import datetime
 import hashlib
+
+def hash_password(password):
+    return hashlib.sha256(password.encode()).hexdigest()
 
 
 class User:
@@ -106,8 +109,7 @@ class User:
                 else:
                     return False
                 break
-        with open('users.json', 'w') as file:
-            json.dump(users, file, indent=4)
+        write_users(users)
         return True
 
     def change_email(self, new_email):
@@ -116,8 +118,7 @@ class User:
             if user['username'] == self.username:
                 user['email'] = new_email
                 break
-        with open('users.json', 'w') as file:
-            json.dump(users, file, indent=4)
+        write_users(users)
         return True
     
 
