@@ -1418,85 +1418,94 @@ class ProfilePage(QMainWindow):
 
         # Profile Section
         profile_section = QHBoxLayout()
-      
-        # Right side - Profile Info
+        
+        # Profile Info
         profile_info = QVBoxLayout()
         
         # Title with animation
-        title = AnimatedLabel("Profile Settings")
+        title = AnimatedLabel("Change Password")
         title.setObjectName("profileTitle")
         profile_info.addWidget(title)
 
         # Subtitle
-        subtitle = QLabel("Manage your personal information and account settings")
+        subtitle = QLabel("You can either change your email by typing it in, change your old password, or do both!")
         subtitle.setObjectName("profileSubtitle")
         profile_info.addWidget(subtitle)
         
-        # Add profile sections to layout
         profile_section.addSpacing(40)
         profile_section.addLayout(profile_info, stretch=1)
         content_layout.addLayout(profile_section)
 
-        # Create a form container with a nice background
+        # Create a form container
         form_container = QFrame()
         form_container.setObjectName("formContainer")
         form_layout = QVBoxLayout(form_container)
         form_layout.setSpacing(1)
         form_layout.setContentsMargins(30, 30, 30, 30)
 
-        # Input fields with icons and labels
-        self.fields = {}
-        field_configs = {
-            'full_name': ('👤 Full Name', 'Enter your full name'),
-            'email': ('📧 Email Address', 'Enter your email'),
-            'username': ('🔤 Username', 'Choose a username'),
-        }
+        # Email field
+        email_container = QFrame()
+        email_container.setObjectName("fieldContainer")
+        email_layout = QVBoxLayout(email_container)
+        email_layout.setSpacing(8)
 
-        for field_name, (label, placeholder) in field_configs.items():
-            field_container = QFrame()
-            field_container.setObjectName("fieldContainer")
-            field_layout = QVBoxLayout(field_container)
-            field_layout.setSpacing(8)
+        email_label = QLabel("📧 Email Address")
+        email_label.setObjectName("fieldLabel")
+        self.email_input = QLineEdit()
+        self.email_input.setPlaceholderText("Enter your email")
+        self.email_input.setObjectName("inputField")
 
-            # Label
-            label_widget = QLabel(label)
-            label_widget.setObjectName("fieldLabel")
-            field_layout.addWidget(label_widget)
+        email_layout.addWidget(email_label)
+        email_layout.addWidget(self.email_input)
+        form_layout.addWidget(email_container)
 
-            # Input field
-            input_field = QLineEdit()
-            input_field.setPlaceholderText(placeholder)
-            input_field.setObjectName("inputField")
-            
-            self.fields[field_name] = input_field
-            field_layout.addWidget(input_field)
+        # Old Password field
+        old_pass_container = QFrame()
+        old_pass_container.setObjectName("fieldContainer")
+        old_pass_layout = QVBoxLayout(old_pass_container)
+        old_pass_layout.setSpacing(8)
 
-            # Add to form layout
-            form_layout.addWidget(field_container)
-            
-        # Add the new password field after the regular fields
-        password_container = QFrame()
-        password_container.setObjectName("fieldContainer")  # Match other fields' style
-        password_layout = QVBoxLayout(password_container)
-        password_layout.setSpacing(8)
-        password_layout.setContentsMargins(0, 0, 0, 0)
+        old_pass_label = QLabel("🔒 Current Password")
+        old_pass_label.setObjectName("fieldLabel")
+        self.old_pass_input = QLineEdit()
+        self.old_pass_input.setPlaceholderText("Enter your current password")
+        self.old_pass_input.setEchoMode(QLineEdit.Password)
+        self.old_pass_input.setObjectName("inputField")
 
-        password_label = QLabel("🔒 Password")
-        password_label.setObjectName("fieldLabel")
-        password_label.setStyleSheet("""
-            QLabel {
-                font-size: 16px;
-                font-weight: bold;
-                margin-bottom: 5px;
-            }
-        """)
+        old_pass_layout.addWidget(old_pass_label)
+        old_pass_layout.addWidget(self.old_pass_input)
+        form_layout.addWidget(old_pass_container)
 
-        self.password_field = PasswordField(is_light_mode=theme)
+        # New Password field (using PasswordField class)
+        new_pass_container = QFrame()
+        new_pass_container.setObjectName("fieldContainer")
+        new_pass_layout = QVBoxLayout(new_pass_container)
+        new_pass_layout.setSpacing(8)
 
-        password_layout.addWidget(password_label)
-        password_layout.addWidget(self.password_field)
+        new_pass_label = QLabel("🔒 New Password")
+        new_pass_label.setObjectName("fieldLabel")
+        self.new_pass_field = PasswordField(is_light_mode=theme)
 
-        form_layout.addWidget(password_container)
+        new_pass_layout.addWidget(new_pass_label)
+        new_pass_layout.addWidget(self.new_pass_field)
+        form_layout.addWidget(new_pass_container)
+
+        # Confirm New Password field
+        confirm_pass_container = QFrame()
+        confirm_pass_container.setObjectName("fieldContainer")
+        confirm_pass_layout = QVBoxLayout(confirm_pass_container)
+        confirm_pass_layout.setSpacing(8)
+
+        confirm_pass_label = QLabel("🔒 Confirm New Password")
+        confirm_pass_label.setObjectName("fieldLabel")
+        self.confirm_pass_input = QLineEdit()
+        self.confirm_pass_input.setPlaceholderText("Confirm your new password")
+        self.confirm_pass_input.setEchoMode(QLineEdit.Password)
+        self.confirm_pass_input.setObjectName("inputField")
+
+        confirm_pass_layout.addWidget(confirm_pass_label)
+        confirm_pass_layout.addWidget(self.confirm_pass_input)
+        form_layout.addWidget(confirm_pass_container)
 
         content_layout.addWidget(form_container)
 
@@ -1621,6 +1630,33 @@ class ProfilePage(QMainWindow):
         if self.parent:
             self.parent.show()
 
+    def validate_fields(self, profile_data):
+        # Validate email format
+        email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        if not re.match(email_regex, self.email_input.text()):
+            self.show_error("Invalid email format")
+            return False
+        
+        # Validate old password is not empty
+        if not self.old_pass_input.text():
+            self.show_error("Please enter your current password")
+            return False
+        
+        # Get new password from PasswordField
+        new_password = self.new_pass_field.get_password()
+        
+        # Validate new password
+        if not new_password:
+            self.show_error("Please enter a new password")
+            return False
+        
+        # Validate password confirmation
+        if new_password != self.confirm_pass_input.text():
+            self.show_error("New passwords do not match")
+            return False
+        
+        return True
+
     def save_changes(self):
         # Add loading animation
         save_button = self.findChild(HoverButton, "saveButton")
@@ -1630,10 +1666,10 @@ class ProfilePage(QMainWindow):
         
         # Get all the field values
         profile_data = {
-            'full_name': self.fields['full_name'].text(),
-            'email': self.fields['email'].text(),
-            'username': self.fields['username'].text(),
-            'password': self.password_field.get_password() if self.password_field.get_password() else None
+            'email': self.email_input.text(),
+            'old_password': self.old_pass_input.text(),
+            'new_password': self.new_pass_field.get_password(),
+            'confirm_password': self.confirm_pass_input.text()
         }
         
         # Validate fields
@@ -1643,76 +1679,16 @@ class ProfilePage(QMainWindow):
             return
         
         try:
-            # TODO : Here you would typically:
-            # 1. Connect to your database
-            # 2. Update the user's profile
-            # 3. Handle any potential errors
-            
-            #note:
-            
-            # Example database update (replace with your actual database code):
-            # self.db.update_user_profile(user_id, profile_data)
-            
+            # TODO: Implement your password change logic here
             # Simulate network delay
             QTimer.singleShot(1500, lambda: self.show_save_success(save_button, original_text))
             
         except Exception as e:
-            # Show error message
-            msg = QMessageBox(self)
-            msg.setWindowTitle("Error")
-            msg.setText(f"Failed to save changes: {str(e)}")
-            msg.setIcon(QMessageBox.Critical)
-            msg.setStyleSheet("""
-                QMessageBox {
-                    background-color: #1E293B;
-                }
-                QMessageBox QLabel {
-                    color: white;
-                    font-size: 14px;
-                    padding: 10px;
-                }
-                QPushButton {
-                    background-color: #EF4444;
-                    color: white;
-                    border: none;
-                    border-radius: 5px;
-                    padding: 8px 16px;
-                    font-weight: bold;
-                }
-                QPushButton:hover {
-                    background-color: #DC2626;
-                }
-            """)
-            msg.exec_()
-            
-            # Reset button state
+            self.show_error(f"Failed to save changes: {str(e)}")
             save_button.setText(original_text)
             save_button.setEnabled(True)
 
-    def validate_fields(self, profile_data):
-        # Validate email format
-        email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-        if not re.match(email_regex, profile_data['email']):
-            self.show_error("Invalid email format")
-            return False
-        
-        # Validate required fields
-        if not profile_data['full_name'] or not profile_data['username']:
-            self.show_error("Please fill in all required fields")
-            return False
-        
-        # Validate username format (example: alphanumeric only)
-        if not profile_data['username'].isalnum():
-            self.show_error("Username must contain only letters and numbers")
-            return False
-        
-        # If password is being changed, validate it
-        if profile_data['password']:
-            if len(profile_data['password']) < 8:
-                self.show_error("Password must be at least 8 characters long")
-                return False
-        
-        return True
+    
 
     def show_error(self, message):
         msg = QMessageBox(self)
