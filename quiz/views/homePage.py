@@ -55,8 +55,8 @@ class ContactPage(QMainWindow):
         methods_layout.setContentsMargins(10, 10, 10, 10)  # Added margins
 
         contact_methods = [
-            ("📧", "Email Us", "support@example.com", "Send us an email anytime"),
-            ("📱", "Call Us", "+1 (555) 123-4567", "Mon-Fri, 9:00-17:00"),
+            ("📧", "Email Us", "ayoubchemli@example.com", "Send us an email anytime"),
+            ("📱", "Call Us", "+213 794 37 42 98", "Sun-Thu, 9:00-17:00"),
             ("💬", "Live Chat", "Available 24/7", "Chat with our support team")
         ]
 
@@ -135,13 +135,13 @@ class ContactPage(QMainWindow):
 
         faqs = [
             ("How do I reset my password?", 
-            "Click on the 'Forgot Password' link on the login page and follow the instructions sent to your email."),
-            ("Can I change my username?", 
-            "Yes, you can change your username in your profile settings."),
+            "Click on the 'Profile' button on the home page and fill your updated informations including password the 'Save Changes'."),
+            ("Can I review my previous MCQ test attempts?", 
+            "Yes! Visit the MCQ History page to see all your previous test scores and details."),
             ("How are the MCQ scores calculated?", 
             "Scores are calculated based on the number of correct answers. Each question carries equal marks."),
-            ("What happens if I lose connection during a test?", 
-            "Don't worry! Your progress is automatically saved. You can resume from where you left off.")
+            ("Can I download old test results?", 
+            "Ofc you can! Go to Export Results, choose your format and date range, then click Export.")
         ]
 
         for question, answer in faqs:
@@ -2169,11 +2169,15 @@ class MCQHomePage(QMainWindow):
                 action.triggered.connect(self.open_contact)
             elif action.text() == "❌ Sign out":
                 action.triggered.connect(self.sign_out)
-   def sign_out(self):
-        self.close()
+   def sign_out(self):       
         from quiz.views.loginRegister import MCQApp
+
+        # Create the login page
         self.login_page = MCQApp(self.appstate)
         self.login_page.showFullScreen()
+
+        # Set a delay before closing self
+        QTimer.singleShot(200, self.close)  # 200 milliseconds delay
 
    def open_contact(self):
         self.contact_page = ContactPage(self, self.theme_toggle.isChecked())

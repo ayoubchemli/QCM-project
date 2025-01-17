@@ -261,11 +261,11 @@ class quizesLevel(QMainWindow):
         # Welcome section - Create labels before applying theme
         welcome_layout = QVBoxLayout()
         
-        self.greeting_label = QLabel("Quiz Categories")
+        self.greeting_label = QLabel(appstate.getCourse())
         self.greeting_label.setFont(QFont("Segoe UI", 40, QFont.Bold))
         welcome_layout.addWidget(self.greeting_label, alignment=Qt.AlignCenter)
         
-        self.subtitle_label = QLabel("Choose a category to test your knowledge")
+        self.subtitle_label = QLabel("Choose a level to test your knowledge")
         self.subtitle_label.setFont(QFont("Segoe UI", 16))
         welcome_layout.addWidget(self.subtitle_label, alignment=Qt.AlignCenter)
         
