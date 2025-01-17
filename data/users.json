@@ -841,6 +841,33 @@
                 },
                 "points": 0.0,
                 "date": "2025-01-17 19:21:37"
+            },
+            {
+                "subject": {
+                    "course": "Cyber Security",
+                    "chapter_id": 0,
+                    "chapter": "Network Security"
+                },
+                "points": 0.0,
+                "date": "2025-01-17 19:35:34"
+            },
+            {
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter_id": 0,
+                    "chapter": "Python Basics"
+                },
+                "points": 25.0,
+                "date": "2025-01-17 19:36:35"
+            },
+            {
+                "subject": {
+                    "course": "Python Programming",
+                    "chapter_id": 0,
+                    "chapter": "Python Basics"
+                },
+                "points": 25.0,
+                "date": "2025-01-17 19:36:44"
             }
         ]
     },

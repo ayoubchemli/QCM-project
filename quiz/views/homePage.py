@@ -4,6 +4,14 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import html
+from datetime import datetime
+import logging
+
+
 from quiz.views.quizesLevel import quizesLevel
 from quiz.subject import Subject
 
@@ -55,7 +63,7 @@ class ContactPage(QMainWindow):
         methods_layout.setContentsMargins(10, 10, 10, 10)  # Added margins
 
         contact_methods = [
-            ("📧", "Email Us", "ayoubchemli@example.com", "Send us an email anytime"),
+            ("📧", "Email Us", "ayoubchemli@gmail.com", "Send us an email anytime"),
             ("📱", "Call Us", "+213 794 37 42 98", "Sun-Thu, 9:00-17:00"),
             ("💬", "Live Chat", "Available 24/7", "Chat with our support team")
         ]
@@ -88,11 +96,11 @@ class ContactPage(QMainWindow):
         # Name fields in one row
         first_name = QLineEdit()
         first_name.setPlaceholderText("First Name")
-        first_name.setObjectName("formInput")
-        
+        first_name.setObjectName("firstNameInput")  
+
         last_name = QLineEdit()
         last_name.setPlaceholderText("Last Name")
-        last_name.setObjectName("formInput")
+        last_name.setObjectName("lastNameInput")   
         
         form_grid.addWidget(first_name, 0, 0)
         form_grid.addWidget(last_name, 0, 1)
@@ -100,12 +108,12 @@ class ContactPage(QMainWindow):
         # Other fields
         email = QLineEdit()
         email.setPlaceholderText("Email Address")
-        email.setObjectName("formInput")
+        email.setObjectName("emailInput")           # Changed from "formInput"
         form_grid.addWidget(email, 1, 0, 1, 2)
 
         subject = QLineEdit()
         subject.setPlaceholderText("Subject")
-        subject.setObjectName("formInput")
+        subject.setObjectName("subjectInput")       # Changed from "formInput"
         form_grid.addWidget(subject, 2, 0, 1, 2)
 
         message = QTextEdit()
@@ -201,14 +209,334 @@ class ContactPage(QMainWindow):
 
         return item
 
-    def submit_form(self):
-        submit_btn = self.findChild(HoverButton, "submitButton")
-        original_text = submit_btn.text()
-        submit_btn.setText("Sending...")
-        submit_btn.setEnabled(False)
+    def validate_email(self, email):
+        """Validate email format using regex pattern."""
+        pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        return re.match(pattern, email) is not None
 
-        # Simulate sending message
-        QTimer.singleShot(2000, lambda: self.show_submit_success(submit_btn, original_text))
+    def sanitize_input(self, text):
+        """Sanitize input to prevent XSS and other injection attacks."""
+        return html.escape(text.strip())
+
+    def create_email_template(self, first_name, last_name, email, subject, message_content):
+        """Create a professional and visually appealing HTML email template."""
+        current_date = datetime.now().strftime("%B %d, %Y at %I:%M %p")
+        
+        html_content = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                /* Reset styles */
+                * {{
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                }}
+                
+                body {{
+                    font-family: 'Segoe UI', Arial, sans-serif;
+                    line-height: 1.6;
+                    color: #333;
+                    background-color: #f5f5f5;
+                }}
+                
+                /* Container styles */
+                .email-container {{
+                    max-width: 600px;
+                    margin: 0 auto;
+                    background-color: #ffffff;
+                    border-radius: 8px;
+                    overflow: hidden;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                }}
+                
+                /* Header styles */
+                .header {{
+                    background: linear-gradient(135deg, #4F46E5 0%, #818CF8 100%);
+                    color: white;
+                    padding: 30px;
+                    text-align: center;
+                }}
+                
+                .header h2 {{
+                    font-size: 24px;
+                    margin-bottom: 10px;
+                    font-weight: 600;
+                }}
+                
+                .header p {{
+                    font-size: 14px;
+                    opacity: 0.9;
+                }}
+                
+                /* Content styles */
+                .content {{
+                    padding: 30px;
+                    background-color: #ffffff;
+                }}
+                
+                .section {{
+                    margin-bottom: 25px;
+                    padding-bottom: 20px;
+                    border-bottom: 1px solid #eee;
+                }}
+                
+                .section:last-child {{
+                    border-bottom: none;
+                    margin-bottom: 0;
+                    padding-bottom: 0;
+                }}
+                
+                .section h3 {{
+                    color: #4F46E5;
+                    font-size: 18px;
+                    margin-bottom: 15px;
+                    font-weight: 600;
+                }}
+                
+                .info-item {{
+                    margin-bottom: 10px;
+                }}
+                
+                .info-item strong {{
+                    color: #1E293B;
+                    font-weight: 600;
+                }}
+                
+                .message-box {{
+                    background-color: #f8fafc;
+                    border-left: 4px solid #4F46E5;
+                    padding: 20px;
+                    border-radius: 4px;
+                    margin-top: 15px;
+                }}
+                
+                /* Footer styles */
+                .footer {{
+                    background-color: #1E293B;
+                    color: #ffffff;
+                    text-align: center;
+                    padding: 20px;
+                    font-size: 14px;
+                }}
+                
+                .footer p {{
+                    margin: 5px 0;
+                    opacity: 0.9;
+                }}
+                
+                .tag {{
+                    display: inline-block;
+                    background-color: #818CF8;
+                    color: white;
+                    padding: 3px 8px;
+                    border-radius: 12px;
+                    font-size: 12px;
+                    margin-top: 10px;
+                }}
+                
+                .social-links {{
+                    margin-top: 15px;
+                }}
+                
+                .social-links a {{
+                    color: white;
+                    text-decoration: none;
+                    margin: 0 10px;
+                }}
+                
+                /* Responsive design */
+                @media only screen and (max-width: 600px) {{
+                    .email-container {{
+                        width: 100%;
+                        border-radius: 0;
+                    }}
+                    
+                    .header {{
+                        padding: 20px;
+                    }}
+                    
+                    .content {{
+                        padding: 20px;
+                    }}
+                }}
+            </style>
+        </head>
+        <body>
+            <div class="email-container">
+                <div class="header">
+                    <h2>📬 New Contact Form Submission</h2>
+                    <p>Received on {current_date}</p>
+                </div>
+                
+                <div class="content">
+                    <div class="section">
+                        <h3>👤 Contact Details</h3>
+                        <div class="info-item">
+                            <strong>Name:</strong> {first_name} {last_name}
+                        </div>
+                        <div class="info-item">
+                            <strong>Email:</strong> {email}
+                        </div>
+                        <div class="info-item">
+                            <strong>Subject:</strong> {subject}
+                            <div class="tag">New Message</div>
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <h3>💬 Message Content</h3>
+                        <div class="message-box">
+                            {message_content.replace(chr(10), '<br>')}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer">
+                    <p>This is an automated message from your contact form system</p>
+                    <p>© 2024 AYOUB and ADAM. All rights reserved.</p>
+                    <div class="social-links">
+                        <a href="#">Discord</a> |
+                        <a href="#">LinkedIn</a> |
+                        <a href="#">Github</a>
+                    </div>
+                </div>
+            </div>
+        </body>
+        </html>
+        """
+        return html_content
+
+    def submit_form(self):
+        """Handle form submission with enhanced validation and error handling."""
+        try:
+            # Access the submit button and change its text
+            submit_btn = self.findChild(QPushButton, "submitButton")
+            original_text = submit_btn.text()
+            submit_btn.setText("Sending...")
+            submit_btn.setEnabled(False)
+
+            # Gather and sanitize form inputs
+            form_data = {
+                'first_name': self.sanitize_input(self.findChild(QLineEdit, "firstNameInput").text()),
+                'last_name': self.sanitize_input(self.findChild(QLineEdit, "lastNameInput").text()),
+                'email': self.sanitize_input(self.findChild(QLineEdit, "emailInput").text()),
+                'subject': self.sanitize_input(self.findChild(QLineEdit, "subjectInput").text()),
+                'message': self.sanitize_input(self.findChild(QTextEdit, "messageInput").toPlainText())
+            }
+
+            # Validate all required fields
+            for field, value in form_data.items():
+                if not value:
+                    raise ValueError(f"{field.replace('_', ' ').title()} is required")
+
+            # Validate email format
+            if not self.validate_email(form_data['email']):
+                raise ValueError("Invalid email format")
+
+            # Email configuration
+            email_config = {
+                'sender_email': "projet.cybersec.python@gmail.com",
+                'sender_password': "anrc wogh zqfs xckj",  # Consider using environment variables
+                'recipient_email': "ayoubwork597@gmail.com",
+                'smtp_server': "smtp.gmail.com",
+                'smtp_port': 587
+            }
+
+            # Create email message
+            email_message = MIMEMultipart('alternative')
+            email_message["From"] = email_config['sender_email']
+            email_message["To"] = email_config['recipient_email']
+            email_message["Subject"] = f"Contact Form: {form_data['subject']}"
+            
+            # Create plain text and HTML versions
+            text_content = f"""
+            New Contact Form Submission
+
+            Name: {form_data['first_name']} {form_data['last_name']}
+            Email: {form_data['email']}
+            Subject: {form_data['subject']}
+
+            Message:
+            {form_data['message']}
+            """
+            
+            html_content = self.create_email_template(
+                form_data['first_name'],
+                form_data['last_name'],
+                form_data['email'],
+                form_data['subject'],
+                form_data['message']
+            )
+
+            # Attach both versions
+            email_message.attach(MIMEText(text_content, 'plain'))
+            email_message.attach(MIMEText(html_content, 'html'))
+
+            # Send email
+            with smtplib.SMTP(email_config['smtp_server'], email_config['smtp_port']) as server:
+                server.starttls()
+                server.login(email_config['sender_email'], email_config['sender_password'])
+                server.send_message(email_message)
+
+            # Log success
+            logging.info(f"Email sent successfully to {email_config['recipient_email']}")
+            
+            # Show success message
+            self.show_submit_success(submit_btn, original_text)
+
+        except ValueError as ve:
+            error_message = str(ve)
+            logging.warning(f"Validation error: {error_message}")
+            self.show_error_message("Validation Error", error_message)
+            submit_btn.setText(original_text)
+            submit_btn.setEnabled(True)
+
+        except smtplib.SMTPException as se:
+            error_message = "Failed to send email. Please try again later."
+            logging.error(f"SMTP error: {str(se)}")
+            self.show_error_message("Email Error", error_message)
+            submit_btn.setText(original_text)
+            submit_btn.setEnabled(True)
+
+        except Exception as e:
+            error_message = "An unexpected error occurred. Please try again."
+            logging.error(f"Unexpected error: {str(e)}")
+            self.show_error_message("Error", error_message)
+            submit_btn.setText(original_text)
+            submit_btn.setEnabled(True)
+
+    def show_error_message(self, title, message):
+        """Display error message dialog."""
+        msg = QMessageBox(self)
+        msg.setWindowTitle(title)
+        msg.setText(message)
+        msg.setIcon(QMessageBox.Warning)
+        msg.setStyleSheet("""
+            QMessageBox {
+                background-color: #1E293B;
+            }
+            QMessageBox QLabel {
+                color: white;
+                font-size: 14px;
+                padding: 10px;
+            }
+            QPushButton {
+                background-color: #EF4444;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                padding: 8px 16px;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: #DC2626;
+            }
+        """)
+        msg.exec_()
 
     def show_submit_success(self, button, original_text):
         msg = QMessageBox(self)
@@ -290,14 +618,14 @@ class ContactPage(QMainWindow):
                     font-weight: bold;
                     margin-bottom: 20px;
                 }
-                #formInput, #messageInput {
+                #formInput, #firstNameInput, #lastNameInput, #emailInput, #subjectInput, #messageInput {
                     background-color: white;
                     border: 2px solid #E2E8F0;
                     border-radius: 8px;
                     padding: 12px;
                     color: #1E293B;
                 }
-                #formInput:focus, #messageInput:focus {
+                #formInput:focus, #firstNameInput:focus, #lastNameInput:focus, #emailInput:focus, #subjectInput:focus, #messageInput:focus {
                     border-color: #4F46E5;
                 }
                 #faqItem {
@@ -364,14 +692,14 @@ class ContactPage(QMainWindow):
                     font-weight: bold;
                     margin-bottom: 20px;
                 }
-                #formInput, #messageInput {
+                #formInput,#firstNameInput, #lastNameInput, #emailInput, #subjectInput, #messageInput {
                     background-color: #1E293B;
                     border: 2px solid #2D3748;
                     border-radius: 8px;
                     padding: 12px;
                     color: white;
                 }
-                #formInput:focus, #messageInput:focus {
+                #formInput:focus,#firstNameInput:focus, #lastNameInput:focus, #emailInput:focus, #subjectInput:focus, #messageInput:focus {
                     border-color: #4F46E5;
                 }
                 #faqItem {
@@ -1658,7 +1986,7 @@ class ProfilePage(QMainWindow):
         email_label = QLabel("📧 Email Address")
         email_label.setObjectName("fieldLabel")
         self.email_input = QLineEdit()
-        self.email_input.setPlaceholderText("Enter your email")
+        self.email_input.setPlaceholderText("Enter your email") #**************************************************************************************
         self.email_input.setObjectName("inputField")
 
         email_layout.addWidget(email_label)
@@ -2285,45 +2613,62 @@ class ThemeToggleButton(QPushButton):
        self.setStyleSheet(style)
 
 class HoverButton(QPushButton):
-   def __init__(self, text):
-       super().__init__(text)
-       self.setFixedHeight(45)
-       self.setCursor(Qt.PointingHandCursor)
-       self._animation = QPropertyAnimation(self, b"geometry")
-       self._animation.setDuration(150)
-       self.setStyleSheet("""
-           HoverButton {
-               background: qlineargradient(x1:0, y1:0, x2:1, y2:0, 
-                   stop:0 #4F46E5, stop:1 #7C3AED);
-               color: white;
-               border: none;
-               border-radius: 22px;
-               font-weight: bold;
-               font-size: 14px;
-               padding: 10px 20px;
-           }
-           HoverButton:hover {
-               background: qlineargradient(x1:0, y1:0, x2:1, y2:0, 
-                   stop:0 #4338CA, stop:1 #6D28D9);
-           }
-       """)
+    def __init__(self, text):
+        super().__init__(text)
+        self.setFixedHeight(45)
+        self.setCursor(Qt.PointingHandCursor)
+        self._animation = QPropertyAnimation(self, b"geometry")
+        self._animation.setDuration(150)
+        self._original_geometry = None
+        self._animation.finished.connect(self._on_animation_finished)
+        self.setStyleSheet("""
+            HoverButton {
+                background: qlineargradient(x1:0, y1:0, x2:1, y2:0, 
+                    stop:0 #4F46E5, stop:1 #7C3AED);
+                color: white;
+                border: none;
+                border-radius: 22px;
+                font-weight: bold;
+                font-size: 14px;
+                padding: 10px 20px;
+            }
+            HoverButton:hover {
+                background: qlineargradient(x1:0, y1:0, x2:1, y2:0, 
+                    stop:0 #4338CA, stop:1 #6D28D9);
+            }
+        """)
 
-   def enterEvent(self, event):
-       geo = self.geometry()
-       self._animation.setStartValue(geo)
-       self._animation.setEndValue(QRect(geo.x()-2, geo.y()-2, 
-                                       geo.width()+4, geo.height()+4))
-       self._animation.setEasingCurve(QEasingCurve.OutQuad)
-       self._animation.start()
+    def showEvent(self, event):
+        super().showEvent(event)
+        # Store the original geometry when button is first shown
+        self._original_geometry = self.geometry()
 
-   def leaveEvent(self, event):
-       geo = self.geometry()
-       self._animation.setStartValue(geo)
-       self._animation.setEndValue(QRect(geo.x()+2, geo.y()+2, 
-                                       geo.width()-4, geo.height()-4))
-       self._animation.setEasingCurve(QEasingCurve.OutQuad)
-       self._animation.start()
+    def enterEvent(self, event):
+        if self._original_geometry:
+            self._animation.setStartValue(self._original_geometry)
+            expanded = QRect(
+                self._original_geometry.x() - 2,
+                self._original_geometry.y() - 2,
+                self._original_geometry.width() + 4,
+                self._original_geometry.height() + 4
+            )
+            self._animation.setEndValue(expanded)
+            self._animation.setEasingCurve(QEasingCurve.OutQuad)
+            self._animation.start()
+        super().enterEvent(event)
 
+    def leaveEvent(self, event):
+        if self._original_geometry:
+            self._animation.setStartValue(self.geometry())
+            self._animation.setEndValue(self._original_geometry)
+            self._animation.setEasingCurve(QEasingCurve.OutQuad)
+            self._animation.start()
+        super().leaveEvent(event)
+        
+    def _on_animation_finished(self):
+        # If mouse is not over button, ensure we're at original geometry
+        if not self.underMouse() and self._original_geometry:
+            self.setGeometry(self._original_geometry)
 
 class GradientCard(QFrame):
     def __init__(self, parent=None):
@@ -2356,19 +2701,38 @@ class AnimatedLabel(QLabel):
         super().__init__(text, parent)
         self._animation = QPropertyAnimation(self, b"geometry")
         self._animation.setDuration(200)
-
+        self._original_geometry = None
+        self._animation.finished.connect(self._on_animation_finished)
+        
+    def showEvent(self, event):
+        super().showEvent(event)
+        # Store the original geometry when label is first shown
+        self._original_geometry = self.geometry()
+        
     def enterEvent(self, event):
-        geo = self.geometry()
-        self._animation.setStartValue(geo)
-        self._animation.setEndValue(QRect(geo.x(), geo.y()-2, geo.width(), geo.height()))
-        self._animation.start()
+        if self._original_geometry:
+            self._animation.setStartValue(self._original_geometry)
+            elevated = QRect(
+                self._original_geometry.x(),
+                self._original_geometry.y() - 2,
+                self._original_geometry.width(),
+                self._original_geometry.height()
+            )
+            self._animation.setEndValue(elevated)
+            self._animation.start()
+        super().enterEvent(event)
 
     def leaveEvent(self, event):
-        geo = self.geometry()
-        self._animation.setStartValue(geo)
-        self._animation.setEndValue(QRect(geo.x(), geo.y()+2, geo.width(), geo.height()))
-        self._animation.start()
-
+        if self._original_geometry:
+            self._animation.setStartValue(self.geometry())
+            self._animation.setEndValue(self._original_geometry)
+            self._animation.start()
+        super().leaveEvent(event)
+        
+    def _on_animation_finished(self):
+        # If mouse is not over label, ensure we're at original geometry
+        if not self.underMouse() and self._original_geometry:
+            self.setGeometry(self._original_geometry)
 
 class MCQHomePage(QMainWindow):
     

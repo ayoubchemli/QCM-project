@@ -193,25 +193,50 @@ class PasswordStrengthIndicator(QWidget):
 class AnimatedButton(QPushButton):
     def __init__(self, text, parent=None):
         super().__init__(text, parent)
+        # Store the original geometry
+        self._original_geometry = None
         self._animation = QPropertyAnimation(self, b"geometry")
         self._animation.setDuration(100)
         self._animation.setEasingCurve(QEasingCurve.OutCubic)
+        
+        # Connect animation finished signal to ensure proper reset
+        self._animation.finished.connect(self._on_animation_finished)
+        
+    def showEvent(self, event):
+        # Store the original geometry when the button is first shown
+        if self._original_geometry is None:
+            self._original_geometry = self.geometry()
+        super().showEvent(event)
 
     def enterEvent(self, event):
-        rect = self.geometry()
-        self._animation.setStartValue(rect)
-        self._animation.setEndValue(QRect(rect.x()-5, rect.y()-5, 
-                                        rect.width()+10, rect.height()+10))
+        if self._original_geometry is None:
+            self._original_geometry = self.geometry()
+            
+        current_rect = self._original_geometry
+        self._animation.setStartValue(current_rect)
+        self._animation.setEndValue(QRect(
+            current_rect.x() - 5,
+            current_rect.y() - 5,
+            current_rect.width() + 10,
+            current_rect.height() + 10
+        ))
         self._animation.start()
         super().enterEvent(event)
 
     def leaveEvent(self, event):
-        rect = self.geometry()
-        self._animation.setStartValue(rect)
-        self._animation.setEndValue(QRect(rect.x()+5, rect.y()+5, 
-                                        rect.width()-10, rect.height()-10))
+        if self._original_geometry is None:
+            self._original_geometry = self.geometry()
+            
+        current_rect = self.geometry()
+        self._animation.setStartValue(current_rect)
+        self._animation.setEndValue(self._original_geometry)
         self._animation.start()
         super().leaveEvent(event)
+        
+    def _on_animation_finished(self):
+        # When leaving animation finishes, ensure we're at original geometry
+        if not self.underMouse():
+            self.setGeometry(self._original_geometry)
         
         
 class SuccessMessage(QFrame):
@@ -1230,11 +1255,25 @@ class MCQApp(QMainWindow):
         self.username_input.setEnabled(False)
         self.password_input.setEnabled(False)
         
-        # Create success message with animation
-        success_message = SuccessMessage(user.username)
+        # Find the container and remove the existing buttons temporarily
         container = self.username_input.parent().parent()
         layout = container.layout()
-        layout.insertWidget(layout.count()-2, success_message)
+        
+        # Store references to the buttons we need to remove
+        buttons = []
+        for i in range(layout.count()):
+            widget = layout.itemAt(i).widget()
+            if isinstance(widget, AnimatedButton):
+                buttons.append((i, widget))
+        
+        # Remove buttons from bottom to top to maintain correct indices
+        for idx, button in reversed(buttons):
+            layout.removeWidget(button)
+            button.hide()
+        
+        # Create success message with animation
+        success_message = SuccessMessage(user.username)
+        layout.addWidget(success_message)
         
         # Create and setup home page
         self.home_page = MCQHomePage(self.appstate)
@@ -1244,7 +1283,6 @@ class MCQApp(QMainWindow):
         
         # Start transition after showing success message
         QTimer.singleShot(1200, self.transition_manager.start_transition)
-
         
 
 def main():
