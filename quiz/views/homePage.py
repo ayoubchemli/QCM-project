@@ -459,11 +459,17 @@ class ExportResultsPage(QMainWindow):
         date_title = QLabel("Select Date Range")
         date_title.setObjectName("optionTitle")
         date_layout.addWidget(date_title)
+        
+        # Add "Use Custom Dates" checkbox
+        self.use_custom_dates_checkbox = QCheckBox("Use Custom Dates")
+        self.use_custom_dates_checkbox.stateChanged.connect(self.toggle_custom_dates)
+        date_layout.addWidget(self.use_custom_dates_checkbox)
 
         date_buttons_layout = QGridLayout()  # Changed to grid layout
         date_buttons_layout.setSpacing(10)
         date_ranges = ["Last 7 Days", "Last 30 Days", "Last 3 Months", "All Time"]
         
+        self.date_buttons = []
         for i, date_range in enumerate(date_ranges):
             btn = QPushButton(date_range)
             btn.setObjectName("dateRangeButton")
@@ -473,6 +479,7 @@ class ExportResultsPage(QMainWindow):
                 btn.setChecked(True)
             btn.clicked.connect(lambda checked, r=date_range: self.set_date_range(r))
             date_buttons_layout.addWidget(btn, i//2, i%2)
+            self.date_buttons.append(btn)
         
         date_layout.addLayout(date_buttons_layout)
         options_layout.addWidget(date_group)
@@ -483,17 +490,17 @@ class ExportResultsPage(QMainWindow):
         custom_layout = QGridLayout(custom_range)
         custom_layout.setSpacing(10)
         
-        from_date = QDateEdit()
-        from_date.setCalendarPopup(True)
-        from_date.setDate(QDate.currentDate().addDays(-30))
-        to_date = QDateEdit()
-        to_date.setCalendarPopup(True)
-        to_date.setDate(QDate.currentDate())
+        self.from_date = QDateEdit()
+        self.from_date.setCalendarPopup(True)
+        self.from_date.setDate(QDate.currentDate().addDays(-30))
+        self.to_date = QDateEdit()
+        self.to_date.setCalendarPopup(True)
+        self.to_date.setDate(QDate.currentDate())
         
         custom_layout.addWidget(QLabel("From:"), 0, 0)
-        custom_layout.addWidget(from_date, 0, 1)
+        custom_layout.addWidget(self.from_date, 0, 1)
         custom_layout.addWidget(QLabel("To:"), 1, 0)
-        custom_layout.addWidget(to_date, 1, 1)
+        custom_layout.addWidget(self.to_date, 1, 1)
         
         options_layout.addWidget(custom_range)
 
@@ -511,7 +518,7 @@ class ExportResultsPage(QMainWindow):
         format_buttons_layout.setSpacing(10)
         formats = [
             ("CSV File", "csv", "📊"),
-            ("Text File", "txt", "📝"),
+            ("JSON file", "txt", "📝"),
             ("Excel File", "xlsx", "📘"),
             ("PDF Document", "pdf", "📄")
         ]
@@ -606,12 +613,49 @@ class ExportResultsPage(QMainWindow):
 
         # Add the content card to main layout
         main_layout.addWidget(content_card)
+        
+    def toggle_custom_dates(self, state):
+        if state == Qt.Checked:
+            self.selected_date_range = "custom"
+            for btn in self.date_buttons:
+                btn.setChecked(False)
+                btn.setEnabled(False)
+            self.from_date.setEnabled(True)
+            self.to_date.setEnabled(True)
+        else:
+            for btn in self.date_buttons:
+                btn.setEnabled(True)
+            self.set_date_range("All Time")  # or default range
 
     def set_date_range(self, range_value):
         self.selected_date_range = range_value
         # Update buttons state
-        for btn in self.findChildren(QPushButton, "dateRangeButton"):
+        for btn in self.date_buttons:
             btn.setChecked(btn.text() == range_value)
+
+        if self.use_custom_dates_checkbox.isChecked():
+            return  # Custom dates are being used
+
+        if range_value == "Last 7 Days":
+            self.from_date.setDate(QDate.currentDate().addDays(-7))
+            self.to_date.setDate(QDate.currentDate())
+            self.from_date.setEnabled(False)
+            self.to_date.setEnabled(False)
+        elif range_value == "Last 30 Days":
+            self.from_date.setDate(QDate.currentDate().addDays(-30))
+            self.to_date.setDate(QDate.currentDate())
+            self.from_date.setEnabled(False)
+            self.to_date.setEnabled(False)
+        elif range_value == "Last 3 Months":
+            self.from_date.setDate(QDate.currentDate().addMonths(-3))
+            self.to_date.setDate(QDate.currentDate())
+            self.from_date.setEnabled(False)
+            self.to_date.setEnabled(False)
+        elif range_value == "All Time":
+            self.from_date.setDate(QDate(2024, 12, 26))
+            self.to_date.setDate(QDate.currentDate())
+            self.from_date.setEnabled(False)
+            self.to_date.setEnabled(False)
 
     def set_format(self, format_value):
         self.selected_format = format_value
@@ -1658,7 +1702,7 @@ class ProfilePage(QMainWindow):
         email_label = QLabel("📧 Email Address")
         email_label.setObjectName("fieldLabel")
         self.email_input = QLineEdit()
-        self.email_input.setPlaceholderText("Enter your email")
+        self.email_input.setPlaceholderText(self.appstate.getUser().email)
         self.email_input.setObjectName("inputField")
 
         email_layout.addWidget(email_label)
@@ -2504,21 +2548,41 @@ class MCQHomePage(QMainWindow):
    def handle_enroll(self, course_title):
     print(f"Enrolling in course: {course_title}")
     self.appstate.setCourse(course_title)
+
+    # Print the number of widgets and their names before cleanup
+    print(f"Before cleanup, widgets in stack: {self.stacked_widget.count()}")
+    for index in range(self.stacked_widget.count()):
+        widget = self.stacked_widget.widget(index)
+        print(f"Index {index}: {widget}")
+
+    # Iterate through all widgets in the QStackedWidget (excluding index 0)
+    for index in range(self.stacked_widget.count() - 1, 0, -1):  # Start from the last index down to 1
+        widget = self.stacked_widget.widget(index)
+        if widget:
+            # Remove and schedule the widget for deletion
+            self.stacked_widget.removeWidget(widget)
+            widget.deleteLater()
+
+    # Print the number of widgets and their names after cleanup
+    print(f"After cleanup, widgets in stack: {self.stacked_widget.count()}")
+    for index in range(self.stacked_widget.count()):
+        widget = self.stacked_widget.widget(index)
+        print(f"Index {index}: {widget}")
     
     # Pass the current theme state to quizesLevel
     is_light_mode = self.theme_toggle.isChecked()
     self.quizeslevel = quizesLevel(self.appstate, is_light_mode)
     
-    # Add a reference to the theme toggle
-    self.quizeslevel.theme_toggle = self.theme_toggle
+    # # Add a reference to the theme toggle
+    # self.quizeslevel.theme_toggle = self.theme_toggle
     
-    # Connect the theme toggle to quizesLevel's apply_theme method
-    self.theme_toggle.clicked.connect(
-        lambda: self.quizeslevel.apply_theme(self.theme_toggle.isChecked())
-    )
+    # # Connect the theme toggle to quizesLevel's apply_theme method
+    # self.quizeslevel.theme_toggle.clicked.connect(
+    #     lambda: self.quizeslevel.apply_theme(self.theme_toggle.isChecked())
+    # )
     
     self.stacked_widget.addWidget(self.quizeslevel)
-    self.stacked_widget.setCurrentWidget(self.quizeslevel)
+    self.stacked_widget.setCurrentIndex(1)
 
    def apply_theme(self, is_light_mode=False):
     theme = self.light_theme if is_light_mode else self.dark_theme
@@ -2710,6 +2774,7 @@ class MCQHomePage(QMainWindow):
 
         # Theme toggle and other settings
         self.theme_toggle = ThemeToggleButton(self)
+        self.appstate.setThemeToggle(self.theme_toggle)
         self.theme_toggle.move(self.width() - 120, 20)
 
         self.setup_themes()

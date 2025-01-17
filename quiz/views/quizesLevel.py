@@ -28,9 +28,10 @@ class ThemeToggleButton(QPushButton):
         self.light_icon = "🌞"
         self.dark_icon = "🌙"
         self.setText(self.dark_icon)
-        
+
         # Initial style
         self.update_style(False)
+
         
     def update_style(self, is_light_mode=False):
         self.setChecked(is_light_mode)  # Synchronize button state with theme
@@ -229,18 +230,24 @@ class quizesLevel(QMainWindow):
             "new_badge": "qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #10B981, stop:1 #059669)"
         }
 
-    
-    
-
+    def theme_toggle_clicked(self):
+        is_light_mode = self.appstate.getThemeToggle().isChecked()
+        self.apply_theme(is_light_mode)
+            
     def __init__(self, appstate, is_light_mode=False):
         super().__init__()
         self.appstate = appstate
+        
         
         # Show fullscreen after creating UI elements
         self.showFullScreen()
         
         # Setup themes first
         self.setup_themes()
+        
+        self.theme_toggle = self.appstate.getThemeToggle()
+        self.theme_toggle.clicked.connect(self.theme_toggle_clicked)
+
         
         # Central widget setup
         central_widget = QWidget()
@@ -313,7 +320,11 @@ class quizesLevel(QMainWindow):
         
         
     def return_to_home(self):
-        self.parent().setCurrentWidget(self.parent().parent().central_widget)
+        # Get the parent QStackedWidget
+        stacked_widget = self.parent()
+        # Return to the home screen (index 0)
+        stacked_widget.setCurrentIndex(0)
+        
 
     def apply_theme(self, is_light_mode=False):
         theme = self.light_theme if is_light_mode else self.dark_theme
@@ -401,13 +412,15 @@ class quizesLevel(QMainWindow):
         
         # Pass the current theme state and appstate to MCQPage
         is_light_mode = self.theme_toggle.isChecked()      
-        MCQPage = quiz.views.MCQPage.MCQPage(self.appstate, is_light_mode)
+        self.MCQPage = quiz.views.MCQPage.MCQPage(self.appstate, is_light_mode)
+        # Add a reference to the theme toggle
+        # self.MCQPage.theme_toggle = self.theme_toggle
+        # self.MCQPage.theme_toggle.clicked.connect(lambda: (self.MCQPage.apply_theme(self.theme_toggle.isChecked())))
         
-        
-        self.theme_toggle.clicked.connect(lambda: (MCQPage.apply_theme(self.theme_toggle.isChecked())))
-        
-        self.parent().addWidget(MCQPage)
-        self.parent().setCurrentWidget(MCQPage)
+        parent = self.parent()
+        parent.addWidget(self.MCQPage)
+        parent.setCurrentIndex(2)
+
         
 
     def resizeEvent(self, event):

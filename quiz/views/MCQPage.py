@@ -7,6 +7,9 @@ import sys
 import os
 
 class MCQPage(QMainWindow):
+    def theme_toggle_clicked(self):
+        is_light_mode = self.appstate.getThemeToggle().isChecked()
+        self.apply_theme(is_light_mode)
     def __init__(self, appstate, is_light_mode=True):
         super().__init__()
         self.appstate = appstate
@@ -24,6 +27,9 @@ class MCQPage(QMainWindow):
         self.question_card.setGraphicsEffect(self.opacity_effect)
         self.fade_animation = QPropertyAnimation(self.opacity_effect, b"opacity")
         self.fade_animation.setDuration(300)  # 300ms duration
+        
+        self.theme_toggle = self.appstate.getThemeToggle()
+        self.theme_toggle.clicked.connect(self.theme_toggle_clicked)
         
 
 
@@ -357,7 +363,7 @@ class MCQPage(QMainWindow):
         fade_animation.setEndValue(1.0)
         
         # Apply the theme-specific styling
-        is_light_mode = self.palette().color(QPalette.Window).lightness() > 128
+        is_light_mode = self.appstate.getThemeToggle().isChecked()
         if is_light_mode:
             self.results.setStyleSheet("""
                 QDialog {
@@ -546,6 +552,7 @@ class MCQPage(QMainWindow):
         # Create the "records" folder if it doesn't exist
         if not os.path.exists(records_folder):
             os.makedirs(records_folder)
+            
 
         # Open file dialog
         file_dialog = QFileDialog(self)
@@ -576,17 +583,17 @@ class MCQPage(QMainWindow):
                 msg.button(QMessageBox.Ok).setText("Return to Home")
 
                 msg.exec_()
-                self.return_to_home()  # Return to home when OK is clicked
 
             except Exception as e:
                 QMessageBox.critical(self, "Export Error",
                                      f"An error occurred while saving the file:\n{str(e)}")
 
-        self.results.close()
 
     def return_to_home(self):
-        self.parent().setCurrentWidget(self.parent().parent().central_widget)
-        
+        # Get the parent QStackedWidget
+        stacked_widget = self.parent()
+        # Return to the home screen (index 0)
+        stacked_widget.setCurrentIndex(0)
 
     def apply_theme(self, is_light_mode):
         if is_light_mode:

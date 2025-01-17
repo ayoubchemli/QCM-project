@@ -20,6 +20,12 @@ class AppState():
 
     def setTestInstance(self, test_instance):
         self.test_instance = test_instance
+        
+    def setThemeToggle(self, theme_toggle):
+        self.theme_toggle = theme_toggle
+    
+    def getThemeToggle(self):
+        return self.theme_toggle
 
     def getTestInstance(self):
         return self.test_instance
