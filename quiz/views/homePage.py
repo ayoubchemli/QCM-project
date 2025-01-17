@@ -1631,28 +1631,51 @@ class ProfilePage(QMainWindow):
             self.parent.show()
 
     def validate_fields(self, profile_data):
-        # Validate email format
-        email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-        if not re.match(email_regex, self.email_input.text()):
-            self.show_error("Invalid email format")
-            return False
-        
-        # Validate old password is not empty
-        if not self.old_pass_input.text():
-            self.show_error("Please enter your current password")
-            return False
-        
-        # Get new password from PasswordField
+        email = self.email_input.text()
+        old_password = self.old_pass_input.text()
         new_password = self.new_pass_field.get_password()
+        confirm_password = self.confirm_pass_input.text()
         
-        # Validate new password
-        if not new_password:
-            self.show_error("Please enter a new password")
-            return False
+        # Check if user wants to change email
+        if email:
+            email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+            if not re.match(email_regex, email):
+                self.show_error("Invalid email format")
+                return False
         
-        # Validate password confirmation
-        if new_password != self.confirm_pass_input.text():
-            self.show_error("New passwords do not match")
+        # Check if user wants to change password
+        if old_password or new_password or confirm_password:
+            # Validate all password fields are filled
+            if not old_password:
+                self.show_error("Please enter your current password")
+                return False
+                
+            if not new_password:
+                self.show_error("Please enter a new password")
+                return False
+                
+            if not confirm_password:
+                self.show_error("Please confirm your new password")
+                return False
+                
+            # Validate password confirmation
+            if new_password != confirm_password:
+                self.show_error("New passwords do not match")
+                return False
+            
+            has_upper = any(c.isupper() for c in new_password)
+            has_lower = any(c.islower() for c in new_password)
+            has_digit = any(c.isdigit() for c in new_password)
+            has_special = any(not c.isalnum() for c in new_password)
+            valid = len(new_password) >= 8 and has_digit and (has_upper or has_lower or has_special)
+            if not valid:
+                self.show_error("Password must be at least 8 characters and contain any of : uppercase, lowercase, number, and special character")
+                return False
+            
+        
+        # Ensure at least one change is being made
+        if not email and not (old_password or new_password or confirm_password):
+            self.show_error("Please fill in either email or password fields to make changes")
             return False
         
         return True
