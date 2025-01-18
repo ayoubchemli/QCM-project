@@ -1,232 +1,81 @@
-# MCQ Application Requirements Analysis Document
+# MyApp
 
-## 1. Project Overview
+## Team Members
 
-Project Name: MCQ Application for Computer Science Students\
-Purpose: Develop an interactive quiz system for student assessment\
-Platform: Python-based console application
+-   Belkadi Adam 222231581302 (team leader)
+    -- adambelkadi1@gmail.com
+-   Chemli Ayoub 222231387702
+    -- chemliayoub414@gmail.com
+-   Hadadi Chakib 222231581313
+    -- schakibhad@gmail.com
+-   Bouchama Imadeddine 222231498708
+    -- imadbouchama404@gmail.com
+-   Saidi Mohamed Rostom 222232427420
+    -- saidi.rostom26@mail.com
 
-## 2. User Requirements
+## Running the Application
 
-### Primary Users
+### Requirements
 
-- Computer Science Students
-  - Take MCQ tests
-  - View personal history
-  - Track progress over time
+-   Python 3.6 or higher
+-   PyQt5
+-   pandas
+-   openpyxl
+-   reportlab
 
-### Administrator Functions
+### Installation
 
-- Question Management
-- User Data Management
-- System Oversight
+#### Windows
 
-## 3. Functional Requirements
+1. **Install Python**: Download and install Python from [python.org](https://www.python.org/).
 
-### Core User Management System
+2. **Install Dependencies**:
 
-User Flow:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-- User Login/Registration
-- Profile Verification
-- History Display
-- Quiz Initiation
-- Results Storage
+3. **Run the Application**:
 
-### Quiz Management
+    ```bash
+    python main.py
+    ```
 
-#### Question Handling
+#### linux
 
-- Load from external storage (JSON/CSV)
-- Multiple choice format
-- Single correct answer validation
-- Sequential presentation
+1. **Update Package List**:
 
-#### Score System
+    ```bash
+    sudo apt update
+    ```
 
-- Real-time score calculation
-- History tracking
-- Performance feedback
-- Results storage
+2. **Install Python and Dependencies**:
 
-### Advanced Features Matrix
+    ```bash
+    sudo apt install python3-pip python3-pyqt5 python3-pandas python3-openpyxl python3-reportlab
+    ```
 
-| Feature          | Priority | Complexity |
-| ---------------- | -------- | ---------- |
-| Timer System     | High     | Medium     |
-| Category Filter  | Medium   | Low        |
-| Export Results   | Low      | Medium     |
-| History Tracking | High     | High       |
+3. **Run the Application**:
 
-## 4. Non-Functional Requirements
+    ```bash
+    python3 main.py
+    ```
 
-### Performance Metrics
+## Project Overview
 
-- Response Time: < 1 second
-- Data Loading: < 2 seconds
-- Storage Efficiency: Minimal file size
+The QCM Project is a Python-based application designed to facilitate the management and execution of quizzes and assessments. This project utilizes various libraries and frameworks to provide a seamless user experience.
 
-### Reliability Requirements
+### Features
 
-- Data Persistence
-- Error Handling
-- Input Validation
-- Backup System
+User authentication and management
+Dynamic quiz creation and management
+Real-time score tracking
+User-friendly interface
 
-### Security Considerations
+## Why PyQt?
 
-- User Data Protection
-- File System Security
-- Access Control
+PyQt is a set of Python bindings for Qt, a cross-platform application framework. We chose PyQt for its powerful GUI creation capabilities, extensive widget set, and strong support for object-oriented programming. Compared to other Python GUI libraries:
 
-## 5. Technical Specifications
-
-### Development Environment
-
-Required Technologies:
-
-- Python 3.x
-- JSON/CSV file handling
-- Git version control
-
-### Data Storage
-
-File Formats:
-
-- User Data: JSON
-- Questions: CSV
-- Results: Text/CSV
-
-## 6. Interface Requirements
-
-### Console Display Structure
-
-```
-+------------------------+
-|     MCQ Interface     |
-+------------------------+
-| 1. Question Display   |
-| 2. Answer Options     |
-| 3. Score Display      |
-| 4. Timer (Optional)   |
-+------------------------+
-```
-
-## 7. Constraints and Limitations
-
-- Console-based interface
-- Local file system dependency
-- Single user session at a time
-- No network requirements
-
-## 8. Future Enhancements
-
-1. GUI Implementation
-2. Multi-language Support
-3. Online Connectivity
-4. Real-time Leaderboard
-
-## 9. Implementation Details
-
-### User Management System
-
-```python
-# Example User Data Structure
-user_data = {
-    "username": str,
-    "history": list,
-    "total_attempts": int,
-    "average_score": float
-}
-```
-
-### Question Format
-
-```python
-# Example Question Structure
-question = {
-    "id": int,
-    "text": str,
-    "options": list,
-    "correct_answer": str,
-    "category": str
-}
-```
-
-### File Management
-
-**Data Storage Requirements:**
-
-- Separate files for questions and user data
-- Regular backups
-- Data validation on read/write
-- Error handling for file operations
-
-## 10. Testing Requirements
-
-### Unit Testing
-
-- User authentication
-- Score calculation
-- Question loading
-- Answer validation
-
-### Integration Testing
-
-- Complete quiz flow
-- User data persistence
-- History tracking
-- Export functionality
-
-## 11. Documentation Requirements
-
-### Required Documentation
-
-- User Manual
-- Technical Documentation
-- API Documentation
-- Installation Guide
-
-### Code Documentation
-
-- Clear comments
-- Function documentation
-- Module documentation
-- Setup instructions
-
-## 12. Project Timeline
-
-### Phase 1: Core Development
-
-- User Management System
-- Basic Quiz Functionality
-- File Operations
-
-### Phase 2: Advanced Features
-
-- Timer Implementation
-- Category System
-- Export Functionality
-
-### Phase 3: Testing and Refinement
-
-- Unit Testing
-- Integration Testing
-- Bug Fixes
-- Performance Optimization
-
-## 13. Risk Assessment
-
-### Technical Risks
-
-- File system permissions
-- Data corruption
-- Performance issues
-
-### Mitigation Strategies
-
-- Regular backups
-- Data validation
-- Error handling
-- Performance monitoring
-
+-   **Tkinter**: Limited in design flexibility and modern UI features.
+-   **Kivy**: More suited for multi-touch applications and less for traditional desktop GUIs.
+-   **PySide**: Similar to PyQt, but PyQt offers more comprehensive documentation and community support.

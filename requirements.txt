@@ -1,0 +1,4 @@
+reportlab
+openpyxl
+pandas
+PyQt5
