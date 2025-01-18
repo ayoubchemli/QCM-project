@@ -10,10 +10,13 @@ from email.mime.multipart import MIMEMultipart
 import html
 from datetime import datetime
 import logging
-
-
+from datetime import datetime, timedelta
+import csv
+import pandas as pd
+import json
 from quiz.views.quizesLevel import quizesLevel
 from quiz.subject import Subject
+from quiz.pdf_generator import generate_pdf
 
 
 
@@ -63,7 +66,7 @@ class ContactPage(QMainWindow):
         methods_layout.setContentsMargins(10, 10, 10, 10)  # Added margins
 
         contact_methods = [
-            ("📧", "Email Us", "ayoubchemli@gmail.com", "Send us an email anytime"),
+            ("📧", "Email Us", "projet.cybersec.python@gmail.com", "Send us an email anytime"),
             ("📱", "Call Us", "+213 794 37 42 98", "Sun-Thu, 9:00-17:00"),
             ("💬", "Live Chat", "Available 24/7", "Chat with our support team")
         ]
@@ -441,7 +444,7 @@ class ContactPage(QMainWindow):
             email_config = {
                 'sender_email': "projet.cybersec.python@gmail.com",
                 'sender_password': "anrc wogh zqfs xckj",  # Consider using environment variables
-                'recipient_email': "ayoubwork597@gmail.com",
+                'recipients_email': ["ayoubwork597@gmail.com", "adambelkadi1@gmail.com", "projet.cybersec.python@gmail.com"],
                 'smtp_server': "smtp.gmail.com",
                 'smtp_port': 587
             }
@@ -449,7 +452,7 @@ class ContactPage(QMainWindow):
             # Create email message
             email_message = MIMEMultipart('alternative')
             email_message["From"] = email_config['sender_email']
-            email_message["To"] = email_config['recipient_email']
+            email_message["To"] = ", ".join(email_config['recipients_email'])
             email_message["Subject"] = f"Contact Form: {form_data['subject']}"
             
             # Create plain text and HTML versions
@@ -471,22 +474,30 @@ class ContactPage(QMainWindow):
                 form_data['subject'],
                 form_data['message']
             )
-
+            
             # Attach both versions
             email_message.attach(MIMEText(text_content, 'plain'))
             email_message.attach(MIMEText(html_content, 'html'))
 
             # Send email
-            with smtplib.SMTP(email_config['smtp_server'], email_config['smtp_port']) as server:
-                server.starttls()
-                server.login(email_config['sender_email'], email_config['sender_password'])
-                server.send_message(email_message)
-
-            # Log success
-            logging.info(f"Email sent successfully to {email_config['recipient_email']}")
+            try:
+                with smtplib.SMTP(email_config['smtp_server'], email_config['smtp_port']) as server:
+                    server.starttls()
+                    server.login(email_config['sender_email'], email_config['sender_password'])
+                    # Explicitly pass the recipients list to send_message
+                    server.sendmail(
+                        email_config['sender_email'], 
+                        email_config['recipients_email'],  # Recipients as a list
+                        email_message.as_string()         # Full email as string
+                    )
+                # Log success
+                logging.info(f"Email sent successfully to {', '.join(email_config['recipients_email'])}")
+                # Show success message
+                self.show_submit_success(submit_btn, original_text)
+            except Exception as e:
+                logging.error(f"Failed to send email: {e}")
             
-            # Show success message
-            self.show_submit_success(submit_btn, original_text)
+            
 
         except ValueError as ve:
             error_message = str(ve)
@@ -727,13 +738,68 @@ class ContactPage(QMainWindow):
             self.parent.show()
 
 class ExportResultsPage(QMainWindow):
-    def __init__(self, parent=None, is_light_mode=False):
+    def __init__(self, appstate, parent=None, is_light_mode=False):
         super().__init__(parent)
         self.parent = parent
+        self.appstate = appstate
         self.selected_date_range = "all"  # Default to all time
         self.selected_format = "csv"  # Default to CSV
         self.setup_ui()
         self.apply_theme(is_light_mode)
+        
+    def update_preview_data(self):
+        user_scores = self.appstate.getUser().scores
+        filtered_scores = self.filter_scores_by_date(user_scores)
+        
+        self.preview_table.setRowCount(len(filtered_scores))
+        
+        for row, score in enumerate(filtered_scores):
+            # Date
+            date_item = QTableWidgetItem(score["date"])
+            
+            # course
+            course = score['subject']['course']
+            course_item = QTableWidgetItem(course)
+            # chapter
+            chapter = score['subject']['chapter']
+            chapter_item = QTableWidgetItem(chapter)
+            
+            # Score as percentage
+            score_percentage = f"{score['points']}%"
+            score_item = QTableWidgetItem(score_percentage)
+            
+            status = "Passed" if score["points"] >= 50 else "Failed"
+            status_item = QTableWidgetItem(status)
+            
+            # Set items
+            items = [date_item, course_item, chapter_item, score_item, status_item]
+            for col, item in enumerate(items):
+                item.setTextAlignment(Qt.AlignCenter)
+                self.preview_table.setItem(row, col, item)
+                
+    def filter_scores_by_date(self, scores):
+        if self.selected_date_range == "custom":
+            start_date = self.from_date.date().toPyDate()
+            end_date = self.to_date.date().toPyDate()
+        else:
+            end_date = datetime.now().date()
+            if self.selected_date_range == "Last 7 Days":
+                start_date = end_date - timedelta(days=7)
+            elif self.selected_date_range == "Last 30 Days":
+                start_date = end_date - timedelta(days=30)
+            elif self.selected_date_range == "Last 3 Months":
+                start_date = end_date - timedelta(days=90)
+            else:  # All Time
+                return scores
+        
+        filtered_scores = []
+        for score in scores:
+            score_date = datetime.strptime(score["date"], 
+                                        "%Y-%m-%d %H:%M:%S").date()
+            if start_date <= score_date <= end_date:
+                filtered_scores.append(score)
+        
+        return filtered_scores
 
     def setup_ui(self):
         central_widget = QWidget()
@@ -846,7 +912,7 @@ class ExportResultsPage(QMainWindow):
         format_buttons_layout.setSpacing(10)
         formats = [
             ("CSV File", "csv", "📊"),
-            ("JSON file", "txt", "📝"),
+            ("JSON file", "json", "📝"),
             ("Excel File", "xlsx", "📘"),
             ("PDF Document", "pdf", "📄")
         ]
@@ -881,6 +947,7 @@ class ExportResultsPage(QMainWindow):
         refresh_btn.setObjectName("refreshButton")
         refresh_btn.setCursor(Qt.PointingHandCursor)
         refresh_btn.setFixedSize(300, 50)  # Make button bigger
+        refresh_btn.clicked.connect(self.update_preview_data)
         
         # Add button to layout with center alignment
         data_layout.addWidget(refresh_btn, alignment=Qt.AlignCenter)
@@ -900,30 +967,42 @@ class ExportResultsPage(QMainWindow):
         preview_layout.addLayout(preview_header)
         
         # Preview table
-        preview_table = QTableWidget()
-        preview_table.setRowCount(5)
-        preview_table.setColumnCount(6)
-        preview_table.setHorizontalHeaderLabels([
-            "Date", "Subject", "Score", "Time Taken", "Correct", "Wrong"
+        self.preview_table = QTableWidget()
+        # self.preview_table.setRowCount(5)
+        self.preview_table.setColumnCount(5)
+        self.preview_table.setHorizontalHeaderLabels([
+            "Date", "Course", "Chapter", "Score", "Status"
         ])
-        preview_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.preview_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         
         # Add sample preview data
-        sample_data = [
-            ("2024-12-27", "Algebra", "85%", "45 mins", "17/20", "3/20"),
-            ("2024-12-25", "Data Structures", "92%", "60 mins", "23/25", "2/25"),
-            ("2024-12-23", "File Systems", "78%", "30 mins", "14/18", "4/18"),
-            ("2024-12-20", "Linear Algebra", "65%", "45 mins", "13/20", "7/20"),
-            ("2024-12-18", "Algorithms", "88%", "50 mins", "22/25", "3/25")
-        ]
+        sample_data = self.appstate.getUser().mcq_history()
         
-        for row, data in enumerate(sample_data):
-            for col, value in enumerate(data):
-                item = QTableWidgetItem(value)
-                item.setTextAlignment(Qt.AlignCenter)
-                preview_table.setItem(row, col, item)
+        self.preview_table.setRowCount(len(sample_data))
+        for row, (date, course, chapter, score, status) in enumerate(sample_data):
+            date_item = QTableWidgetItem(date)
+            date_item.setTextAlignment(Qt.AlignCenter)
+            self.preview_table.setItem(row, 0, date_item)
+            course_item = QTableWidgetItem(course)
+            course_item.setTextAlignment(Qt.AlignCenter)
+            self.preview_table.setItem(row, 1, course_item)
+            chapter_item = QTableWidgetItem(chapter)
+            chapter_item.setTextAlignment(Qt.AlignCenter)
+            self.preview_table.setItem(row, 2, chapter_item)
+            score_item = QTableWidgetItem(f"{score}%")
+            score_item.setTextAlignment(Qt.AlignCenter)
+            self.preview_table.setItem(row, 3, score_item)
+            status_item = QTableWidgetItem(status)
+            status_item.setTextAlignment(Qt.AlignCenter)
+            self.preview_table.setItem(row, 4, status_item)
         
-        preview_layout.addWidget(preview_table)
+        # for row, data in enumerate(sample_data):
+        #     for col, value in enumerate(data):
+        #         item = QTableWidgetItem(value)
+        #         item.setTextAlignment(Qt.AlignCenter)
+        #         self.preview_table.setItem(row, col, item)
+        
+        preview_layout.addWidget(self.preview_table)
 
         # Add options and preview to main content layout
         main_content_layout.addWidget(options_container)
@@ -987,19 +1066,86 @@ class ExportResultsPage(QMainWindow):
 
     def set_format(self, format_value):
         self.selected_format = format_value
+        format_map = {
+            "📊 CSV File": "csv",
+            "📝 JSON file": "json", 
+            "📘 Excel File": "xlsx",
+            "📄 PDF Document": "pdf"
+        }
         # Update buttons state
         for btn in self.findChildren(QPushButton, "formatButton"):
-            btn.setChecked(btn.text().split()[-1].lower().startswith(format_value))
+            btn.setChecked(format_map[btn.text()] == format_value)
 
     def export_results(self):
-        # Show loading state
         export_btn = self.findChild(HoverButton, "exportButton")
         original_text = export_btn.text()
         export_btn.setText("Exporting...")
         export_btn.setEnabled(False)
 
-        # Simulate export process
-        QTimer.singleShot(2000, lambda: self.show_export_success(export_btn, original_text))
+        try:
+            # Get filtered data
+            scores = self.filter_scores_by_date(self.appstate.getUser().scores)
+            
+            # Create filename
+            date_str = QDate.currentDate().toString('yyyy-MM-dd')
+            filename = f"results_{date_str}.{self.selected_format}"
+            
+            if self.selected_format == "csv":
+                self.export_to_csv(scores, filename)
+            elif self.selected_format == "json":
+                self.export_to_json(scores, filename)
+            elif self.selected_format == "xlsx":
+                self.export_to_excel(scores, filename)
+            elif self.selected_format == "pdf":
+                self.export_to_pdf()
+                
+            self.show_export_success(export_btn, original_text)
+        except Exception as e:
+            self.show_export_error(str(e))
+            export_btn.setText(original_text)
+            export_btn.setEnabled(True)
+
+    def export_to_csv(self, scores, filename):
+        with open(filename, 'w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(['Date', 'Course', 'Chapter', 'Score', 'status'])
+            for score in scores:
+                writer.writerow([
+                    score['date'],
+                    score['subject']['course'],
+                    score['subject']['chapter'],
+                    f"{score['points']}%",
+                    f"{'passed' if score['points'] >= 50 else 'failed'}"
+                ])
+                
+    def export_to_json(self, scores, filename):
+        data = []
+        for score in scores:
+            data.append({
+                'Date': score['date'],
+                'Course': score['subject']['course'],
+                'Chapter': score['subject']['chapter'],
+                'Score': f"{score['points']}%",
+                'Status': 'Passed' if score['points'] >= 50 else 'Failed'
+            })
+        with open(filename, 'w') as file:
+            json.dump(data, file, indent=4)
+
+    def export_to_excel(self, scores, filename):
+        data = []
+        for score in scores:
+            data.append([
+                score['date'],
+                score['subject']['course'],
+                score['subject']['chapter'],
+                f"{score['points']}%",
+                'Passed' if score['points'] >= 50 else 'Failed'
+            ])
+        df = pd.DataFrame(data, columns=['Date', 'Course', 'Chapter', 'Score', 'Status'])
+        df.to_excel(filename, index=False)
+        
+    def export_to_pdf(self):
+        generate_pdf(self.appstate.getUser())
 
     def show_export_success(self, button, original_text):
         # Create success message
@@ -2808,7 +2954,7 @@ class MCQHomePage(QMainWindow):
         self.contact_page.showFullScreen()
 
    def open_export_results(self):
-        self.export_results_page = ExportResultsPage(self, self.theme_toggle.isChecked())
+        self.export_results_page = ExportResultsPage(self.appstate, self, self.theme_toggle.isChecked())
         self.export_results_page.showFullScreen()
    def open_mcq_history(self):
         self.mcq_history_page = MCQHistoryPage(self.appstate, self, self.theme_toggle.isChecked())

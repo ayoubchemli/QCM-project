@@ -25,6 +25,7 @@ class User:
 
     def to_dict(self):
         """Convert the User instance to a dictionary."""
+        print(self.scores)
         return {
             "fullname": self.fullname,
             "email": self.email,
