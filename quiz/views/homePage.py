@@ -4,6 +4,14 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 
+import pandas as pd
+import openpyxl
+from openpyxl.styles import NamedStyle, PatternFill, Border, Side, Alignment, Font
+from openpyxl.utils import get_column_letter
+from openpyxl.chart import BarChart, Reference, PieChart
+from pathlib import Path
+from typing import Dict, List
+
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -1086,39 +1094,60 @@ class ExportResultsPage(QMainWindow):
             # Get filtered data
             scores = self.filter_scores_by_date(self.appstate.getUser().scores)
             
-            # Create filename
-            date_str = QDate.currentDate().toString('yyyy-MM-dd')
-            filename = f"results_{date_str}.{self.selected_format}"
+            # Create output directory if it doesn't exist
+            current_dir = Path(__file__).parent.parent.parent
+            output_dir = current_dir / 'output'
+            output_dir.mkdir(exist_ok=True)
+            
+            # Create filename base using current date
+            date_str = datetime.now().strftime('%Y-%m-%d')
+            base_filename = output_dir / f"results_{date_str}"
             
             if self.selected_format == "csv":
-                self.export_to_csv(scores, filename)
+                self.export_to_csv(scores, f"{base_filename}.csv")
             elif self.selected_format == "json":
-                self.export_to_json(scores, filename)
+                self.export_to_json(scores, f"{base_filename}.json")
             elif self.selected_format == "xlsx":
-                self.export_to_excel(scores, filename)
+                self.export_to_excel(scores, f"{base_filename}.xlsx")
             elif self.selected_format == "pdf":
-                self.export_to_pdf()
+                # Get the current date range for PDF generation
+                if self.selected_date_range == "custom":
+                    start_date = datetime.combine(self.from_date.date().toPyDate(), datetime.min.time())
+                    end_date = datetime.combine(self.to_date.date().toPyDate(), datetime.max.time())
+                else:
+                    end_date = datetime.now()
+                    if self.selected_date_range == "Last 7 Days":
+                        start_date = end_date - timedelta(days=7)
+                    elif self.selected_date_range == "Last 30 Days":
+                        start_date = end_date - timedelta(days=30)
+                    elif self.selected_date_range == "Last 3 Months":
+                        start_date = end_date - timedelta(days=90)
+                    else:  # All Time
+                        start_date = None
+                        end_date = None
                 
+                generate_pdf(self.appstate.getUser(), start_date, end_date)
+                    
             self.show_export_success(export_btn, original_text)
         except Exception as e:
             self.show_export_error(str(e))
             export_btn.setText(original_text)
             export_btn.setEnabled(True)
 
-    def export_to_csv(self, scores, filename):
+    def export_to_csv(self, scores: List[Dict], filename: str) -> None:
         with open(filename, 'w', newline='') as file:
             writer = csv.writer(file)
-            writer.writerow(['Date', 'Course', 'Chapter', 'Score', 'status'])
+            writer.writerow(['Date', 'Course', 'Chapter', 'Score', 'Status'])
             for score in scores:
                 writer.writerow([
                     score['date'],
                     score['subject']['course'],
                     score['subject']['chapter'],
                     f"{score['points']}%",
-                    f"{'passed' if score['points'] >= 50 else 'failed'}"
+                    'Passed' if score['points'] >= 50 else 'Failed'
                 ])
-                
-    def export_to_json(self, scores, filename):
+
+    def export_to_json(self, scores: List[Dict], filename: str) -> None:
         data = []
         for score in scores:
             data.append({
@@ -1130,22 +1159,151 @@ class ExportResultsPage(QMainWindow):
             })
         with open(filename, 'w') as file:
             json.dump(data, file, indent=4)
-
+        
     def export_to_excel(self, scores, filename):
+    # Create DataFrame
         data = []
         for score in scores:
             data.append([
                 score['date'],
                 score['subject']['course'],
                 score['subject']['chapter'],
-                f"{score['points']}%",
+                score['points'],
                 'Passed' if score['points'] >= 50 else 'Failed'
             ])
         df = pd.DataFrame(data, columns=['Date', 'Course', 'Chapter', 'Score', 'Status'])
-        df.to_excel(filename, index=False)
+        
+        # Create Excel writer object
+        writer = pd.ExcelWriter(filename, engine='openpyxl')
+        
+        # Write the data to Excel
+        df.to_excel(writer, sheet_name='Results', index=False, startrow=1)
+        
+        # Get the workbook and the worksheet
+        workbook = writer.book
+        worksheet = writer.sheets['Results']
+        
+        # Define styles
+        header_style = NamedStyle(name='header_style')
+        header_style.font = Font(bold=True, color='FFFFFF', size=12)
+        header_style.fill = PatternFill(start_color='4F46E5', end_color='4F46E5', fill_type='solid')
+        header_style.alignment = Alignment(horizontal='center', vertical='center')
+        header_style.border = Border(
+            bottom=Side(style='medium', color='E2E8F0'),
+            right=Side(style='thin', color='E2E8F0')
+        )
+        
+        data_style = NamedStyle(name='data_style')
+        data_style.font = Font(size=11)
+        data_style.alignment = Alignment(horizontal='center', vertical='center')
+        data_style.border = Border(
+            bottom=Side(style='thin', color='E2E8F0'),
+            right=Side(style='thin', color='E2E8F0')
+        )
+        
+        # Add title
+        title = f"Learning Results Report - Generated on {pd.Timestamp.now().strftime('%Y-%m-%d')}"
+        worksheet.merge_cells('A1:E1')
+        worksheet['A1'] = title
+        worksheet['A1'].font = Font(bold=True, size=14)
+        worksheet['A1'].alignment = Alignment(horizontal='center', vertical='center')
+        
+        # Apply styles
+        for col in range(1, 6):
+            cell = worksheet.cell(row=2, column=col)
+            cell.style = header_style
+            
+        # Apply data styles and conditional formatting for scores and status
+        for row in range(3, len(data) + 3):
+            for col in range(1, 6):
+                cell = worksheet.cell(row=row, column=col)
+                cell.style = data_style
+                
+                # Special formatting for Score column
+                if col == 4:
+                    cell.value = float(str(cell.value).replace('%', ''))
+                    cell.number_format = '0.0"%"'
+                    if cell.value >= 80:
+                        cell.fill = PatternFill(start_color='4ADE80', end_color='4ADE80', fill_type='solid')
+                    elif cell.value >= 50:
+                        cell.fill = PatternFill(start_color='FDE047', end_color='FDE047', fill_type='solid')
+                    else:
+                        cell.fill = PatternFill(start_color='FF6B6B', end_color='FF6B6B', fill_type='solid')
+                
+                # Special formatting for Status column
+                if col == 5:
+                    if cell.value == 'Passed':
+                        cell.font = Font(color='22C55E', bold=True)
+                    else:
+                        cell.font = Font(color='EF4444', bold=True)
+        
+        # Adjust column widths
+        for col in range(1, 6):
+            worksheet.column_dimensions[get_column_letter(col)].width = 20
+        
+        # Add summary statistics
+        summary_row = len(data) + 4
+        worksheet.cell(row=summary_row, column=1, value='Summary Statistics').font = Font(bold=True, size=12)
+        worksheet.merge_cells(f'A{summary_row}:E{summary_row}')
+        
+        stats = [
+            ('Average Score', f"{df['Score'].mean():.1f}%"),
+            ('Highest Score', f"{df['Score'].max():.1f}%"),
+            ('Lowest Score', f"{df['Score'].min():.1f}%"),
+            ('Pass Rate', f"{(df['Status'] == 'Passed').mean() * 100:.1f}%"),
+            ('Total Assessments', len(df))
+        ]
+        
+        for i, (label, value) in enumerate(stats):
+            row = summary_row + i + 1
+            worksheet.cell(row=row, column=1, value=label).font = Font(bold=True)
+            worksheet.cell(row=row, column=2, value=value)
+        
+        # Add charts
+        # Score Distribution Chart
+        chart_row = summary_row + len(stats) + 2
+        bar_chart = BarChart()
+        bar_chart.title = "Score Distribution by Course"
+        bar_chart.y_axis.title = 'Average Score (%)'
+        bar_chart.x_axis.title = 'Course'
+        
+        course_avg = df.groupby('Course')['Score'].mean()
+        data_refs = Reference(worksheet, min_col=4, min_row=2, max_row=len(data) + 2)
+        cats_refs = Reference(worksheet, min_col=2, min_row=2, max_row=len(data) + 2)
+        
+        bar_chart.add_data(data_refs)
+        bar_chart.set_categories(cats_refs)
+        worksheet.add_chart(bar_chart, f'G{chart_row}')
+        
+        # Add pass/fail pie chart
+        pie_chart = PieChart()
+        pie_chart.title = "Pass/Fail Distribution"
+        status_counts = df['Status'].value_counts()
+        
+        # Save and close
+        writer.close()
+        
+        return filename
         
     def export_to_pdf(self):
-        generate_pdf(self.appstate.getUser())
+        # Get the current date range
+        if self.selected_date_range == "custom":
+            start_date = datetime.combine(self.from_date.date().toPyDate(), datetime.min.time())
+            end_date = datetime.combine(self.to_date.date().toPyDate(), datetime.max.time())
+        else:
+            end_date = datetime.now()
+            if self.selected_date_range == "Last 7 Days":
+                start_date = end_date - timedelta(days=7)
+            elif self.selected_date_range == "Last 30 Days":
+                start_date = end_date - timedelta(days=30)
+            elif self.selected_date_range == "Last 3 Months":
+                start_date = end_date - timedelta(days=90)
+            else:  # All Time
+                start_date = None
+                end_date = None
+
+        # Call generate_pdf with the date range
+        generate_pdf(self.appstate.getUser(), start_date, end_date)
 
     def show_export_success(self, button, original_text):
         # Create success message

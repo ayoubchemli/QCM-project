@@ -138,13 +138,45 @@ class PDFStyleManager:
         return styles
 
 class PDFGenerator:
-    def __init__(self, output_dir: Path):
+    def __init__(self, output_dir: Path, start_date: Optional[datetime] = None, end_date: Optional[datetime] = None):
         self.output_dir = output_dir
+        self.start_date = start_date
+        self.end_date = end_date
         self.styles = PDFStyleManager.create_styles()
 
+    def filter_scores_by_date(self, scores: List[Score]) -> List[Score]:
+        if not self.start_date and not self.end_date:
+            return scores
+            
+        filtered_scores = []
+        for score in scores:
+            score_date = datetime.strptime(score.date, "%Y-%m-%d %H:%M:%S").date()
+            if self.start_date and self.end_date:
+                if self.start_date.date() <= score_date <= self.end_date.date():
+                    filtered_scores.append(score)
+            elif self.start_date:
+                if self.start_date.date() <= score_date:
+                    filtered_scores.append(score)
+            elif self.end_date:
+                if score_date <= self.end_date.date():
+                    filtered_scores.append(score)
+                    
+        return filtered_scores
+
     def generate_pdf(self, user: User) -> None:
-        pdf_file = self.output_dir / f"{user.fullname.replace(' ', '_')}_report.pdf"
+        # Filter scores based on date range
+        filtered_scores = self.filter_scores_by_date(user.scores)
         
+        # Create a new user object with filtered scores
+        filtered_user = User(
+            fullname=user.fullname,
+            email=user.email,
+            scores=filtered_scores
+        )
+        
+        pdf_file = self.output_dir / f"{filtered_user.fullname.replace(' ', '_')}_report.pdf"
+        
+        # Rest of the method remains the same but uses filtered_user instead of user
         doc = SimpleDocTemplate(
             str(pdf_file),
             pagesize=A4,
@@ -156,30 +188,44 @@ class PDFGenerator:
         
         story = []
         
+        # Add date range information to the report
+        if self.start_date or self.end_date:
+            date_range_text = "Report Period: "
+            if self.start_date:
+                date_range_text += f"From {self.start_date.strftime('%Y-%m-%d')}"
+            if self.end_date:
+                date_range_text += f" To {self.end_date.strftime('%Y-%m-%d')}"
+        else:
+            date_range_text = "Report Period: All Time"
+        
         # Header with gradient
         story.append(GradientBackground(doc.width + 60*mm, 150))
         story.append(Spacer(1, 20))
         
-        # Title section
+        # Title section with date range
         story.append(Paragraph("Academic Performance Report", self.styles['CustomReportTitle']))
         story.append(Paragraph(
-            f"<para alignment='center'><font size='14' color='#ffffff'>{user.fullname}</font></para>",
+            f"<para alignment='center'><font size='14' color='#ffffff'>{filtered_user.fullname}</font></para>",
+            self.styles['CustomBodyText']
+        ))
+        story.append(Paragraph(
+            f"<para alignment='center'><font size='12' color='#ffffff'>{date_range_text}</font></para>",
             self.styles['CustomBodyText']
         ))
         story.append(Spacer(1, 50))
         
-        if not user.scores:
-            story.append(Paragraph("No scores available.", self.styles['CustomBodyText']))
+        # Continue with the rest of the report generation using filtered_user
+        if not filtered_user.scores:
+            story.append(Paragraph("No scores available for the selected date range.", self.styles['CustomBodyText']))
         else:
-            self._add_student_info(story, user, doc.width)
-            self._add_performance_summary(story, user, doc.width)
-            self._add_score_progression(story, user, doc.width)
-            self._add_detailed_scores(story, user, doc.width)
-            self._add_recommendations(story, user, doc.width)
+            self._add_student_info(story, filtered_user, doc.width)
+            self._add_performance_summary(story, filtered_user, doc.width)
+            self._add_score_progression(story, filtered_user, doc.width)
+            self._add_detailed_scores(story, filtered_user, doc.width)
+            self._add_recommendations(story, filtered_user, doc.width)
             self._add_footer(story, doc.width)
         
         doc.build(story)
-        print(f"Enhanced PDF report created: {pdf_file}")
 
     def _add_student_info(self, story: List[Flowable], user: User, doc_width: float) -> None:
         info_data = [
@@ -388,7 +434,7 @@ class PDFGenerator:
         story.append(footer_table)
 
 
-def generate_pdf(user):
+def generate_pdf(user, start_date: Optional[datetime] = None, end_date: Optional[datetime] = None):
     # Set up paths
     current_dir = Path(__file__).parent.parent
     data_dir = current_dir / 'data'
@@ -409,39 +455,38 @@ def generate_pdf(user):
         print(f"Detailed error: {e}")
         return
     
-    # Initialize PDF generator
-    pdf_generator = PDFGenerator(output_dir)
+    # Initialize PDF generator with date range
+    pdf_generator = PDFGenerator(output_dir, start_date, end_date)
     
     # Generate reports
     print(user.username)
-    # Generate reports
     for user_data in users_data:
         try:
-          if user_data['username'] == user.username :
-            # Convert scores data to proper format
-            scores = []
-            for score_data in user_data.get('scores', []):
-                subject = Subject(
-                    course=score_data['subject']['course'],
-                    chapter=score_data['subject']['chapter']
+            if user_data['username'] == user.username:
+                # Convert scores data to proper format
+                scores = []
+                for score_data in user_data.get('scores', []):
+                    subject = Subject(
+                        course=score_data['subject']['course'],
+                        chapter=score_data['subject']['chapter']
+                    )
+                    score = Score(
+                        subject=subject,
+                        points=float(score_data['points']),
+                        date=score_data['date']
+                    )
+                    scores.append(score)
+                
+                # Create user object
+                user = User(
+                    fullname=user_data['fullname'],
+                    email=user_data['email'],
+                    scores=scores
                 )
-                score = Score(
-                    subject=subject,
-                    points=float(score_data['points']),
-                    date=score_data['date']
-                )
-                scores.append(score)
-            
-            # Create user object
-            user = User(
-                fullname=user_data['fullname'],
-                email=user_data['email'],
-                scores=scores
-            )
-            
-            # Generate PDF
-            pdf_generator.generate_pdf(user)
-            
+                
+                # Generate PDF
+                pdf_generator.generate_pdf(user)
+                
         except KeyError as e:
             print(f"Error: Missing required field in user data: {e}")
             continue
