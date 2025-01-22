@@ -67,10 +67,10 @@ The QCM Project is a Python-based application designed to facilitate the managem
 
 ### Features
 
-User authentication and management
-Dynamic quiz creation and management
-Real-time score tracking
-User-friendly interface
+- User authentication and management
+- Dynamic quiz creation and management
+- Real-time score tracking
+- User-friendly interface
 
 ## Why PyQt?
 
@@ -79,3 +79,12 @@ PyQt is a set of Python bindings for Qt, a cross-platform application framework.
 -   **Tkinter**: Limited in design flexibility and modern UI features.
 -   **Kivy**: More suited for multi-touch applications and less for traditional desktop GUIs.
 -   **PySide**: Similar to PyQt, but PyQt offers more comprehensive documentation and community support.
+
+## Additional Resources
+
+- [Explanatory Video](https://www.youtube.com/watch?v=zJk3ubmwWmE)  
+  An explanatory video showcasing the application’s features and functionality.
+
+- [Project Rapport](https://docs.google.com/document/d/1CoAOhgwmqbhFEPYufPYHGtq85GknkOYeB_AWosLZ5Xg/edit?tab=t.98ub7i5skzuk)  
+  A detailed project report including technical documentation and development insights.
+
